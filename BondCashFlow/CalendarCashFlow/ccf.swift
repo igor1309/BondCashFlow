@@ -10,7 +10,7 @@ import Foundation
 
 let ccf = CalCashFlow(date: Date().addWeeks(5),
                       flows: [
-                        CalCashFlowItem(portfolioName: "Bumblebee", documentRus: "Ломбард Мастер, БО-П02", amount: 200_000_000, flowType: .principal),
+                        CalCashFlowItem(portfolioName: "Bumblebee", documentRus: "Ломбард Мастер, БО-П02", amount: 20_000_000, flowType: .principal),
                         CalCashFlowItem(portfolioName: "Bumblebee", documentRus: "Ломбард Мастер, БО-П02", amount: 200_000, flowType: .coupon),
                         CalCashFlowItem(portfolioName: "Bumblebee", documentRus: "Достоевский, БО-П02", amount: 200_000, flowType: .coupon),
                         CalCashFlowItem(portfolioName: "Bumblebee", documentRus: "Центр-Торг, БО-П02", amount: 3_000_000, flowType: .principal),

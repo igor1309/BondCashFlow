@@ -369,9 +369,9 @@
 			isa = PBXGroup;
 			children = (
 				2A8B7FCF2319A206005756BB /* CalCashFlow.swift */,
-				2A8B7FD02319A206005756BB /* CalendarCFRow.swift */,
 				2A8B7FD12319A206005756BB /* CalendarCashFlowDetail.swift */,
 				2A8B7FD22319A206005756BB /* CalendarCashFlowRow.swift */,
+				2A8B7FD02319A206005756BB /* CalendarCFRow.swift */,
 				2A8B7FD32319A206005756BB /* ccf.swift */,
 			);
 			path = CalendarCashFlow;

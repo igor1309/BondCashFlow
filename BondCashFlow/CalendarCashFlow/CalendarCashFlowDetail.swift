@@ -63,9 +63,13 @@ struct CalendarCashFlowDetailHeader: View {
         VStack(alignment: .leading, spacing: 0) {
             
             VStack(alignment: .leading, spacing: 0) {
-                Text(total.formattedGrouped)
-                    .font(Font.system(size: 60))
-                    .foregroundColor(.systemOrange)
+                HStack {
+                    Spacer()
+                    
+                    Text(total.formattedGrouped)
+                        .font(Font.system(size: 60))
+                        .foregroundColor(.systemOrange)
+                }
                 
                 Text("Ожидаемые поступления по всем портфелям " + date.toString())
                     .font(.footnote)
