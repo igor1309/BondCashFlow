@@ -47,10 +47,10 @@ struct EmissionDetail: View {
                         //  MARK: TODO haptic feedback
                 }
                 
-                Button("КУПИТЬ") {
+                Button("TBD: КУПИТЬ") {
                     //  MARK: TODO добавить операцию покупки
                 }
-                .foregroundColor(.systemTeal)
+                .foregroundColor(.systemOrange)
                 .padding(.horizontal)
                 
                 Text("Потоки")

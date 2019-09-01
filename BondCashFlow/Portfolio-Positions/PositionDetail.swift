@@ -13,17 +13,13 @@ struct PositionDetail: View {
     @Environment(\.presentationMode) var presentation
     @State private var showAlert = false
     
-    var portfolioName: String
     var position: Position
+    var emission: EmissionStructure?
     
     func deletePosition() {
-        if let portfolioIndex =
-            userData.portfolios.firstIndex(where: { $0.name == portfolioName }) {
-            if let positionIndex =
-                userData.portfolios[portfolioIndex].positions.firstIndex(where: { $0.isin == position.isin }) {
-                
-                userData.portfolios[portfolioIndex].positions.remove(at: positionIndex)
-            }
+        if let positionIndex =
+            userData.positions.firstIndex(where: { $0 == position }) {
+            userData.positions.remove(at: positionIndex)
         }
     }
     
@@ -32,12 +28,12 @@ struct PositionDetail: View {
             Form {
                 Section(header: Text("Портфель".uppercased())
                 ){
-                    Text(portfolioName)
+                    Text(position.portfolioName)
                 }
                 
-                Section(header: Text("Код выпуска (ISIN)".uppercased())
+                Section(header: Text("Выпуск".uppercased())
                 ){
-                    Text(position.isin)
+                    Text("TBD").foregroundColor(.systemRed)
                 }
                 
                 Section(header: Text("Количество".uppercased())
@@ -52,16 +48,18 @@ struct PositionDetail: View {
                 }
                 
             }
-            .navigationBarTitle(position.isin)
                 
-            .navigationBarBackButtonHidden(true)
+                //  MARK: get more data about emission an put into title
+                .navigationBarTitle(String(position.emissionID))
                 
-            .navigationBarItems(trailing: Button(action: {
-                self.presentation.wrappedValue.dismiss()
-            }) {
-                Image(systemName: "xmark.circle")
-                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-            })
+                .navigationBarBackButtonHidden(true)
+                
+                .navigationBarItems(trailing: Button(action: {
+                    self.presentation.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "xmark.circle")
+                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+                })
                 
                 .actionSheet(isPresented: $showAlert) { () -> ActionSheet in
                     ActionSheet(title: Text("Удалить позицию?"),
@@ -81,8 +79,7 @@ struct PositionDetail: View {
 
 struct PositionDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PositionDetail(portfolioName: "Bumblebee",
-                       position: Position(isin: "RU000A0ZZAR2", emissionID: 11789, qty: 5555))
+        PositionDetail(position: Position(portfolioName: "Bumblebee", emissionID: 11789, qty: 5555))
             .environmentObject(UserData())
     }
 }

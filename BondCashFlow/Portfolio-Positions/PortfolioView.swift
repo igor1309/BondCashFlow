@@ -12,8 +12,6 @@ struct PortfolioView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     
-    var portfolioNames: [String] { userData.portfolios.map({ $0.name }) }
-    
     @State private var showActions = false
     @State private var showModal = false
     @State private var modal: Modal = .filter
@@ -24,6 +22,7 @@ struct PortfolioView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
+            
             Text(userData.isAllPortfoliosSelected ? "все портфели" : "Портфель " + userData.selectedPortfolio)
                 .foregroundColor(.secondary)
                 .font(.caption)
@@ -31,26 +30,16 @@ struct PortfolioView: View {
             
             List {
                 if userData.isAllPortfoliosSelected {
-                    ForEach(userData.portfolios) { portfolio in
-                        ForEach(portfolio.positions) { position in
-                            
-//                            NavigationLink(destination: PositionDetail(portfolioName: portfolio.name, position: position)){
-                                
-                                PositionRow(portfolioName: portfolio.name, position: position)
-//                            }
-                        }
+                    ForEach(userData.positions.sorted(by: {
+                        ($0.portfolioName, $0.emissionID) < ($1.portfolioName, $1.emissionID) })
+                    ){ position in
+                        PositionRow(position: position)
                     }
                 } else {
-                    if userData.selectedPortfolio.isNotEmpty {
-                        ForEach(userData.portfolios.first(where: { $0.name == self.userData.selectedPortfolio })!.positions, id: \.self) { position in
-                            
-//                            NavigationLink(destination: PositionDetail(portfolioName: self.userData.selectedPortfolio, position: position)){
-                                
-                                PositionRow(portfolioName: self.userData.selectedPortfolio, position: position)
-//                            }
-                        }
-                    } else {
-                        /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                    ForEach(userData.positions.filter({ $0.portfolioName == userData.selectedPortfolio }).sorted(by: { $0.emissionID < $1.emissionID })
+                    ){ position in
+                        PositionRow(position: position)
+                        
                     }
                 }
             }
@@ -64,22 +53,26 @@ struct PortfolioView: View {
                         self.showModal = true
                     }
                 }) {
-                    //  MARK: TODO нужно сменить логику фильра иначе непонятно, когда фильтр применён
-                    //  ввести @State var … : Bool
-                    Image(systemName: userData.selectedPortfolio.isEmpty ? "briefcase" : "briefcase.fill")
+                    Image(systemName: userData.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
                         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 }
-                    //                .imageScale(.large)
-                    .disabled(!self.userData.hasAtLeastTwoPortfolios),
+                .disabled(!self.userData.hasAtLeastTwoPortfolios),
                 
-                trailing: Button(action: {
-                    self.showActions = true
-                }) {
-                    Image(systemName: "plus")
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-
-                }
-            )
+                trailing: HStack {
+                    Button(action: {
+                        self.showActions = true
+                    }) {
+                        Image(systemName: "plus.square.on.square")
+                            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+                    }
+                    Button(action: {
+                        self.modal = .addPosition
+                        self.showModal = true
+                    }) {
+                        Image(systemName: "plus")
+                            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+                    }
+            })
                 
                 .actionSheet(isPresented: $showActions, content: {
                     ActionSheet(title: Text("Добавить"),
@@ -103,7 +96,9 @@ struct PortfolioView: View {
                 
                 .sheet(isPresented: $showModal, content: {
                     if self.modal == .addPortfolio {
-                        AddPortfolio().environmentObject(self.userData)
+                        //  MARK: TODO решить нужно ли отдельно создавать портфель
+                        //  и что делать с этим блоком
+                        AddPortfolio(portfolioName: .constant("")).environmentObject(self.userData)
                     }
                     
                     if self.modal == .addPosition {

@@ -33,19 +33,21 @@ struct EmissionSubRow: View {
             Text(emission.documentRus)
                 .fixedSize(horizontal: false, vertical: true)
             
-            HStack(alignment: .firstTextBaseline) {
+            HStack(alignment: .top) {
                 Image(systemName: userData.favoriteEmissions[emission.id] ?? false ? "star.fill" : "star")
                     .foregroundColor(userData.favoriteEmissions[emission.id] ?? false ? .systemOrange : .systemGray)
                     .imageScale(bigStar ? .large : .medium)
+                    .padding(.top, 10)
                 
                 VStack(alignment: .leading) {
+                    
                     Text("cupon_period " + emission.cupon_period.formattedGrouped)
                     
                     Text(emission.cupon_rus.isEmpty ? "-" : "cupon_rus " + emission.cupon_rus)
                         .fixedSize(horizontal: false, vertical: true)
                 }
+                .font(.caption)
             }
-            .font(.subheadline)
             .foregroundColor(.secondary)
         }
         
@@ -67,7 +69,7 @@ struct EmissionRow: View {
             
         .sheet(isPresented: $showDetail,
                content: { EmissionDetail(emission: self.emission,
-                                        isFav: self.userData.favoriteEmissions[self.emission.id] ?? false)
+                                         isFav: self.userData.favoriteEmissions[self.emission.id] ?? false)
                 .environmentObject(self.userData)
         })
     }
@@ -77,6 +79,6 @@ struct EmissionRow_Previews: PreviewProvider {
     static var previews: some View {
         EmissionRow(emission: EmissionStructure())
             .environmentObject(UserData())
-        .previewLayout(.sizeThatFits)
+            .previewLayout(.sizeThatFits)
     }
 }

@@ -25,7 +25,7 @@ struct CFCalendar: View {
                     //  MARK: TODO нужно сменить логику фильра иначе непонятно, когда фильтр применён
                     //  ввести @State var … : Bool
                     //  Image(systemName: <<Bool>> ? "briefcase" : "briefcase.fill")
-                    Image(systemName: "briefcase")
+                    Image(systemName: userData.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
                         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 }
                     //            .imageScale(.large)

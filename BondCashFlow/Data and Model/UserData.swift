@@ -19,6 +19,12 @@ final class UserData: ObservableObject {
         emissions.map { $0.emitentNameRus }.removingDuplicates()
     }
     
+    @Published var portfolioNames: [String] = portfolioNamesData {
+        didSet {
+            saveJSON(data: portfolioNames, filename: "portfolioNames.json")
+        }
+    }
+    
     @Published var flows = cashFlowListData
     
     @Published var favoriteEmissions: [Int: Bool] = favoriteEmissionsData {
@@ -27,14 +33,14 @@ final class UserData: ObservableObject {
         }
     }
     
-    @Published var portfolios: [Portfolio] = portfolioData {
+    @Published var positions: [Position] = positionData {
         didSet {
-            saveJSON(data: portfolios, filename: "portfolios.json")
+            saveJSON(data: positions, filename: "positions.json")
         }
     }
     
     var hasAtLeastTwoPortfolios: Bool {
-        portfolios.count > 1
+        positions.map({ $0.portfolioName }).removingDuplicates().count > 1
     }
     
     //  фильтры ломаются, поэтому всегда стартуем со всех портфелей

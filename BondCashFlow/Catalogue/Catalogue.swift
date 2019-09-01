@@ -35,17 +35,21 @@ struct Catalogue: View {
     @State private var process = ""
     
     var isinFilterString: String {
-        let isins = userData.portfolios.flatMap{ $0.positions }.map{ $0.isin }.removingDuplicates()
-        let isinsString = isins.reduce(""){ $0 + $1 + ", "}.dropLast(2)
         
-        if isins.count == 1 {
-            return "\"filters\":[{\"field\":\"isin_code\",\"operator\":\"eq\",\"value\":\"\(isinsString)\"}],"
-        }
-        if isins.count > 1 {
-            return "\"filters\":[{\"field\":\"isin_code\",\"operator\":\"in\",\"value\":\"\(isinsString)\"}],"
-        } else {
-            return ""
-        }
+        return ""
+        
+        //  MARK: fix this: no more isins in positions
+//        let isins = userData.portfolios.flatMap{ $0.positions }.map{ $0.isin }.removingDuplicates()
+//        let isinsString = isins.reduce(""){ $0 + $1 + ", "}.dropLast(2)
+//        
+//        if isins.count == 1 {
+//            return "\"filters\":[{\"field\":\"isin_code\",\"operator\":\"eq\",\"value\":\"\(isinsString)\"}],"
+//        }
+//        if isins.count > 1 {
+//            return "\"filters\":[{\"field\":\"isin_code\",\"operator\":\"in\",\"value\":\"\(isinsString)\"}],"
+//        } else {
+//            return ""
+//        }
     }
     
     

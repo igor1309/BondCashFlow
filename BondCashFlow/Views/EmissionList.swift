@@ -11,7 +11,7 @@ import SwiftUI
 enum FilterType: String, CaseIterable {
     case all = "все эмиссии"
     case withFlows = "только эмиссии с потоками"
-    case favorites = "✩ избранные"
+    case favorites = "★ избранные"
     //  MARK: TODO додумать и доделать
     case emitent = "фильтр по эмитенту"
     case byText = "текстовый фильтр"

@@ -12,32 +12,32 @@ struct AddPortfolio: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     
-    @State private var portfolioName = ""
-    @State private var nameErrorNote = ""
+    @Binding var portfolioName: String
+    @State private var draftName: String
     
-    private func validatePortfolioName() {
-        
-        if self.portfolioName.isNotEmpty {
-            self.nameErrorNote = ""
+    init(portfolioName: Binding<String>) {
+        self._portfolioName = portfolioName
+        self._draftName = State(initialValue: portfolioName.wrappedValue)
+    }
+    
+    private var nameErrorNote: String {
+        if self.draftName.isEmpty {
+            return "Введите название портфеля"
+        } else if userData.portfolioNames.contains(draftName) {
+            return "Портфель с таким названием уже есть."
         } else {
-            self.nameErrorNote = "Введите название портфеля"
+            return ""
         }
-        
-        //  MARK: - add actions and validations
-        //  проверить на уникальность навания
+    }
+    private var draftNameIsValid: Bool {
+        draftName.isNotEmpty && !userData.portfolioNames.contains(draftName)
     }
     
     var body: some View {
         NavigationView {
             Form {
                 Section(footer: Text(nameErrorNote).foregroundColor(.systemRed)) {
-                    TextField("Название", text: $portfolioName,
-                              onEditingChanged: { _ in
-                                //  MARK: - all additional validating actions
-                                self.validatePortfolioName()},
-                              onCommit: {
-                                //  MARK: - all additional validating actions
-                                self.validatePortfolioName()})
+                    TextField("Название", text: $draftName)
                 }
             }
                 
@@ -53,7 +53,9 @@ struct AddPortfolio: View {
                 
                 trailing: Button(action: {
                     //  MARK: - add actions and validations
-                    if self.nameErrorNote.isEmpty {
+                    if self.draftNameIsValid {
+                        self.userData.portfolioNames.append(self.draftName)
+                        self.portfolioName = self.draftName
                         self.presentation.wrappedValue.dismiss()
                     }
                 }) {
@@ -66,7 +68,7 @@ struct AddPortfolio: View {
 
 struct AddPortfolio_Previews: PreviewProvider {
     static var previews: some View {
-        AddPortfolio()
-        .environmentObject(UserData())
+        AddPortfolio(portfolioName: .constant(""))
+            .environmentObject(UserData())
     }
 }

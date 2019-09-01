@@ -6,7 +6,7 @@
 //  Copyright © 2019 Igor Malyarov. All rights reserved.
 //
 
-import SwiftUI
+import Foundation
 
 struct Portfolio: Identifiable, Codable, Hashable {
     var id = UUID()
@@ -22,25 +22,5 @@ struct Portfolio: Identifiable, Codable, Hashable {
     init(name: String, positions: [Position]) {
         self.name = name
         self.positions = positions
-    }
-}
-
-struct Position: Identifiable, Codable, Hashable {
-    var id = UUID()
-    
-    var isin: String = ""
-    let emissionID: Int
-    var qty: Int = 1
-    
-    init() {
-        self.isin = "RU000A0ZZAR2"
-        self.emissionID = 1
-        self.qty = 1
-    }
-    
-    init(isin: String, emissionID: Int, qty: Int) {
-        self.isin = isin
-        self.emissionID = emissionID
-        self.qty = qty
     }
 }

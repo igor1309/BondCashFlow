@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A2EE062231C139700AAD7E2 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2EE061231C139700AAD7E2 /* Position.swift */; };
+		2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A783052231C43CC0047BDB6 /* PortfolioList.swift */; };
 		2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2B2319A100005756BB /* AppDelegate.swift */; };
 		2A8B7F2E2319A100005756BB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2D2319A100005756BB /* SceneDelegate.swift */; };
 		2A8B7F302319A100005756BB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2F2319A100005756BB /* ContentView.swift */; };
@@ -94,6 +96,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A2EE061231C139700AAD7E2 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		2A783052231C43CC0047BDB6 /* PortfolioList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioList.swift; sourceTree = "<group>"; };
 		2A8B7F282319A100005756BB /* BondCashFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BondCashFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A8B7F2B2319A100005756BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A8B7F2D2319A100005756BB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -194,6 +198,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A2EE05D231C09E900AAD7E2 /* Portfolio-Positions */ = {
+			isa = PBXGroup;
+			children = (
+				2A8B7F862319A1DF005756BB /* PortfolioView.swift */,
+				2A8B7F852319A1DF005756BB /* AddPortfolio.swift */,
+				2A8B7F7C2319A1DF005756BB /* AddPosition.swift */,
+				2A8B7F7A2319A1DF005756BB /* PositionRow.swift */,
+				2A8B7F842319A1DF005756BB /* PositionDetail.swift */,
+			);
+			path = "Portfolio-Positions";
+			sourceTree = "<group>";
+		};
+		2A2EE05E231C0A3300AAD7E2 /* Catalogue */ = {
+			isa = PBXGroup;
+			children = (
+				2A8B7F832319A1DF005756BB /* Catalogue.swift */,
+				2A8B7F7D2319A1DF005756BB /* CbondLogin.swift */,
+			);
+			path = Catalogue;
+			sourceTree = "<group>";
+		};
+		2A2EE05F231C0A5500AAD7E2 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2A8B7F802319A1DF005756BB /* Settings.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		2A2EE060231C0A6F00AAD7E2 /* CFCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				2A8B7F812319A1DF005756BB /* CFCalendar.swift */,
+			);
+			path = CFCalendar;
+			sourceTree = "<group>";
+		};
 		2A8B7F1F2319A100005756BB = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +264,10 @@
 				2A8B7FCE2319A206005756BB /* CalendarCashFlow */,
 				2A8B7FAB2319A1FF005756BB /* BondCashFlow */,
 				2A8B7F972319A1EA005756BB /* Supporting Views */,
+				2A2EE060231C0A6F00AAD7E2 /* CFCalendar */,
+				2A2EE05D231C09E900AAD7E2 /* Portfolio-Positions */,
+				2A2EE05E231C0A3300AAD7E2 /* Catalogue */,
+				2A2EE05F231C0A5500AAD7E2 /* Settings */,
 				2A8B7F762319A1DF005756BB /* Views */,
 				2A8B7F712319A1D7005756BB /* JSON */,
 				2A8B7F622319A1C7005756BB /* Cbond Stuff */,
@@ -266,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				2A8B7F5C2319A1BB005756BB /* Potfolio.swift */,
+				2A2EE061231C139700AAD7E2 /* Position.swift */,
 				2A8B7F5D2319A1BB005756BB /* Data.swift */,
 				2A8B7F5E2319A1BB005756BB /* UserData.swift */,
 			);
@@ -298,22 +344,12 @@
 		2A8B7F762319A1DF005756BB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2A8B7F7B2319A1DF005756BB /* AddIssue.swift */,
 				2A8B7F772319A1DF005756BB /* EmissionList.swift */,
+				2A8B7F822319A1DF005756BB /* EmissionRow.swift */,
 				2A8B7F782319A1DF005756BB /* EmissionDetail.swift */,
 				2A8B7F792319A1DF005756BB /* FlowRow.swift */,
-				2A8B7F7A2319A1DF005756BB /* PositionRow.swift */,
-				2A8B7F7B2319A1DF005756BB /* AddIssue.swift */,
-				2A8B7F7C2319A1DF005756BB /* AddPosition.swift */,
-				2A8B7F7D2319A1DF005756BB /* CbondLogin.swift */,
 				2A8B7F7E2319A1DF005756BB /* EmitentFilter.swift */,
-				2A8B7F7F2319A1DF005756BB /* PotfolioFilter.swift */,
-				2A8B7F802319A1DF005756BB /* Settings.swift */,
-				2A8B7F812319A1DF005756BB /* CFCalendar.swift */,
-				2A8B7F822319A1DF005756BB /* EmissionRow.swift */,
-				2A8B7F832319A1DF005756BB /* Catalogue.swift */,
-				2A8B7F842319A1DF005756BB /* PositionDetail.swift */,
-				2A8B7F852319A1DF005756BB /* AddPortfolio.swift */,
-				2A8B7F862319A1DF005756BB /* PortfolioView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -322,6 +358,8 @@
 			isa = PBXGroup;
 			children = (
 				2A8B7F982319A1EA005756BB /* SaveDoneCancelButtons.swift */,
+				2A8B7F7F2319A1DF005756BB /* PotfolioFilter.swift */,
+				2A783052231C43CC0047BDB6 /* PortfolioList.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -516,6 +554,7 @@
 				2A8B7FC22319A1FF005756BB /* CashFlowGridItem.swift in Sources */,
 				2A8B7FA72319A1F6005756BB /* Format+Extensions.swift in Sources */,
 				2A8B7FC62319A1FF005756BB /* CashFlowRow.swift in Sources */,
+				2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */,
 				2A8B7FC52319A1FF005756BB /* CashFlow.swift in Sources */,
 				2A8B7F872319A1DF005756BB /* EmissionList.swift in Sources */,
 				2A8B7F702319A1C7005756BB /* EmissionStructure.swift in Sources */,
@@ -543,6 +582,7 @@
 				2A8B7FA92319A1F6005756BB /* Color+Extensions.swift in Sources */,
 				2A8B7F942319A1DF005756BB /* PositionDetail.swift in Sources */,
 				2A8B7FA62319A1F6005756BB /* Extension+Array.swift in Sources */,
+				2A2EE062231C139700AAD7E2 /* Position.swift in Sources */,
 				2A8B7F912319A1DF005756BB /* CFCalendar.swift in Sources */,
 				2A8B7F6D2319A1C7005756BB /* CashFlowStructure.swift in Sources */,
 				2A8B7FC32319A1FF005756BB /* GridColumn.swift in Sources */,

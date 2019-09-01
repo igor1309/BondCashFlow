@@ -11,10 +11,7 @@ import SwiftUI
 struct PotfolioFilter: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
-    
-    var portfolioNames: [String] {
-        userData.portfolios.map({ $0.name })
-    }
+    @State private var showPortfolioList = false
     
     var body: some View {
         NavigationView {
@@ -30,7 +27,7 @@ struct PotfolioFilter: View {
                         Section(header: Text("Для портфеля".uppercased())) {
                             Picker(selection: self.$userData.selectedPortfolio, label: Text("")//"Портфель")
                             ){
-                                ForEach(portfolioNames, id: \.self) { name in
+                                ForEach(userData.portfolioNames, id: \.self) { name in
                                     Text(name).tag(name)
                                 }
                             }
@@ -39,6 +36,10 @@ struct PotfolioFilter: View {
                     }
                 } else {
                     EmptyView()
+                }
+                
+                Button("Показать список портфелей") {
+                    self.showPortfolioList = true
                 }
             }
             .navigationBarTitle("Фильтр")
@@ -49,8 +50,13 @@ struct PotfolioFilter: View {
             }) {
                 Text("Закрыть")
                     .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-
+                
             })
+                
+                .sheet(isPresented: $showPortfolioList) {
+                    PortfolioList()
+                        .environmentObject(self.userData)
+            }
         }
     }
 }

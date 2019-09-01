@@ -8,6 +8,16 @@
 
 import SwiftUI
 
+let portfolioNamesData = loadPortfolioNamesData()
+
+func loadPortfolioNamesData() -> [String] {
+    guard let data: [String] = loadFromDocDir("portfolioNames.json") else {
+        return ["Bumblebee", "Megatron"]
+    }
+    
+    return data
+}
+
 let favoriteEmissionsData = loadFavoriteEmissionsData()
 
 func loadFavoriteEmissionsData() -> [Int: Bool] {
@@ -26,7 +36,7 @@ func loadFavoriteEmissionsData() -> [Int: Bool] {
     }
 }
 
-let portfolioData = loadPortfolioData()
+let positionData = loadPositionData()
 
 let cashFlowData = loadCashFlowData()
 
@@ -66,20 +76,14 @@ func loadEmissionListData() -> [EmissionStructure] {
     }
 }
 
-func loadPortfolioData() -> [Portfolio] {
-    guard let data: [Portfolio] = loadFromDocDir("porfolios.json") else {
+func loadPositionData() -> [Position] {
+    guard let data: [Position] = loadFromDocDir("porfolios.json") else {
         return [
-            Portfolio(name: "Bumblebee",
-                      positions: [
-                        Position(isin: "RU000A0ZZAR2", emissionID: 5546, qty: 12139),
-                        Position(isin: "RU000A100HW3", emissionID: 11789, qty: 1096),
-                        Position(isin: "RU000A100E70", emissionID: 33789, qty: 89)
-            ]),
-            Portfolio(name: "Megatron",
-                      positions: [
-                        Position(isin: "RU000A100HW3", emissionID: 11789, qty: 10),
-                        Position(isin: "RU000A100E70", emissionID: 33789, qty: 1)
-            ])
+            Position(portfolioName: "Bumblebee", emissionID: 460, qty: 10),
+            Position(portfolioName: "Bumblebee", emissionID: 2928, qty: 100),
+            Position(portfolioName: "Bumblebee", emissionID: 5165, qty: 1),
+            Position(portfolioName: "Megatron", emissionID: 5165, qty: 1000),
+            Position(portfolioName: "Megatron", emissionID: 2717, qty: 100)
         ]
     }
     
