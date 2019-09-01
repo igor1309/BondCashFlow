@@ -21,6 +21,7 @@ struct SaveDoneCancelButtons: View {
                 self.presentation.wrappedValue.dismiss()
             }
             .foregroundColor(isCancelRed ? Color.systemRed : Color.accentColor)
+            .padding()
             
             Spacer()
             
@@ -31,6 +32,7 @@ struct SaveDoneCancelButtons: View {
                 }
             }
             .foregroundColor(Color.accentColor)
+            .padding()
         }
     }
 }
@@ -42,11 +44,11 @@ struct SaveDoneCancelButtons_Previews: PreviewProvider {
             SaveDoneCancelButtons(isCancelRed: true,
                                   doneButtonTitle: "Save",
                                   closure: {})
-                .padding()
+            //                .padding()
             
             SaveDoneCancelButtons(closure: {},
                                   willDismiss: false)
-                .padding()
+            //                .padding()
         }
     }
 }

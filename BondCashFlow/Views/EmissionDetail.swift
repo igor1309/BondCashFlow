@@ -57,7 +57,7 @@ struct EmissionDetail: View {
                     .font(.title)
                     .fontWeight(.heavy)
                     .padding()
-//                    .border(Color.systemRed)
+                //                    .border(Color.systemRed)
                 
                 List {
                     ForEach(flows, id: \.self) { flow in
@@ -73,6 +73,7 @@ struct EmissionDetail: View {
                 self.presentation.wrappedValue.dismiss()
             }) {
                 Text("Закрыть")
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
             })
         }
     }

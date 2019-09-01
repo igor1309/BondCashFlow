@@ -60,6 +60,7 @@ struct PositionDetail: View {
                 self.presentation.wrappedValue.dismiss()
             }) {
                 Image(systemName: "xmark.circle")
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
             })
                 
                 .actionSheet(isPresented: $showAlert) { () -> ActionSheet in

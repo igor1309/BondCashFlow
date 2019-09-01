@@ -15,19 +15,24 @@ struct CFCalendar: View {
     var body: some View {
         CashFlowView()
             
-        .navigationBarTitle("Потоки")
+            .navigationBarTitle("Потоки")
             
-        .navigationBarItems(leading:
-            Button(action: {
-                self.showPortfolioFilter = true
-            }) {
-                Image(systemName: "briefcase")
-            }
-//            .imageScale(.large)
-            .disabled(!self.userData.hasAtLeastTwoPortfolios))
+            .navigationBarItems(leading:
+                Button(action: {
+                    self.showPortfolioFilter = true
+                }) {
+                    //  MARK: TODO добавить
+                    //  MARK: TODO нужно сменить логику фильра иначе непонятно, когда фильтр применён
+                    //  ввести @State var … : Bool
+                    //  Image(systemName: <<Bool>> ? "briefcase" : "briefcase.fill")
+                    Image(systemName: "briefcase")
+                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
+                }
+                    //            .imageScale(.large)
+                    .disabled(!self.userData.hasAtLeastTwoPortfolios))
             
-        .sheet(isPresented: $showPortfolioFilter,
-               content: { PotfolioFilter().environmentObject(self.userData) })
+            .sheet(isPresented: $showPortfolioFilter,
+                   content: { PotfolioFilter().environmentObject(self.userData) })
     }
 }
 

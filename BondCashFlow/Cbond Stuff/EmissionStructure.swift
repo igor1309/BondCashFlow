@@ -20,26 +20,26 @@ struct EmissionStructure: Codable, Hashable {
     let emitentFullNameRus: String // Полное название эмитента (rus) Varchar
     let documentRus: String // Название эмиссии (rus) Varchar
     
-    init(from: CBondEmission) {
-        self.id = Int(from.id) ?? -1
-        self.isinCode = from.isinCode
-        self.emitentNameRus = from.emitentNameRus
+    init(from cbond: CBondEmission) {
+        self.id = Int(cbond.id) ?? -1
+        self.isinCode = cbond.isinCode
+        self.emitentNameRus = cbond.emitentNameRus
         
         //  date @ get_emissions is optional string like 2011-03-28
-        if from.maturityDate != nil {
-            let dateComponents = DateComponents(year: Int(from.maturityDate!.prefix(4)),
-                                                month: Int(from.maturityDate!.suffix(5).prefix(2)),
-                                                day: Int(from.maturityDate!.suffix(2)))
+        if cbond.maturityDate != nil {
+            let dateComponents = DateComponents(year: Int(cbond.maturityDate!.prefix(4)),
+                                                month: Int(cbond.maturityDate!.suffix(5).prefix(2)),
+                                                day: Int(cbond.maturityDate!.suffix(2)))
             self.maturityDate = Calendar.current.date(from: dateComponents) ?? .distantPast
         } else {
             self.maturityDate = .distantPast
         }
-        self.cupon_rus = from.cuponRus
-        self.cupon_period = Int(from.cuponPeriod ?? "") ?? 0
-        self.emitentID = Int(from.emitentID ?? "-1") ?? -1
-        self.emissionEmitentID = Int(from.emissionEmitentID ?? "-1") ?? -1
-        self.emitentFullNameRus = from.emitentFullNameRus ?? ""
-        self.documentRus = from.documentRus ?? ""
+        self.cupon_rus = cbond.cuponRus
+        self.cupon_period = Int(cbond.cuponPeriod ?? "") ?? 0
+        self.emitentID = Int(cbond.emitentID ?? "-1") ?? -1
+        self.emissionEmitentID = Int(cbond.emissionEmitentID ?? "-1") ?? -1
+        self.emitentFullNameRus = cbond.emitentFullNameRus ?? ""
+        self.documentRus = cbond.documentRus ?? ""
     }
     
     init() {

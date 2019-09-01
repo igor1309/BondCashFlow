@@ -31,14 +31,14 @@ struct CashFlowStructure: Codable, Hashable {
     //    let redemptionEurobondsNominal: Double // Погашение (от номинала для еврооблигаций) Double
     //    let redemptionIntegralMultiple: Double // Погашение (от лота кратности) Double
     
-    init(from: CBondFlow) {
-        self.id = Int(from.id) ?? -1
-        self.emissionID = Int(from.emissionID ?? "-1") ?? -1
-        self.emissionIsinCode = from.emissionIsinCode ?? ""
-        self.emissionEmitentID = Int(from.emissionEmitentID  ?? "-1") ?? -1
+    init(from cbond: CBondFlow) {
+        self.id = Int(cbond.id) ?? -1
+        self.emissionID = Int(cbond.emissionID ?? "-1") ?? -1
+        self.emissionIsinCode = cbond.emissionIsinCode ?? ""
+        self.emissionEmitentID = Int(cbond.emissionEmitentID  ?? "-1") ?? -1
         
         //  date @ get_flow is string like 2011-03-28
-        if let date = from.date {
+        if let date = cbond.date {
             let dateComponents = DateComponents(year: Int(date.prefix(4)),
                                                 month: Int(date.suffix(5).prefix(2)),
                                                 day: Int(date.suffix(2)))
@@ -47,21 +47,21 @@ struct CashFlowStructure: Codable, Hashable {
             self.date = .distantPast
         }
         
-        self.startDate = from.startDate ?? .distantPast
-        self.couponNum = Int(from.couponNum ?? "-1") ?? -1
-        self.cuponRate = Double(from.cuponRate ?? "-1") ?? -1
-        self.cuponRateDate = from.cuponRateDate ?? .distantPast
-        self.cuponSum = Double(from.cuponSum ?? "-1") ?? -1
-        self.daysBeetwenCoupons = Int(from.daysBeetwenCoupons ?? "-1") ?? -1
-        self.redemtion = Double(from.redemtion ?? "-1") ?? -1
-        self.updatingDate = from.updatingDate ?? .distantPast
-        //        self.actualPaymentDate = from.actualPaymentDate ?? ""
-        //        self.cuponSumEurobondsNominal = Double(from.cuponSumEurobondsNominal) ?? -1
-        //        self.cuponSumIntegralMultiple = Double(from.cuponSumIntegralMultiple) ?? -1
-        //        self.nontradingStartDate = from.nontradingStartDate ?? ""
-        //        self.nontradingStopDate = from.nontradingStopDate ?? ""
-        //        self.redemptionEurobondsNominal = Double(from.redemptionEurobondsNominal ?? "") ?? -1
-        //        self.redemptionIntegralMultiple = Double(from.redemptionIntegralMultiple ?? "") ?? -1
+        self.startDate = cbond.startDate ?? .distantPast
+        self.couponNum = Int(cbond.couponNum ?? "-1") ?? -1
+        self.cuponRate = Double(cbond.cuponRate ?? "-1") ?? -1
+        self.cuponRateDate = cbond.cuponRateDate ?? .distantPast
+        self.cuponSum = Double(cbond.cuponSum ?? "-1") ?? -1
+        self.daysBeetwenCoupons = Int(cbond.daysBeetwenCoupons ?? "-1") ?? -1
+        self.redemtion = Double(cbond.redemtion ?? "-1") ?? -1
+        self.updatingDate = cbond.updatingDate ?? .distantPast
+        //        self.actualPaymentDate = cbond.actualPaymentDate ?? ""
+        //        self.cuponSumEurobondsNominal = Double(cbond.cuponSumEurobondsNominal) ?? -1
+        //        self.cuponSumIntegralMultiple = Double(cbond.cuponSumIntegralMultiple) ?? -1
+        //        self.nontradingStartDate = cbond.nontradingStartDate ?? ""
+        //        self.nontradingStopDate = cbond.nontradingStopDate ?? ""
+        //        self.redemptionEurobondsNominal = Double(cbond.redemptionEurobondsNominal ?? "") ?? -1
+        //        self.redemptionIntegralMultiple = Double(cbond.redemptionIntegralMultiple ?? "") ?? -1
     }
     
     init() {

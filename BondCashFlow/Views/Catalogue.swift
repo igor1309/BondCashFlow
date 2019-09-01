@@ -126,7 +126,7 @@ struct Catalogue: View {
             self.showModal = true
         }) {
             Image(systemName: "pencil.and.ellipsis.rectangle")
-            
+                .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
         })
             
             .actionSheet(isPresented: $showConfirm, content: { () -> ActionSheet in

@@ -64,7 +64,10 @@ struct PortfolioView: View {
                         self.showModal = true
                     }
                 }) {
-                    Image(systemName: "briefcase")
+                    //  MARK: TODO нужно сменить логику фильра иначе непонятно, когда фильтр применён
+                    //  ввести @State var … : Bool
+                    Image(systemName: userData.selectedPortfolio.isEmpty ? "briefcase" : "briefcase.fill")
+                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 }
                     //                .imageScale(.large)
                     .disabled(!self.userData.hasAtLeastTwoPortfolios),
@@ -73,6 +76,8 @@ struct PortfolioView: View {
                     self.showActions = true
                 }) {
                     Image(systemName: "plus")
+                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+
                 }
             )
                 

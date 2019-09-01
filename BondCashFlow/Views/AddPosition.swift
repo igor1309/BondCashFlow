@@ -21,10 +21,10 @@ struct AddPosition: View {
         selectedPortfolioName.isEmpty ? "Нужно выбрать портфель" : ""
     }
     
-//    init() {
-//        self._selectedPortfolioName = State(initialValue: userData.selectedPortfolio.isEmpty ? "" : userData.selectedPortfolio)
-//    }
-//    
+    //    init() {
+    //        self._selectedPortfolioName = State(initialValue: userData.selectedPortfolio.isEmpty ? "" : userData.selectedPortfolio)
+    //    }
+    //
     @State var isin: String = ""    //RU000A0ZZAR2
     private var isinErrorNote: String {
         isin.isEmpty ? "ISIN не может быть пустым" : ""
@@ -83,9 +83,9 @@ struct AddPosition: View {
                             Text(name).tag(name)
                         }
                     }
-//                    .onTapGesture {
-//                        let _ = self.portfolioSelected()
-//                    }
+                    //                    .onTapGesture {
+                    //                        let _ = self.portfolioSelected()
+                    //                    }
                 }
                 
                 //  MARK: - а может брать Код выпуска из базы?
@@ -123,7 +123,7 @@ struct AddPosition: View {
                     })
                         .keyboardType(.numberPad)
                 }
-
+                
                 Section(header: Text("Количество".uppercased()),
                         footer: Text(qtyErrorNote).foregroundColor(.systemRed)
                 ){
@@ -147,6 +147,7 @@ struct AddPosition: View {
                     self.presentation.wrappedValue.dismiss()
                 }) {
                     Text("Cancel").foregroundColor(.systemRed)
+                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 },
                 
                 trailing: Button(action: {
@@ -176,6 +177,7 @@ struct AddPosition: View {
                     self.presentation.wrappedValue.dismiss()
                 }) {
                     Text("Save")
+                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
             })
         }
     }

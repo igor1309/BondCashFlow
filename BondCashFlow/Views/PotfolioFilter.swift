@@ -48,6 +48,8 @@ struct PotfolioFilter: View {
                 self.presentation.wrappedValue.dismiss()
             }) {
                 Text("Закрыть")
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+
             })
         }
     }

@@ -56,5 +56,6 @@ struct PositionRow_Previews: PreviewProvider {
                                        emissionID: 626,
                                        qty: 5555))
             .environmentObject(UserData())
+        .previewLayout(.sizeThatFits)
     }
 }

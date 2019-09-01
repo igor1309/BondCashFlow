@@ -85,6 +85,7 @@ struct AddIssue: View {
                     self.presentation.wrappedValue.dismiss()
                 }) {
                     Text("Cancel").foregroundColor(.systemRed)
+                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 },
                 
                 trailing: Button(action: {
@@ -96,6 +97,7 @@ struct AddIssue: View {
                     }
                 }) {
                     Text("Save")
+                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
             })
             
         }

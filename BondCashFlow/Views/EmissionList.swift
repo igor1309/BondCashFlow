@@ -93,14 +93,15 @@ struct EmissionList: View {
                 leading: Button(action: {
                     self.showFilter = true
                 }) {
-                    Image(systemName: "line.horizontal.3.decrease.circle")
-                        .imageScale(.large)
+                    Image(systemName: filterType == FilterType.all ? "line.horizontal.3.decrease.circle" : "line.horizontal.3.decrease.circle.fill")
+//                        .imageScale(.large)
                 },
                 
                 trailing: Button(action: {
                     self.presentation.wrappedValue.dismiss()
                 }) {
                     Text("Закрыть")
+                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
             })
                 
                 //  по свайпу закрывания модала работает

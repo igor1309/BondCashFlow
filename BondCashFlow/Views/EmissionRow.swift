@@ -77,5 +77,6 @@ struct EmissionRow_Previews: PreviewProvider {
     static var previews: some View {
         EmissionRow(emission: EmissionStructure())
             .environmentObject(UserData())
+        .previewLayout(.sizeThatFits)
     }
 }
