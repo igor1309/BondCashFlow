@@ -39,7 +39,10 @@ struct EmissionDetail: View {
     var body: some View {
         
         NavigationView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
+                //  MARK: TODO возможно в этом блоке нужно дать
+                //  всю инфо по эмиссии что есть в базе
+                //  и макет слегка иной нежели в строке списка
                 EmissionSubRow(emission: emission, bigStar: true)
                     .padding()
                     .onTapGesture {
@@ -47,16 +50,20 @@ struct EmissionDetail: View {
                         //  MARK: TODO haptic feedback
                 }
                 
-                Button("TBD: КУПИТЬ") {
-                    //  MARK: TODO добавить операцию покупки
+                HStack {
+                    Spacer()
+                    
+                    Button("TBD: КУПИТЬ") {
+                        //  MARK: TODO добавить операцию покупки
+                    }
+//                    .foregroundColor(.systemOrange)
+                    .padding(.horizontal)
                 }
-                .foregroundColor(.systemOrange)
-                .padding(.horizontal)
                 
-                Text("Потоки")
-                    .font(.title)
-                    .fontWeight(.heavy)
-                    .padding()
+//                Text("Потоки")
+//                    .font(.title)
+//                    .fontWeight(.heavy)
+//                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 6, trailing: 0))
                 //                    .border(Color.systemRed)
                 
                 List {
@@ -64,9 +71,10 @@ struct EmissionDetail: View {
                         FlowRow(flow: flow)
                     }
                 }
+                //            .border(Color.systemPink)
             }
                 
-            .navigationBarTitle("Выпуск")
+            .navigationBarTitle("Выпуск и потоки")
                 
             .navigationBarItems(trailing: Button(action: {
                 //  MARK: - add actions

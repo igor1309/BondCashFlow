@@ -47,7 +47,7 @@ struct AddPortfolio: View {
                 leading: Button(action: {
                     self.presentation.wrappedValue.dismiss()
                 }) {
-                    Text("Cancel").foregroundColor(.systemRed)
+                    Text("Отмена").foregroundColor(.systemRed)
                         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 },
                 
@@ -59,7 +59,7 @@ struct AddPortfolio: View {
                         self.presentation.wrappedValue.dismiss()
                     }
                 }) {
-                    Text("Save")
+                    Text("Сохранить")
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
             })
         }

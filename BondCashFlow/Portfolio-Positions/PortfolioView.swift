@@ -63,6 +63,7 @@ struct PortfolioView: View {
                         self.showActions = true
                     }) {
                         Image(systemName: "plus.square.on.square")
+                            .foregroundColor(.secondary)
                             .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
                     }
                     Button(action: {

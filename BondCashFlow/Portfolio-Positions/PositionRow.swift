@@ -11,7 +11,6 @@ import SwiftUI
 struct PositionRow: View {
     @EnvironmentObject var userData: UserData
     
-    //    var portfolioName: String
     var position: Position
     
     var emission: EmissionStructure? {
@@ -22,7 +21,7 @@ struct PositionRow: View {
     
     var body: some View {
         
-        let isin = emission?.isinCode == nil ? "" : " isin: " + String(emission?.isinCode ?? "")
+        let isin = emission?.isinCode == nil ? "" : " ISIN: " + String(emission?.isinCode ?? "")
         
         let documentRus = emission?.documentRus ?? ""
         
@@ -31,29 +30,34 @@ struct PositionRow: View {
         return VStack(alignment: .leading, spacing: 4) {
             
             HStack(alignment: .firstTextBaseline) {
-                Text(documentRus + " " + maturityDate)
-                    .fixedSize(horizontal: false, vertical: true)
-//                    .layoutPriority(9)
+                Text(documentRus)
                 
                 Spacer()
                 
                 Text(position.qty.formattedGrouped)
-//                    .layoutPriority(9)
+                    .foregroundColor(.systemOrange)
             }
-            
-            Text("id: " + String(position.emissionID) + " " + isin)
-                .font(.footnote)
-//                .fontWeight(.light)
-                .foregroundColor(.secondary)
             
             HStack {
-                Text(position.portfolioName)
-                    .font(.caption)
+                Text("id: " + String(position.emissionID))
                     .fontWeight(.light)
-                    .foregroundColor(.systemOrange)
                 
                 Spacer()
+                
+                Text(isin)
+                    .fontWeight(.light)
+                
+                Spacer()
+                
+                Text(maturityDate)
             }
+            .font(.footnote)
+            .foregroundColor(.secondary)
+            
+            Text(position.portfolioName)
+                .font(.caption)
+                .fontWeight(.light)
+                .foregroundColor(.systemOrange)
         }
         .onTapGesture {
             self.showDetail = true
