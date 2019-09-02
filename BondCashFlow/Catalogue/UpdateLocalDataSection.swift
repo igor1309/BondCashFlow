@@ -39,7 +39,7 @@ struct UpdateLocalDataSection: View {
         //            return ""
         //        }
     }
-
+    
     
     @State private var showConfirm = false
     
@@ -67,8 +67,7 @@ struct UpdateLocalDataSection: View {
     
     
     var body: some View {
-        Section(footer: Text("Можно обновить все справочники или только по выпускам в портфелях.")
-        ){
+        Group {
             if isFinished {
                 Text(process)
                     .foregroundColor(.secondary)
