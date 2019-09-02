@@ -81,6 +81,9 @@
 		2ABA2A91231D9CC600FDB14F /* CBondsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A90231D9CC600FDB14F /* CBondsSection.swift */; };
 		2ABA2A93231D9F3400FDB14F /* LocalDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A92231D9F3400FDB14F /* LocalDataSection.swift */; };
 		2ABA2A95231DA19E00FDB14F /* UpdateLocalDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A94231DA19E00FDB14F /* UpdateLocalDataSection.swift */; };
+		2ABA2A97231DB7B700FDB14F /* cbondRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A96231DB7B700FDB14F /* cbondRequest.swift */; };
+		2ABA2A99231DB92900FDB14F /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A98231DB92900FDB14F /* URLSession+Extension.swift */; };
+		2ABA2A9B231DBE9200FDB14F /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A9A231DBE9200FDB14F /* Result+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,6 +184,9 @@
 		2ABA2A90231D9CC600FDB14F /* CBondsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBondsSection.swift; sourceTree = "<group>"; };
 		2ABA2A92231D9F3400FDB14F /* LocalDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataSection.swift; sourceTree = "<group>"; };
 		2ABA2A94231DA19E00FDB14F /* UpdateLocalDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLocalDataSection.swift; sourceTree = "<group>"; };
+		2ABA2A96231DB7B700FDB14F /* cbondRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cbondRequest.swift; sourceTree = "<group>"; };
+		2ABA2A98231DB92900FDB14F /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		2ABA2A9A231DBE9200FDB14F /* Result+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,12 +341,14 @@
 		2A8B7F622319A1C7005756BB /* Cbond Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				2A8B7F722319A1D7005756BB /* readCbondJSON.swift */,
 				2A8B7F632319A1C7005756BB /* CBondEmission.swift */,
 				2A8B7F642319A1C7005756BB /* CBondFlow.swift */,
 				2A8B7F652319A1C7005756BB /* CBondMeta.swift */,
 				2A8B7F662319A1C7005756BB /* CashFlowStructure.swift */,
 				2A8B7F672319A1C7005756BB /* Extension+DateFormatter.swift */,
 				2A8B7F682319A1C7005756BB /* cbondFetch.swift */,
+				2ABA2A96231DB7B700FDB14F /* cbondRequest.swift */,
 				2A8B7F692319A1C7005756BB /* EmissionStructure.swift */,
 			);
 			path = "Cbond Stuff";
@@ -349,7 +357,6 @@
 		2A8B7F712319A1D7005756BB /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				2A8B7F722319A1D7005756BB /* readCbondJSON.swift */,
 				2A8B7F732319A1D7005756BB /* WorkWithJSON.swift */,
 			);
 			path = JSON;
@@ -390,6 +397,8 @@
 				2A8B7FA02319A1F6005756BB /* Extension+FileManager.swift */,
 				2A8B7FA12319A1F6005756BB /* Color+Extensions.swift */,
 				2A8B7FA22319A1F6005756BB /* Date+Extensions.swift */,
+				2ABA2A98231DB92900FDB14F /* URLSession+Extension.swift */,
+				2ABA2A9A231DBE9200FDB14F /* Result+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -585,6 +594,7 @@
 				2A8B7F8E2319A1DF005756BB /* EmitentFilter.swift in Sources */,
 				2A8B7F8B2319A1DF005756BB /* AddIssue.swift in Sources */,
 				2A8B7F6E2319A1C7005756BB /* Extension+DateFormatter.swift in Sources */,
+				2ABA2A97231DB7B700FDB14F /* cbondRequest.swift in Sources */,
 				2A8B7FA42319A1F6005756BB /* Collection+Extension.swift in Sources */,
 				2A8B7F612319A1BB005756BB /* UserData.swift in Sources */,
 				2A8B7FA82319A1F6005756BB /* Extension+FileManager.swift in Sources */,
@@ -599,6 +609,7 @@
 				2A8B7FA92319A1F6005756BB /* Color+Extensions.swift in Sources */,
 				2A8B7F942319A1DF005756BB /* PositionDetail.swift in Sources */,
 				2A8B7FA62319A1F6005756BB /* Extension+Array.swift in Sources */,
+				2ABA2A99231DB92900FDB14F /* URLSession+Extension.swift in Sources */,
 				2A2EE062231C139700AAD7E2 /* Position.swift in Sources */,
 				2A8B7F912319A1DF005756BB /* CFCalendar.swift in Sources */,
 				2A8B7F6D2319A1C7005756BB /* CashFlowStructure.swift in Sources */,
@@ -607,6 +618,7 @@
 				2A8B7F952319A1DF005756BB /* AddPortfolio.swift in Sources */,
 				2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */,
 				2A8B7F8C2319A1DF005756BB /* AddPosition.swift in Sources */,
+				2ABA2A9B231DBE9200FDB14F /* Result+Extension.swift in Sources */,
 				2A8B7F602319A1BB005756BB /* Data.swift in Sources */,
 				2A8B7F5F2319A1BB005756BB /* Potfolio.swift in Sources */,
 				2A8B7FCD2319A1FF005756BB /* CashFlowGridColumn.swift in Sources */,

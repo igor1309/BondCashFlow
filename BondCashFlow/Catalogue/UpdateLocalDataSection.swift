@@ -20,8 +20,7 @@ struct UpdateLocalDataSection: View {
     var cbondLimit: Int
     var cbondOffset: Int
     
-    
-    
+
     var isinFilterString: String {
         
         return ""
@@ -47,7 +46,8 @@ struct UpdateLocalDataSection: View {
     @State private var process = ""
     @State var isLoading = false
     @State var isFinished = false
-    
+    @State private var showAlert = false
+
     func requestCompletedOK() {
         self.isLoading = false
         self.process = "Загрузка завершена."
@@ -62,6 +62,8 @@ struct UpdateLocalDataSection: View {
         print(error)
         self.isLoading = false
         self.isFinished = false
+        //  MARK: TODO нужен алерт!!!
+        self.showAlert = true
         self.process = "Ошибка получения данных CBond."
     }
     
@@ -97,6 +99,11 @@ struct UpdateLocalDataSection: View {
             }
         }
             
+        .actionSheet(isPresented: $showAlert, content: {
+            ActionSheet(title: (Text("Ошибка получения данных CBond.")),
+                        buttons: [.default(Text("OK"))])
+        })
+            
         .actionSheet(isPresented: $showConfirm, content: { () -> ActionSheet in
             ActionSheet(title: Text("Обновить справочники"),
                         message: Text("Полное обновление может занять время на получение данных и обработку."),
@@ -108,7 +115,7 @@ struct UpdateLocalDataSection: View {
                                 action: { self.loadEverything() }),
                             .destructive(
                                 Text("Обновить \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки") сейчас"),
-                                action: { self.load() }),
+                                action: { self.loadSelectedCBondOperation() }),
                             .default(
                                 Text("Избранные и в портфелях"),
                                 action: { self.loadSelects() }),
@@ -122,20 +129,35 @@ struct UpdateLocalDataSection: View {
     
     //  MARK: - TODO
     private func loadEverything() {
+        self.isLoading = true
+        self.isFinished = false
+
+        do {
+            try self.cbondSmartFetch(login: self.login,
+                                     password: self.password,
+                                     filters: "",
+                                     limit: self.cbondLimit,
+                                     offset: self.cbondOffset,
+                                     cbondOperation: self.cbondOperation)
+        } catch let error {
+            self.handleCBondError(error)
+        }
+        
     }
     
-    private func load() {
+    private func loadSelectedCBondOperation() {
         //  MARK: - TODO:
         self.isLoading = true
         self.isFinished = false
         
         do {
+            //self.isinFilterString,
             try self.cbondFetch(login: self.login,
                                 password: self.password,
-                                filters: "",//self.isinFilterString,
-                limit: self.cbondLimit,
-                offset: self.cbondOffset,
-                cbondOperation: self.cbondOperation)
+                                filters: "",
+                                limit: self.cbondLimit,
+                                offset: self.cbondOffset,
+                                cbondOperation: self.cbondOperation)
         } catch let error {
             self.handleCBondError(error)
         }

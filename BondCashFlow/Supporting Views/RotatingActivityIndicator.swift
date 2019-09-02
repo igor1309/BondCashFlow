@@ -29,7 +29,7 @@ struct RotatingSqureSplit: View {
     var body: some View {
         Image(systemName: "square.split.2x2.fill")
             .foregroundColor(color)
-            .rotationEffect(.degrees(isAnimated ? 0 : -720), anchor: .center)
+            .rotationEffect(.degrees(isAnimated ? 0 : 720), anchor: .center)
             .opacity(isAnimated ? 0 : 1)
             .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true).speed(2/3))
             .onAppear {

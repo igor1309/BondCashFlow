@@ -9,11 +9,192 @@
 import Foundation
 
 extension UpdateLocalDataSection {
+    
     enum CBondError: Error {
         case incorrectOperation, notOkResponse, decodingError, writeToFileError
     }
     
-    //  MARK: - TODO: add filters to query
+    func cbondSmartParseAndStore(data: Data, cbondOperation: String) {
+        
+        //  create JSON decoder and encoder
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(.cbondDateFormatter)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        //  prepare filename ("emissions" or "flow") and URL in Document Directory
+        let filename = String(cbondOperation.split(separator: "_", maxSplits: 1)[1])
+        let filenameURL = URL(fileURLWithPath: filename,
+                              relativeTo: FileManager.documentDirectoryURL)
+            .appendingPathExtension("json")
+        print(filenameURL)
+        
+        
+        //  parse fetched data according to request
+        
+        if cbondOperation == "get_emissions" {   //  get_emissions (параметры эмиссий)
+            do {
+                //  decode and take just the data we want
+                let cbondEmission = try decoder.decode(CBondGetEmission.self, from: data)
+                let emissionStructure = cbondEmission.items.map({ EmissionStructure(from: $0) })
+                    .removingDuplicates()
+                
+                //  MARK: - TODO: parse header - could be valuable info there
+                //  ...
+                //  TODO: parse header - could be valuable info there
+                //        to be used to check if request is needed
+                print("count: \(cbondEmission.count), total: \(cbondEmission.total), execTime: \(cbondEmission.execTime)")
+                
+                //  encode and store useful data locally
+                let usefulData = try encoder.encode(emissionStructure)
+                try usefulData.write(to: filenameURL)
+                
+                print("fetched data parsed, optimized and saved\n" +
+                    "emissionStructure.count: \(emissionStructure.count)\n")
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        if cbondOperation == "get_flow" {    //  get_flow (потоки платежей)
+            do {
+                //  decode and take just the data we want
+                let cbondFlow = try decoder.decode(CBondGetFlow.self, from: data)
+                let cashFlowStructure = cbondFlow.items.map({ CashFlowStructure(from: $0) })
+                    .removingDuplicates()
+                
+                //  MARK: - TODO: parse header - could be valuable info there
+                //  ...
+                //  TODO: parse header - could be valuable info there
+                //        to be used to check if request is needed
+                print("count: \(cbondFlow.count), total: \(cbondFlow.total), execTime: \(cbondFlow.execTime)")
+                
+                //  encode and store useful data locally
+                let usefulData = try encoder.encode(cashFlowStructure)
+                try usefulData.write(to: filenameURL)
+                
+                print("fetched data parsed, optimized and saved\n" +
+                    "cashFlowStructure.count: \(cashFlowStructure.count)")
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    //  MARK: - TODO: finish coding background operation
+    
+    func cbondSmartFetch(login: String = "igor@rbiz.group",
+                         password: String = "bonmaM-wojhed-fokza3",
+                         filters: String,
+                         limit: Int = 10,
+                         offset: Int = 0,
+                         cbondOperation: String = "get_flow",
+                         background: Bool = false)
+        throws {
+            
+            let request = try cbondRequest(login: login,
+                                           password: password,
+                                           filters: filters,
+                                           limit: limit,
+                                           offset: offset,
+                                           cbondOperation: cbondOperation)
+            let session = cbondSession(background: background)
+            let task = session.dataTask(with: request) { result in
+                
+                switch result {
+                case .success:
+                    let encoder = JSONEncoder()
+                    encoder.outputFormatting = .prettyPrinted
+                    
+                    //  prepare filename ("emissions" or "flow") and URL in Document Directory
+                    let filename = String(cbondOperation.split(separator: "_", maxSplits: 1)[1])
+                    let filenameURL = URL(fileURLWithPath: filename,
+                                          relativeTo: FileManager.documentDirectoryURL)
+                        .appendingPathExtension("json")
+                    print(filenameURL)
+                    
+                    //  parse fetched data according to request
+                    
+                    if cbondOperation == "get_emissions" {   //  get_emissions (параметры эмиссий)
+                        do {
+                            //  decode and take just the data we want
+                            let cbondEmission: CBondGetFlow = try result.decoded()
+                            let emissionStructure = cbondEmission.items.map({ CashFlowStructure(from: $0) })
+                                .removingDuplicates()
+                            
+                            //  MARK: - TODO: parse header - could be valuable info there
+                            //  ...
+                            //  TODO: parse header - could be valuable info there
+                            //        to be used to check if request is needed
+                            print("count: \(cbondEmission.count), total: \(cbondEmission.total), execTime: \(cbondEmission.execTime)")
+                            
+                            
+                            //  encode and store useful data locally
+                            let usefulData = try encoder.encode(emissionStructure)
+                            try usefulData.write(to: filenameURL)
+                            
+                            print("fetched data parsed, optimized and saved\n" +
+                                "emissionStructure.count: \(emissionStructure.count)")
+                            
+                            DispatchQueue.main.async {
+                                //  MARK: Update UI from main thread!
+                                self.requestCompletedOK()
+                            }
+                        } catch {
+                            print(error.localizedDescription)
+                            self.handleCBondError(error)
+                        }
+                    }
+                    
+                    if cbondOperation == "get_flow" {    //  get_flow (потоки платежей)
+                        do {
+                            //  decode and take just the data we want
+                            let cbondFlow: CBondGetFlow = try result.decoded()
+                            let cashFlowStructure = cbondFlow.items.map({ CashFlowStructure(from: $0) })
+                                .removingDuplicates()
+                            
+                            //  MARK:  TODO: parse header - could be valuable info there
+                            //  ...
+                            //  TODO: parse header - could be valuable info there
+                            //        to be used to check if request is needed
+                            print("count: \(cbondFlow.count), total: \(cbondFlow.total), execTime: \(cbondFlow.execTime)")
+                            
+                            //  encode and store useful data locally
+                            let usefulData = try encoder.encode(cashFlowStructure)
+                            try usefulData.write(to: filenameURL)
+                            
+                            print("fetched data parsed, optimized and saved\n" +
+                                "cashFlowStructure.count: \(cashFlowStructure.count)")
+                            
+                            DispatchQueue.main.async {
+                                //  MARK: Update UI from main thread!
+                                self.requestCompletedOK()
+                            }
+                        } catch let error {
+                            print(error.localizedDescription)
+                            self.handleCBondError(error)
+                        }
+                        
+                    }
+                    
+                    
+                break // Handle response
+                case .failure(let error):
+                    print("failure")
+                    
+                    DispatchQueue.main.async {
+                        //  MARK: Update UI from main thread!
+                        self.handleCBondError(error)
+                    }
+                    break // Handle error
+                }
+                
+            }
+            task.resume()
+    }
+    
+    
+    
     //  MARK: - TODO: finish coding background operation
     
     func cbondFetch(login: String = "igor@rbiz.group",
@@ -22,57 +203,49 @@ extension UpdateLocalDataSection {
                     limit: Int = 10,
                     offset: Int = 0,
                     cbondOperation: String = "get_flow",
-                    background: Bool = false) throws {
-        
-        //  could handle just "get_flow" (потоки платежей) or "get_emissions" (параметры эмиссий)
-        if !(cbondOperation == "get_flow" || cbondOperation == "get_emissions") {
-            print("incorrect cbond operation")
-            throw CBondError.incorrectOperation
-        }
-        
-        
-        let url = URL(string: "https://ws.cbonds.info/services/json/" + cbondOperation + "/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "Post"
-        
-        let json = "{\"auth\":{\"login\":\"\(login)\",\"password\":\"\(password)\"},\(filters)\"quantity\":{\"limit\":" + String(limit) + ",\"offset\":" + String(offset) + "}}"
-        request.httpBody = json.data(using: .utf8)
-        
-        
-        //  MARK: - TODO: finish coding background operation
-        let session = cbondSession(background: background)
-        let task = session.dataTask(with: request) {
+                    background: Bool = false)
+        throws {
             
-            (data, response, error) in
-            
-            if let error = error {
-                print(error.localizedDescription)
-                self.handleCBondError(error)
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                httpResponse.statusCode == 200,
-                let data = data else {
-                    print("httpResponse statusCode IS NOT 200")
-                    self.handleCBondError(CBondError.notOkResponse)
+            let request = try cbondRequest(login: login,
+                                           password: password,
+                                           filters: filters,
+                                           limit: limit,
+                                           offset: offset,
+                                           cbondOperation: cbondOperation)
+            let session = cbondSession(background: background)
+            let task = session.dataTask(with: request) {
+                
+                (data, response, error) in
+                
+                if let error = error {
+                    print(error.localizedDescription)
+                    self.handleCBondError(error)
                     return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                    httpResponse.statusCode == 200,
+                    let data = data else {
+                        print("httpResponse statusCode IS NOT 200")
+                        self.handleCBondError(CBondError.notOkResponse)
+                        return
+                }
+                
+                self.parseAndSave(data, cbondOperation: cbondOperation)
+                
+                DispatchQueue.main.async {
+                    //  MARK: - Update UI from main thread!
+                    self.requestCompletedOK()
+                }
             }
             
-            self.parseAndSave(data, cbondOperation: cbondOperation)
-            
-            DispatchQueue.main.async {
-                //  MARK: - Update UI from main thread!
-                self.requestCompletedOK()
-            }
-        }
-        
-        task.resume()
+            task.resume()
     }
     
     
+    //  MARK: - TODO: finish coding background operation
     fileprivate func cbondSession(background: Bool = false) -> URLSession {
-        // MARK:- что еще для background operation??
+        // MARK: что еще для background operation??
         if background {
             let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "com.photoigor.bondscashflow.cbonds")
             return URLSession(configuration: backgroundConfiguration)
