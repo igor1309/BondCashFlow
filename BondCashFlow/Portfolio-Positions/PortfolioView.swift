@@ -77,25 +77,25 @@ struct PortfolioView: View {
                 
                 .actionSheet(isPresented: $showActions, content: {
                     ActionSheet(title: Text("Добавить"),
-                                //                            message: Text(""),
-                        buttons: [
-                            .cancel(Text("Отмена")),
-                            .default(Text("Добавить позицию в портфель"),
-                                     action: {
-                                        self.modal = .addPosition
-                                        self.showModal = true }),
-                            .default(Text("Добавить выпуск облигаций"),
-                                     action: {
-                                        self.modal = .addIssue
-                                        self.showModal = true }),
-                            .default(Text("Создать новый портфель"),
-                                     action: {
-                                        self.modal = .addPortfolio
-                                        self.showModal = true })
+                                buttons: [
+                                    .cancel(Text("Отмена")),
+                                    .default(Text("Добавить позицию в портфель"),
+                                             action: {
+                                                self.modal = .addPosition
+                                                self.showModal = true }),
+                                    .default(Text("Добавить выпуск облигаций"),
+                                             action: {
+                                                self.modal = .addIssue
+                                                self.showModal = true }),
+                                    .default(Text("Создать новый портфель"),
+                                             action: {
+                                                self.modal = .addPortfolio
+                                                self.showModal = true })
                     ])
                 })
                 
                 .sheet(isPresented: $showModal, content: {
+                    
                     if self.modal == .addPortfolio {
                         //  MARK: TODO решить нужно ли отдельно создавать портфель
                         //  и что делать с этим блоком

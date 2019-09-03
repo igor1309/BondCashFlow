@@ -118,8 +118,8 @@ extension UpdateLocalDataSection {
                     if cbondOperation == "get_emissions" {   //  get_emissions (параметры эмиссий)
                         do {
                             //  decode and take just the data we want
-                            let cbondEmission: CBondGetFlow = try result.decoded()
-                            let emissionStructure = cbondEmission.items.map({ CashFlowStructure(from: $0) })
+                            let cbondEmission: CBondGetEmission = try result.decoded()
+                            let emissionStructure = cbondEmission.items.map({ EmissionStructure(from: $0) })
                                 .removingDuplicates()
                             
                             //  MARK: - TODO: parse header - could be valuable info there

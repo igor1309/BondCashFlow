@@ -20,7 +20,7 @@ struct UpdateLocalDataSection: View {
     var cbondLimit: Int
     var cbondOffset: Int
     
-
+    
     var isinFilterString: String {
         
         return ""
@@ -40,13 +40,14 @@ struct UpdateLocalDataSection: View {
     }
     
     
-    @State private var showConfirm = false
-    
+    @State private var showConfirmation = false
+
     //  MARK: Networking
     @State private var process = ""
-    @State var isLoading = false
-    @State var isFinished = false
+    @State private var isLoading = false
+    @State private var isFinished = false
     @State private var showAlert = false
+    @State private var alertMessage = ""
 
     func requestCompletedOK() {
         self.isLoading = false
@@ -59,15 +60,15 @@ struct UpdateLocalDataSection: View {
     }
     
     func handleCBondError(_ error: Error) {
+        print("handleCBondError:")
         print(error)
         self.isLoading = false
         self.isFinished = false
-        //  MARK: TODO нужен алерт!!!
+        self.alertMessage = "Проверьте, пожалуйста, логин-пароль или обратитесь к разработчику.\n\nСообщение системы:\n" + error.localizedDescription
         self.showAlert = true
         self.process = "Ошибка получения данных CBond."
     }
-    
-    
+        
     var body: some View {
         Group {
             if isFinished {
@@ -91,7 +92,7 @@ struct UpdateLocalDataSection: View {
                 }
                 
                 Button(action: {
-                    self.showConfirm = true
+                    self.showConfirmation = true
                 }) {
                     Text(isLoading ? "" : "Обновить справочники")
                 }
@@ -99,12 +100,13 @@ struct UpdateLocalDataSection: View {
             }
         }
             
-        .actionSheet(isPresented: $showAlert, content: {
-            ActionSheet(title: (Text("Ошибка получения данных CBond.")),
-                        buttons: [.default(Text("OK"))])
+        .alert(isPresented: $showAlert, content: {
+            Alert(title: Text("Ошибка получения данных CBond"),
+                  message: Text(self.alertMessage),
+                  dismissButton: .default(Text("OK"), action: {}))
         })
             
-        .actionSheet(isPresented: $showConfirm, content: { () -> ActionSheet in
+        .actionSheet(isPresented: $showConfirmation, content: {
             ActionSheet(title: Text("Обновить справочники"),
                         message: Text("Полное обновление может занять время на получение данных и обработку."),
                         buttons: [
@@ -131,7 +133,7 @@ struct UpdateLocalDataSection: View {
     private func loadEverything() {
         self.isLoading = true
         self.isFinished = false
-
+        
         do {
             try self.cbondSmartFetch(login: self.login,
                                      password: self.password,
