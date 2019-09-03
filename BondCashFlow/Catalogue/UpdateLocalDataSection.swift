@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct UpdateLocalDataSection: View {
+    @EnvironmentObject var userData: UserData
     
     //  MARK: - change to userdata, store if changed
     //  MARK: use hash to store password

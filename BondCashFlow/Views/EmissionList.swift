@@ -29,8 +29,9 @@ struct EmissionList: View {
     @State private var showFilter = false
     
     //  MARK: TODO доделать
-    @State private var emissionsCount: Int = loadEmissionListData().count
-    @State private var emitemtsCount: Int = loadEmissionListData().map({ $0.emitentID }).removingDuplicates().count
+    //  MARK: TODO заменить на userData!!!!
+    @State private var emissionsCount: Int = loadEmissionData().count
+    @State private var emitemtsCount: Int = loadEmissionData().map({ $0.emitentID }).removingDuplicates().count
     
     var body: some View {
         

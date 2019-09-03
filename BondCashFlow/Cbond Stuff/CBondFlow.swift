@@ -8,6 +8,18 @@
 
 import Foundation
 
+// MARK: - CBondFlowMetadata
+public struct CBondFlowMetadata: Codable {
+    public let count, total, limit, offset: Int
+    
+    public init(from cbond: CBondGetFlow) {
+        self.count = cbond.count
+        self.total = cbond.total
+        self.limit = cbond.limit
+        self.offset = cbond.offset
+    }
+}
+
 // MARK: - CBondGetFlow
 public struct CBondGetFlow: Codable {
     let count, total, limit, offset: Int

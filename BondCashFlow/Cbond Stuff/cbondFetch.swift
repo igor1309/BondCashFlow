@@ -36,15 +36,18 @@ extension UpdateLocalDataSection {
             do {
                 //  decode and take just the data we want
                 let cbondEmission = try decoder.decode(CBondGetEmission.self, from: data)
-                let emissionStructure = cbondEmission.items.map({ EmissionStructure(from: $0) })
-                    .removingDuplicates()
                 
                 //  MARK: - TODO: parse header - could be valuable info there
                 //  ...
                 //  TODO: parse header - could be valuable info there
                 //        to be used to check if request is needed
+                //  get metadata from CBond response
+                self.userData.cbondEmissionMetadata = CBondEmissionMetadata(from: cbondEmission)
+                
                 print("count: \(cbondEmission.count), total: \(cbondEmission.total), execTime: \(cbondEmission.execTime)")
                 
+                let emissionStructure = cbondEmission.items.map({ EmissionStructure(from: $0) })
+                    .removingDuplicates()
                 //  encode and store useful data locally
                 let usefulData = try encoder.encode(emissionStructure)
                 try usefulData.write(to: filenameURL)
@@ -60,15 +63,18 @@ extension UpdateLocalDataSection {
             do {
                 //  decode and take just the data we want
                 let cbondFlow = try decoder.decode(CBondGetFlow.self, from: data)
-                let cashFlowStructure = cbondFlow.items.map({ CashFlowStructure(from: $0) })
-                    .removingDuplicates()
                 
                 //  MARK: - TODO: parse header - could be valuable info there
                 //  ...
                 //  TODO: parse header - could be valuable info there
                 //        to be used to check if request is needed
+                //  get metadata from CBond response
+                self.userData.cbondFlowMetadata = CBondFlowMetadata(from: cbondFlow)
+
                 print("count: \(cbondFlow.count), total: \(cbondFlow.total), execTime: \(cbondFlow.execTime)")
                 
+                let cashFlowStructure = cbondFlow.items.map({ CashFlowStructure(from: $0) })
+                    .removingDuplicates()
                 //  encode and store useful data locally
                 let usefulData = try encoder.encode(cashFlowStructure)
                 try usefulData.write(to: filenameURL)

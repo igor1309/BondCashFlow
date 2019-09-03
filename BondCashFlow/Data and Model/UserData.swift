@@ -13,7 +13,29 @@ import Foundation
 final class UserData: ObservableObject {
     private let defaults = UserDefaults.standard
     
-    @Published var emissions = emissionListData
+    @Published var cbondEmissionMetadata: CBondEmissionMetadata? = cbondEmissionMetadataData {
+        didSet {
+            saveJSON(data: cbondEmissionMetadata, filename: "cbondEmissionMetadata.json")
+        }
+    }
+    
+    @Published var cbondFlowMetadata: CBondFlowMetadata? = cbondFlowMetadataData {
+        didSet {
+            saveJSON(data: cbondFlowMetadata, filename: "cbondFlowMetadata.json")
+        }
+    }
+    
+    @Published var emissions = emissionData {
+           didSet {
+               saveJSON(data: emissions, filename: "emissions.json")
+           }
+       }
+    
+    @Published var flows = cashFlowData {
+        didSet {
+            saveJSON(data: flows, filename: "flows.json")
+        }
+    }
     
     var emitents: [String] {
         emissions.map { $0.emitentNameRus }.removingDuplicates()
@@ -24,8 +46,6 @@ final class UserData: ObservableObject {
             saveJSON(data: portfolioNames, filename: "portfolioNames.json")
         }
     }
-    
-    @Published var flows = cashFlowListData
     
     @Published var favoriteEmissions: [Int: Bool] = favoriteEmissionsData {
         didSet {
@@ -56,7 +76,7 @@ final class UserData: ObservableObject {
         }
     }
     
-    @Published var cashFlows = cashFlowData
+    @Published var cashFlows = calendarCashFlowData
     
     @Published var baseDate = Date()
 }

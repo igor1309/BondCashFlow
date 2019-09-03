@@ -8,6 +8,26 @@
 
 import SwiftUI
 
+let cbondEmissionMetadataData = loadCBondEmissionMetadata()
+
+func loadCBondEmissionMetadata() -> CBondEmissionMetadata? {
+    guard let data: CBondEmissionMetadata = loadFromDocDir("cbondEmissionMetadata.json") else {
+        return nil
+    }
+    
+    return data
+}
+
+let cbondFlowMetadataData = loadCBondFlowMetadata()
+
+func loadCBondFlowMetadata() -> CBondFlowMetadata? {
+    guard let data: CBondFlowMetadata = loadFromDocDir("cbondFlowMetadata.json") else {
+        return nil
+    }
+    
+    return data
+}
+
 let portfolioNamesData = loadPortfolioNamesData()
 
 func loadPortfolioNamesData() -> [String] {
@@ -21,6 +41,13 @@ func loadPortfolioNamesData() -> [String] {
 let favoriteEmissionsData = loadFavoriteEmissionsData()
 
 func loadFavoriteEmissionsData() -> [Int: Bool] {
+    guard let data: [Int: Bool] = loadFromDocDir("favoriteEmissions.json") else {
+        return [:]
+    }
+    
+    return data
+}
+func loadFavoriteEmissionsDataOLD() -> [Int: Bool] {
     let decoder = JSONDecoder()
     let filenameURL = URL(fileURLWithPath: "favoriteEmissions",
                           relativeTo: FileManager.documentDirectoryURL)
@@ -38,29 +65,16 @@ func loadFavoriteEmissionsData() -> [Int: Bool] {
 
 let positionData = loadPositionData()
 
-let cashFlowData = loadCashFlowData()
+let emissionData = loadEmissionData()
 
-let emissionListData = loadEmissionListData()
-
-let cashFlowListData = loadCashFlowListData()
-
-func loadCashFlowListData() -> [CashFlowStructure] {
-    let decoder = JSONDecoder()
-    let filenameURL = URL(fileURLWithPath: "flow",
-                          relativeTo: FileManager.documentDirectoryURL)
-        .appendingPathExtension("json")
-    
-    do {
-        let data = try Data(contentsOf: filenameURL)
-        return try decoder.decode([CashFlowStructure].self, from: data)
-    }
-    catch let error {
-        print("Error: \(error.localizedDescription)")
+func loadEmissionData() -> [EmissionStructure] {
+    guard let data: [EmissionStructure] = loadFromDocDir("emissions.json") else {
         return []
     }
+    
+    return data
 }
-
-func loadEmissionListData() -> [EmissionStructure] {
+func loadEmissionDataOLD() -> [EmissionStructure] {
     let decoder = JSONDecoder()
     let filenameURL = URL(fileURLWithPath: "emissions",
                           relativeTo: FileManager.documentDirectoryURL)
@@ -69,6 +83,31 @@ func loadEmissionListData() -> [EmissionStructure] {
     do {
         let data = try Data(contentsOf: filenameURL)
         return try decoder.decode([EmissionStructure].self, from: data)
+    }
+    catch let error {
+        print("Error: \(error.localizedDescription)")
+        return []
+    }
+}
+
+let cashFlowData = loadCashFlowData()
+
+func loadCashFlowData() -> [CashFlowStructure] {
+    guard let data: [CashFlowStructure] = loadFromDocDir("flow.json") else {
+        return []
+    }
+    
+    return data
+}
+func loadCashFlowDataOLD() -> [CashFlowStructure] {
+    let decoder = JSONDecoder()
+    let filenameURL = URL(fileURLWithPath: "flow",
+                          relativeTo: FileManager.documentDirectoryURL)
+        .appendingPathExtension("json")
+    
+    do {
+        let data = try Data(contentsOf: filenameURL)
+        return try decoder.decode([CashFlowStructure].self, from: data)
     }
     catch let error {
         print("Error: \(error.localizedDescription)")
@@ -90,7 +129,9 @@ func loadPositionData() -> [Position] {
     return data
 }
 
-func loadCashFlowData() -> [CashFlow] {
+let calendarCashFlowData = loadCalendarCashFlowData()
+
+func loadCalendarCashFlowData() -> [CashFlow] {
     return [
         CashFlow(date: Date().firstDayOfWeekRU.addDays(0), amount: 100000, instrument: "Мастер", type: .coupon),
         CashFlow(date: Date().firstDayOfWeekRU.addDays(2), amount: 10000, instrument: "Ломбард", type: .face),
