@@ -8,20 +8,20 @@
 
 import SwiftUI
 
-let cbondEmissionMetadataData = loadCBondEmissionMetadata()
+let emissionMetadataData = loadCBondEmissionMetadata()
 
 func loadCBondEmissionMetadata() -> CBondEmissionMetadata? {
-    guard let data: CBondEmissionMetadata = loadFromDocDir("cbondEmissionMetadata.json") else {
+    guard let data: CBondEmissionMetadata = loadFromDocDir("emissionMetadata.json") else {
         return nil
     }
     
     return data
 }
 
-let cbondFlowMetadataData = loadCBondFlowMetadata()
+let flowMetadataData = loadCBondFlowMetadata()
 
 func loadCBondFlowMetadata() -> CBondFlowMetadata? {
-    guard let data: CBondFlowMetadata = loadFromDocDir("cbondFlowMetadata.json") else {
+    guard let data: CBondFlowMetadata = loadFromDocDir("flowMetadata.json") else {
         return nil
     }
     

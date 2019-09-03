@@ -114,7 +114,10 @@ struct UpdateLocalDataSection: View {
                             .cancel(
                                 Text("Отмена")),
                             .destructive(
-                                Text("Обновить всё сейчас"),
+                                Text("TBD: Обновить всё сейчас"),
+                                action: { self.loadEverything() }),
+                            .destructive(
+                                Text("NEW Обновить \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки") сейчас"),
                                 action: { self.loadEverything() }),
                             .destructive(
                                 Text("Обновить \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки") сейчас"),

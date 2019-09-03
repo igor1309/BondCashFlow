@@ -39,23 +39,16 @@ extension UpdateLocalDataSection {
                     let encoder = JSONEncoder()
                     encoder.outputFormatting = .prettyPrinted
                     
-                    //  prepare filename ("emissions" or "flow") and URL in Document Directory
-                    let filename = String(cbondOperation.split(separator: "_", maxSplits: 1)[1])
-                    let filenameURL = URL(fileURLWithPath: filename,
-                                          relativeTo: FileManager.documentDirectoryURL)
-                        .appendingPathExtension("json")
-                    print(filenameURL)
-                    
                     //  parse fetched data according to request
                     
                     if cbondOperation == "get_emissions" {   //  get_emissions (параметры эмиссий)
                         do {
-                            let cbondEmission: CBondGetEmission = try result.decoded()
+                            let cbondGetEmission: CBondGetEmission = try result.decoded()
                             
                             //  MARK: Update UI from main thread!
                             DispatchQueue.main.async {
-                                self.userData.cbondEmissionMetadata = CBondEmissionMetadata(from: cbondEmission)
-                                self.userData.emissions = cbondEmission.items.map({ Emission(from: $0) })
+                                self.userData.emissionMetadata = CBondEmissionMetadata(from: cbondGetEmission)
+                                self.userData.emissions = cbondGetEmission.items.map({ Emission(from: $0) })
                                 self.requestCompletedOK()
                             }
                         } catch {
@@ -67,13 +60,13 @@ extension UpdateLocalDataSection {
                     if cbondOperation == "get_flow" {    //  get_flow (потоки платежей)
                         do {
                             print("попытка декодировать поток от сибондз…")
-                            let cbondFlow: CBondGetFlow = try result.decoded()
+                            let cbondGetFlow: CBondGetFlow = try result.decoded()
                             print("поток от сибондз декодирован")
                             
                             //  MARK: Update UI from main thread!
                             DispatchQueue.main.async {
-                                self.userData.cbondFlowMetadata = CBondFlowMetadata(from: cbondFlow)
-                                self.userData.flows = cbondFlow.items.map({ Flow(from: $0) })
+                                self.userData.flowMetadata = CBondFlowMetadata(from: cbondGetFlow)
+                                self.userData.flows = cbondGetFlow.items.map({ Flow(from: $0) })
                                 self.requestCompletedOK()
                             }
                         } catch let error {

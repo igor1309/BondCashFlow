@@ -13,15 +13,15 @@ import Foundation
 final class UserData: ObservableObject {
     private let defaults = UserDefaults.standard
     
-    @Published var cbondEmissionMetadata: CBondEmissionMetadata? = cbondEmissionMetadataData {
+    @Published var emissionMetadata: CBondEmissionMetadata? = emissionMetadataData {
         didSet {
-            saveJSON(data: cbondEmissionMetadata, filename: "cbondEmissionMetadata.json")
+            saveJSON(data: emissionMetadata, filename: "emissionMetadata.json")
         }
     }
     
-    @Published var cbondFlowMetadata: CBondFlowMetadata? = cbondFlowMetadataData {
+    @Published var flowMetadata: CBondFlowMetadata? = flowMetadataData {
         didSet {
-            saveJSON(data: cbondFlowMetadata, filename: "cbondFlowMetadata.json")
+            saveJSON(data: flowMetadata, filename: "flowMetadata.json")
         }
     }
     
