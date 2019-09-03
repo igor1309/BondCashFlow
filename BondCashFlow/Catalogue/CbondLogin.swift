@@ -15,10 +15,10 @@ import SwiftUI
 
 struct CbondLogin: View {
     @Environment(\.presentationMode) var presentation
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
     var footer: String {
-        (userData.login.isNotEmpty && userData.password.isNotEmpty) ? "" : "Логин-пароль не могут быть пустыми"
+        (settings.login.isNotEmpty && settings.password.isNotEmpty) ? "" : "Логин-пароль не могут быть пустыми"
     }
     
     var body: some View {
@@ -27,25 +27,25 @@ struct CbondLogin: View {
                 Section(header: Text("Логин-пароль к cbonds.ru".uppercased()),
                         footer: Text(footer).foregroundColor(.systemRed)
                 ){
-                    TextField("Логин", text: $userData.login)
-                    TextField("Пароль", text: $userData.password)
+                    TextField("Логин", text: $settings.login)
+                    TextField("Пароль", text: $settings.password)
                 }
                 
                 Section(header: Text("Доступ к cbonds.ru".uppercased())
                 ){
-                    if !(userData.login == "test" && userData.password == "test") {
+                    if !(settings.login == "test" && settings.password == "test") {
                         Button(action: {
-                            self.userData.login = "test"
-                            self.userData.password = "test"
+                            self.settings.login = "test"
+                            self.settings.password = "test"
                         }) {
                             Text("Тестовый доступ")
                         }
                     }
                     
-                    if !(userData.login == "igor@rbiz.group" && userData.password == "bonmaM-wojhed-fokza3") {
+                    if !(settings.login == "igor@rbiz.group" && settings.password == "bonmaM-wojhed-fokza3") {
                         Button(action: {
-                            self.userData.login = "igor@rbiz.group"
-                            self.userData.password = "bonmaM-wojhed-fokza3"
+                            self.settings.login = "igor@rbiz.group"
+                            self.settings.password = "bonmaM-wojhed-fokza3"
                             
                         }) {
                             Text("igor@rbiz.group")

@@ -27,11 +27,11 @@ struct RotatingSqureSplit: View {
     @State private var isAnimated = false
     
     var body: some View {
-        Image(systemName: "square.split.2x2.fill")
-            .foregroundColor(color)
-            .rotationEffect(.degrees(isAnimated ? 0 : 720), anchor: .center)
-            .opacity(isAnimated ? 0 : 1)
-            .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true).speed(2/3))
+        Image(systemName: "slowmo")
+            .foregroundColor(.systemGray2)
+            .rotationEffect(.degrees(isAnimated ? 0 : -720), anchor: .center)
+            .opacity(isAnimated ? 0.1 : 1)
+            .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false).speed(2/6))
             .onAppear {
                 self.isAnimated = true
         }

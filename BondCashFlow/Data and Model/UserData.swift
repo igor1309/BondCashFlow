@@ -63,57 +63,8 @@ final class UserData: ObservableObject {
         positions.map({ $0.portfolioName }).removingDuplicates().count > 1
     }
     
-    //  фильтры ломаются, поэтому всегда стартуем со всех портфелей
-    @Published var isAllPortfoliosSelected: Bool = true || UserDefaults.standard.bool(forKey: "isAllPortfoliosSelected") {
-        didSet {
-            defaults.set(isAllPortfoliosSelected, forKey: "isAllPortfoliosSelected")
-        }
-    }
-    
-    @Published var selectedPortfolio: String = UserDefaults.standard.string(forKey: "selectedPortfolio") ?? "" {
-        didSet {
-            defaults.set(selectedPortfolio, forKey: "selectedPortfolio")
-        }
-    }
-    
-    @Published var lastCBondOperationUsed: String = UserDefaults.standard.string(forKey: "lastCBondOperationUsed") ?? "" {
-        didSet {
-            defaults.set(lastCBondOperationUsed, forKey: "lastCBondOperationUsed")
-        }
-    }
-    
-    @Published var lastCBondLimitUsed: Int = UserDefaults.standard.integer(forKey: "lastCBondLimitUsed") {
-        didSet {
-            defaults.set(lastCBondLimitUsed, forKey: "lastCBondLimitUsed")
-        }
-    }
-    
-    @Published var lastCBondOffsetUsed: Int = UserDefaults.standard.integer(forKey: "lastCBondOffsetUsed") {
-        didSet {
-            defaults.set(lastCBondOffsetUsed, forKey: "lastCBondOffsetUsed")
-        }
-    }
-    
     @Published var cashFlows = calendarCashFlowData
     
     @Published var baseDate = Date()
     
-    //  MARK: TODO: use hash to store password
-    @Published var login: String = UserDefaults.standard.string(forKey: "login") ?? "test" {
-        didSet {
-            defaults.set(login, forKey: "login")
-        }
-    }
-    
-    @Published var password: String = UserDefaults.standard.string(forKey: "password") ?? "test" {
-        didSet {
-            defaults.set(password, forKey: "password")
-        }
-    }
-    
-    @Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {
-        didSet {
-            defaults.set(lastTabUsed, forKey: "lastTabUsed")
-        }
-    }
 }

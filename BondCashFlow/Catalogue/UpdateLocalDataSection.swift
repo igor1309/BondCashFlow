@@ -10,6 +10,7 @@ import SwiftUI
 
 struct UpdateLocalDataSection: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
     //  MARK: TODO fix this: no more isins in positions
     var isinFilterString: String {
@@ -104,7 +105,7 @@ struct UpdateLocalDataSection: View {
                                     Text("Обновить всю базу сейчас"),
                                     action: { self.loadEverything() }),
                                 .default(
-                                    Text("Обновить сейчас только \(self.userData.lastCBondOperationUsed == "get_emissions" ? "Эмиссии" : "Потоки")"),
+                                    Text("Обновить сейчас только \(self.settings.lastCBondOperationUsed == "get_emissions" ? "Эмиссии" : "Потоки")"),
                                     action: { self.loadSelectedCBondOperation() }),
                                 .destructive(
                                     Text("TBD: Всё, но позже"),
@@ -122,11 +123,11 @@ struct UpdateLocalDataSection: View {
         self.isFinished = false
         
         do {
-            try self.cbondSmartFetchBoth(login: self.userData.login,
-                                         password: self.userData.password,
+            try self.cbondSmartFetchBoth(login: self.settings.login,
+                                         password: self.settings.password,
                                          filters: "",
-                                         limit: self.userData.lastCBondLimitUsed,
-                                         offset: self.userData.lastCBondOffsetUsed)
+                                         limit: self.settings.lastCBondLimitUsed,
+                                         offset: self.settings.lastCBondOffsetUsed)
         } catch let error {
             self.handleCBondError(error)
         }
@@ -137,12 +138,12 @@ struct UpdateLocalDataSection: View {
         self.isFinished = false
         
         do {
-            try self.cbondSmartFetch(login: self.userData.login,
-                                     password: self.userData.password,
+            try self.cbondSmartFetch(login: self.settings.login,
+                                     password: self.settings.password,
                                      filters: "",
-                                     limit: self.userData.lastCBondLimitUsed,
-                                     offset: self.userData.lastCBondOffsetUsed,
-                                     cbondOperation: self.userData.lastCBondOperationUsed)
+                                     limit: self.settings.lastCBondLimitUsed,
+                                     offset: self.settings.lastCBondOffsetUsed,
+                                     cbondOperation: self.settings.lastCBondOperationUsed)
         } catch let error {
             self.handleCBondError(error)
         }

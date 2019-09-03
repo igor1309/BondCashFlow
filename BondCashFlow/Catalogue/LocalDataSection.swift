@@ -10,6 +10,7 @@ import SwiftUI
 
 struct LocalDataSection: View {
     @EnvironmentObject var userData: UserData
+    @State private var showModal = false
     
     var body: some View {
         Section(header: Text("Локальная база".uppercased())
@@ -58,8 +59,18 @@ struct LocalDataSection: View {
             .foregroundColor(.secondary)
             .font(.footnote)
             
-            ShowEmissionListButton()
+            Button(action: {
+                self.showModal = true
+            }) {
+                Text("Показать выпуски")
+            }
         }
+            
+        .sheet(isPresented: $showModal,
+               content: {
+                EmissionList(local: true)
+                    .environmentObject(self.userData)
+        })
     }
 }
 

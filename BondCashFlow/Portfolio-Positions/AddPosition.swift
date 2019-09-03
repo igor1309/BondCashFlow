@@ -63,14 +63,14 @@ struct QtyTextField: View {
 struct PortfolioListButton: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
-    @State private var showwModal = false
+    @State private var showModal = false
     
     var body: some View {
         Button("Показать список портфелей") {
-            self.showwModal = true
+            self.showModal = true
         }
             
-        .sheet(isPresented: $showwModal, content: {
+        .sheet(isPresented: $showModal, content: {
             PortfolioList()
                 .environmentObject(self.userData)
         })
@@ -82,16 +82,16 @@ struct AddPortfolioButton: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     @Binding var portfolioName: String
-    @State private var showwModal = false
+    @State private var showModal = false
     
     var body: some View {
         Button(action: {
-            self.showwModal = true
+            self.showModal = true
         }){
             Text("Новый портфель")
         }
             
-        .sheet(isPresented: $showwModal, content: {
+        .sheet(isPresented: $showModal, content: {
             AddPortfolio(portfolioName: self.$portfolioName)
                 .environmentObject(self.userData)
         })
@@ -151,11 +151,11 @@ struct AddPosition: View {
         return true
     }
     
-    @State private var showwModal = false
+    @State private var showModal = false
     @State private var modal: ModalType = .portfolioList
     
     private enum ModalType {
-        case portfolioList, addPortfolio
+        case portfolioList, addPortfolio, emissionList
     }
     
     private func addPosition() {
@@ -178,17 +178,22 @@ struct AddPosition: View {
                 ){
                     Button(action: {
                         self.modal = .addPortfolio
-                        self.showwModal = true
+                        self.showModal = true
                     }){
                         Text("Новый портфель")
                     }
                     
                     Button("Показать список портфелей") {
                         self.modal = .portfolioList
-                        self.showwModal = true
+                        self.showModal = true
                     }
                     
-                    ShowEmissionListButton()
+                    Button(action: {
+                        self.modal = .emissionList
+                        self.showModal = true
+                    }) {
+                        Text("Показать выпуски")
+                    }
                 }
             }
                 
@@ -216,7 +221,7 @@ struct AddPosition: View {
             )
                 
                 
-                .sheet(isPresented: $showwModal, content: {
+                .sheet(isPresented: $showModal, content: {
                     if self.modal == .portfolioList {
                         PortfolioList()
                             .environmentObject(self.userData)
@@ -224,6 +229,11 @@ struct AddPosition: View {
                     
                     if self.modal == .addPortfolio {
                         AddPortfolio(portfolioName: self.$portfolioName)
+                            .environmentObject(self.userData)
+                    }
+                    
+                    if self.modal == .emissionList {
+                        EmissionList(local: true)
                             .environmentObject(self.userData)
                     }
                 })

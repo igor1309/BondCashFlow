@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
     var body: some View {
-        TabView(selection: $userData.lastTabUsed){
+        TabView(selection: $settings.lastTabUsed){
             
             NavigationView {
                 CFCalendar()
@@ -47,16 +47,16 @@ struct ContentView: View {
             }
             .tag(2)
             
-            NavigationView {
-                Settings()
-            }
-            .tabItem {
-                VStack {
-                    Image(systemName: "gear")
-                    Text("Настройки")
-                }
-            }
-            .tag(3)
+//            NavigationView {
+//                Settings()
+//            }
+//            .tabItem {
+//                VStack {
+//                    Image(systemName: "gear")
+//                    Text("Настройки")
+//                }
+//            }
+//            .tag(3)
         }
     }
 }

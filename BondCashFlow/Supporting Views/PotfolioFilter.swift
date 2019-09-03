@@ -11,6 +11,7 @@ import SwiftUI
 struct PotfolioFilter: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     @State private var showPortfolioList = false
     
     var body: some View {
@@ -18,14 +19,14 @@ struct PotfolioFilter: View {
             Form {
                 if userData.hasAtLeastTwoPortfolios {
                     Section(header: Text("Показывать позиции".uppercased())) {
-                        Toggle(isOn: $userData.isAllPortfoliosSelected) {
+                        Toggle(isOn: $settings.isAllPortfoliosSelected) {
                             Text("Во всех портфелях")
                         }
                     }
                     
-                    if !self.userData.isAllPortfoliosSelected {
+                    if !self.settings.isAllPortfoliosSelected {
                         Section(header: Text("Для портфеля".uppercased())) {
-                            Picker(selection: self.$userData.selectedPortfolio, label: Text("")//"Портфель")
+                            Picker(selection: self.$settings.selectedPortfolio, label: Text("")//"Портфель")
                             ){
                                 ForEach(userData.portfolioNames, id: \.self) { name in
                                     Text(name).tag(name)

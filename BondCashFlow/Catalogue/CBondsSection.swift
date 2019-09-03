@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CBondsSection: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     @State private var showModal = false
     
     var body: some View {
@@ -21,21 +22,18 @@ struct CBondsSection: View {
                 
                 Spacer()
                 
-                Text("\(userData.login):\(userData.password)")
+                Text("\(settings.login):\(settings.password)")
             }
             .foregroundColor(.accentColor)
             .onTapGesture {
                 self.showModal = true
             }
             
-            CbondOperationPicker(cbondOperation: $userData.lastCBondOperationUsed)
-            //                .environmentObject(self.userData)
+            CbondOperationPicker(cbondOperation: $settings.lastCBondOperationUsed)
             
-            CbondLimitPicker(cbondLimit: $userData.lastCBondLimitUsed)
-            //                .environmentObject(self.userData)
+            CbondLimitPicker(cbondLimit: $settings.lastCBondLimitUsed)
             
-            CbondOffsetPicker(cbondOffset: $userData.lastCBondOffsetUsed)
-            //                .environmentObject(self.userData)
+            CbondOffsetPicker(cbondOffset: $settings.lastCBondOffsetUsed)
             
             UpdateLocalDataSection()
         }

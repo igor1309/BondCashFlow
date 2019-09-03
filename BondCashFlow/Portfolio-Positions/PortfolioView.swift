@@ -11,6 +11,7 @@ import SwiftUI
 struct PortfolioView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
     @State private var showActions = false
     @State private var showModal = false
@@ -23,20 +24,20 @@ struct PortfolioView: View {
     var body: some View {
         VStack(alignment: .leading) {
             
-            Text(userData.isAllPortfoliosSelected ? "все портфели" : "Портфель " + userData.selectedPortfolio)
+            Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
                 .foregroundColor(.secondary)
                 .font(.caption)
                 .padding(.horizontal)
             
             List {
-                if userData.isAllPortfoliosSelected {
+                if settings.isAllPortfoliosSelected {
                     ForEach(userData.positions.sorted(by: {
                         ($0.portfolioName, $0.emissionID) < ($1.portfolioName, $1.emissionID) })
                     ){ position in
                         PositionRow(position: position)
                     }
                 } else {
-                    ForEach(userData.positions.filter({ $0.portfolioName == userData.selectedPortfolio }).sorted(by: { $0.emissionID < $1.emissionID })
+                    ForEach(userData.positions.filter({ $0.portfolioName == settings.selectedPortfolio }).sorted(by: { $0.emissionID < $1.emissionID })
                     ){ position in
                         PositionRow(position: position)
                         
@@ -53,7 +54,7 @@ struct PortfolioView: View {
                         self.showModal = true
                     }
                 }) {
-                    Image(systemName: userData.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
+                    Image(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
                         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 }
                 .disabled(!self.userData.hasAtLeastTwoPortfolios),
