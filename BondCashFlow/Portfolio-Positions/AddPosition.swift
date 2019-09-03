@@ -11,13 +11,18 @@ import SwiftUI
 struct PortfolioPicker: View {
     @EnvironmentObject var userData: UserData
     @Binding var selectedPortfolioName: String
+    var error: String
     
     var body: some View {
-        Picker(selection: $selectedPortfolioName,
-               label: Text("Портфель")
+        Section(header: Text("портфель".uppercased()),
+                footer: Text(error).foregroundColor(.systemRed)
         ){
-            ForEach(userData.portfolioNames, id: \.self) { name in
-                Text(name).tag(name)
+            Picker(selection: $selectedPortfolioName,
+                   label: Text("Портфель")
+            ){
+                ForEach(userData.portfolioNames, id: \.self) { name in
+                    Text(name).tag(name)
+                }
             }
         }
     }
@@ -26,15 +31,74 @@ struct PortfolioPicker: View {
 struct EmissionPicker: View {
     @EnvironmentObject var userData: UserData
     @Binding var emissionID: Int
+    var error: String
     
     var body: some View {
-        Picker("★", selection: $emissionID) {
-            ForEach(userData.emissions.filter({ (userData.favoriteEmissions[$0.id] ?? false) }), id: \.self) { emission in
-                Text(emission.documentRus).tag(emission.id)
+        Section(header: Text("Выпуск".uppercased()),
+                footer: Text(error).foregroundColor(.systemRed)
+        ){
+            Picker("★", selection: $emissionID) {
+                ForEach(userData.emissions.filter({ (userData.favoriteEmissions[$0.id] ?? false) }), id: \.self) { emission in
+                    Text(emission.documentRus).tag(emission.id)
+                }
             }
         }
     }
 }
+
+struct QtyTextField: View {
+    @Binding var qty: Int
+    var error: String
+    
+    var body: some View {
+        Section(header: Text("Количество".uppercased()),
+                footer: Text(error).foregroundColor(.systemRed)
+        ){
+            TextField("Штуки", value: $qty, formatter: NumberFormatter())
+                .keyboardType(.numberPad)
+        }
+    }
+}
+
+struct PortfolioListButton: View {
+    @Environment(\.presentationMode) var presentation
+    @EnvironmentObject var userData: UserData
+    @State private var showwModal = false
+    
+    var body: some View {
+        Button("Показать список портфелей") {
+            self.showwModal = true
+        }
+            
+        .sheet(isPresented: $showwModal, content: {
+            PortfolioList()
+                .environmentObject(self.userData)
+        })
+    }
+}
+
+
+struct AddPortfolioButton: View {
+    @Environment(\.presentationMode) var presentation
+    @EnvironmentObject var userData: UserData
+    @Binding var portfolioName: String
+    @State private var showwModal = false
+    
+    var body: some View {
+        Button(action: {
+            self.showwModal = true
+        }){
+            Text("Новый портфель")
+        }
+            
+        .sheet(isPresented: $showwModal, content: {
+            AddPortfolio(portfolioName: self.$portfolioName)
+                .environmentObject(self.userData)
+        })
+        
+    }
+}
+
 
 struct AddPosition: View {
     @EnvironmentObject var userData: UserData
@@ -53,19 +117,21 @@ struct AddPosition: View {
         //  MARK: TODO валидация должна происходить при выборе портфеля и эмиссии
         //             а не только при попытке сохраниться
         
-        //  MARK: position should be unique (portfolioName & emissionID)
-        if userData.positions.first(where: { $0.portfolioName == self.portfolioName && $0.emissionID == self.emissionID }) != nil {
-            self.emissionIDError = "Такая позиция уже есть в портфеле"
+        ///  MARK: position should be `unique` (portfolioName & emissionID)
+        let position = userData.positions.first(where: { $0.portfolioName == self.portfolioName && $0.emissionID == self.emissionID })
+        if position != nil {
+            self.emissionIDError = "Такая позиция уже есть в портфеле (\(position!.qty.formattedGrouped) шт)."
             return false
         }
         
         self.portfolioNameError = ""
         self.emissionIDError = ""
         self.qtyError = ""
-        //  MARK: position should be ok:
-        //          - portfolio selected
-        //          - emissionID selected
-        //          - qty > 0
+        
+        ///  MARK: position should be `ok`:
+        ///     - portfolio selected
+        ///     - emissionID selected
+        ///     - qty > 0
         
         guard portfolioName.isNotEmpty else {
             self.portfolioNameError = "Нужно выбрать портфель"
@@ -100,24 +166,13 @@ struct AddPosition: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("портфель".uppercased()),
-                        footer: Text(portfolioNameError).foregroundColor(.systemRed)
-                ){
-                    PortfolioPicker(selectedPortfolioName: $portfolioName)
-                }
-
-                Section(header: Text("Выпуск".uppercased()),
-                        footer: Text(emissionIDError).foregroundColor(.systemRed)
-                ){
-                    EmissionPicker(emissionID: $emissionID)
-                }
-
-                Section(header: Text("Количество".uppercased()),
-                        footer: Text(qtyError).foregroundColor(.systemRed)
-                ){
-                    TextField("Штуки", value: $qty, formatter: NumberFormatter())
-                        .keyboardType(.numberPad)
-                }
+                PortfolioPicker(selectedPortfolioName: $portfolioName,
+                                error: portfolioNameError)
+                
+                EmissionPicker(emissionID: $emissionID,
+                               error: emissionIDError)
+                
+                QtyTextField(qty: $qty, error: qtyError)
                 
                 Section(header: Text("Дополнительно".uppercased())
                 ){

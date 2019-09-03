@@ -8,30 +8,6 @@
 
 import SwiftUI
 
-/// Button with nice `padding` (EdgeInsets) for `trailing` location inside `navigationBarItems`.
-///
-/// It has presentation.wrappedValue.dismiss() action
-/// and  `extraClosure` closure to perform.
-///
-/// - Parameters:
-///     - name: name of the Button
-///     - extraClosure: closure to perform
-struct TrailingCloseButton: View {
-    @Environment(\.presentationMode) var presentation
-    var name: String
-    var extraClosure: () -> Void
-    
-    var body: some View {
-        Button(action: {
-            self.extraClosure()
-            self.presentation.wrappedValue.dismiss()
-        }) {
-            Text(name)
-                .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-        }
-    }
-}
-
 /**
 Button with nice `padding` (EdgeInsets) for `trailing` location inside `navigationBarItems`. It has a name and `closure` to perform.
 

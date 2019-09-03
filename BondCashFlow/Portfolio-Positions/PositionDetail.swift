@@ -54,7 +54,10 @@ struct PositionDetail: View {
                 
                 .navigationBarBackButtonHidden(true)
                 
-                .navigationBarItems(trailing: TrailingCloseButton(name: "Закрыть", extraClosure: {}))
+                .navigationBarItems(
+                    trailing: TrailingButton(name: "Закрыть") {
+                        self.presentation.wrappedValue.dismiss()
+                })
                 
                 .actionSheet(isPresented: $showAlert) { () -> ActionSheet in
                     ActionSheet(title: Text("Удалить позицию?"),

@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ShowEmissionListButton: View {
+    @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     @State private var showModal = false
     
