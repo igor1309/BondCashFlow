@@ -21,7 +21,11 @@ extension UpdateLocalDataSection {
         
         //  could handle just "get_flow" (потоки платежей) or "get_emissions" (параметры эмиссий)
         //  they're called Operations
-        //  other tyoes not supported
+        //  other types not supported
+        
+        
+        //  MARK: TODO: use hash to store password
+        //  MARK: TODO: prevent dismiss by swipe with empty fields
         if !(cbondOperation == "get_flow" || cbondOperation == "get_emissions") {
             print("incorrect cbond operation")
             throw CBondError.incorrectOperation

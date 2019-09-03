@@ -113,16 +113,16 @@ struct UpdateLocalDataSection: View {
                         buttons: [
                             .cancel(
                                 Text("Отмена")),
-                            .destructive(
-                                Text("TBD: Обновить всё сейчас"),
+                            .default(
+                                Text("Обновить всю базу сейчас"),
                                 action: { self.loadEverything() }),
                             .default(
-                                Text("Обновить \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки") сейчас"),
+                                Text("Обновить сейчас только \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки")"),
                                 action: { self.loadSelectedCBondOperation() }),
-                            .default(
+                            .destructive(
                                 Text("TDB: Избранные и в портфелях"),
                                 action: { self.loadSelects() }),
-                            .default(
+                            .destructive(
                                 Text("TBD: Всё, но позже"),
                                 action: { self.loadInBackground() })
             ])
@@ -130,9 +130,22 @@ struct UpdateLocalDataSection: View {
         
     }
     
-    //  MARK: - TODO
+    let group = DispatchGroup()
+
     private func loadEverything() {
         
+        self.isLoading = true
+        self.isFinished = false
+        
+        do {
+            try self.cbondSmartFetchBoth(login: self.login,
+                                     password: self.password,
+                                     filters: "",
+                                     limit: self.cbondLimit,
+                                     offset: self.cbondOffset)
+        } catch let error {
+            self.handleCBondError(error)
+        }
     }
     
     private func loadSelectedCBondOperation() {
