@@ -28,4 +28,13 @@ extension Result where Success == Data {
         let data = try get()
         return try decoder.decode(T.self, from: data)
     }
+
+    //  special decoder for cbonds.ru
+    func cbondDecoded<T: Decodable>(
+        using decoder: JSONDecoder = .init()
+    ) throws -> T {
+        decoder.dateDecodingStrategy = .formatted(.cbondDateFormatter)
+        let data = try get()
+        return try decoder.decode(T.self, from: data)
+    }
 }

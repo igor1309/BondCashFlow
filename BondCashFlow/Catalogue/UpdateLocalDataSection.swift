@@ -123,10 +123,10 @@ struct UpdateLocalDataSection: View {
                                 Text("Обновить \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки") сейчас"),
                                 action: { self.loadSelectedCBondOperation() }),
                             .default(
-                                Text("Избранные и в портфелях"),
+                                Text("TDB: Избранные и в портфелях"),
                                 action: { self.loadSelects() }),
                             .default(
-                                Text("Всё, но позже"),
+                                Text("TBD: Всё, но позже"),
                                 action: { self.loadInBackground() })
             ])
         })

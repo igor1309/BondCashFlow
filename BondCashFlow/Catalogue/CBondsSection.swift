@@ -9,12 +9,15 @@
 import SwiftUI
 
 struct CBondsSection: View {
+    @EnvironmentObject var userData: UserData
+    
     @State private var login: String = "test"
     @State private var password: String = "test"
     @State private var showModal = false
     
-    @State private var cbondOperation = "get_emissions"//"get_flow"  // get_emissions
-    @State private var cbondLimit = 10
+//    @State private var cbondOperation: String = userData.lastCBondOperationUsed // = "get_emissions"//"get_flow"  // get_emissions
+        
+//    @State private var cbondLimit = 100
     @State private var cbondOffset = 0
     
     var body: some View {
@@ -38,13 +41,13 @@ struct CBondsSection: View {
                 self.showModal = true
             }
             
-            CbondOperationPicker(cbondOperation: $cbondOperation)
+            CbondOperationPicker(cbondOperation: $userData.lastCBondOperationUsed)
             
-            CbondLimitPicker(cbondLimit: $cbondLimit)
+            CbondLimitPicker(cbondLimit: $userData.lastCBondLimitUsed)
             
             CbondOffsetPicker(cbondOffset: $cbondOffset)
             
-            UpdateLocalDataSection(login: login, password: password, cbondOperation: cbondOperation, cbondLimit: cbondLimit, cbondOffset: cbondOffset)
+            UpdateLocalDataSection(login: login, password: password, cbondOperation: userData.lastCBondOperationUsed, cbondLimit: userData.lastCBondLimitUsed, cbondOffset: cbondOffset)
         }
             
         .sheet(isPresented: $showModal,
@@ -64,6 +67,7 @@ struct CBondsSection_Previews: PreviewProvider {
         NavigationView {
             Form {
                 CBondsSection()
+                    .environmentObject(UserData())
             }
         }
     }

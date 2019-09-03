@@ -36,14 +36,12 @@ extension UpdateLocalDataSection {
                 
                 switch result {
                 case .success:
-                    let encoder = JSONEncoder()
-                    encoder.outputFormatting = .prettyPrinted
                     
                     //  parse fetched data according to request
                     
                     if cbondOperation == "get_emissions" {   //  get_emissions (параметры эмиссий)
                         do {
-                            let cbondGetEmission: CBondGetEmission = try result.decoded()
+                            let cbondGetEmission: CBondGetEmission = try result.cbondDecoded()
                             
                             //  MARK: Update UI from main thread!
                             DispatchQueue.main.async {
@@ -59,9 +57,7 @@ extension UpdateLocalDataSection {
                     
                     if cbondOperation == "get_flow" {    //  get_flow (потоки платежей)
                         do {
-                            print("попытка декодировать поток от сибондз…")
-                            let cbondGetFlow: CBondGetFlow = try result.decoded()
-                            print("поток от сибондз декодирован")
+                            let cbondGetFlow: CBondGetFlow = try result.cbondDecoded()
                             
                             //  MARK: Update UI from main thread!
                             DispatchQueue.main.async {

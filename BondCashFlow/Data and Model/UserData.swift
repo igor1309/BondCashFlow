@@ -26,10 +26,10 @@ final class UserData: ObservableObject {
     }
     
     @Published var emissions = emissionData {
-           didSet {
-               saveJSON(data: emissions, filename: "emissions.json")
-           }
-       }
+        didSet {
+            saveJSON(data: emissions, filename: "emissions.json")
+        }
+    }
     
     @Published var flows = cashFlowData {
         didSet {
@@ -73,6 +73,18 @@ final class UserData: ObservableObject {
     @Published var selectedPortfolio: String = UserDefaults.standard.string(forKey: "selectedPortfolio") ?? "" {
         didSet {
             defaults.set(selectedPortfolio, forKey: "selectedPortfolio")
+        }
+    }
+    
+    @Published var lastCBondOperationUsed: String = UserDefaults.standard.string(forKey: "lastCBondOperationUsed") ?? "" {
+        didSet {
+            defaults.set(lastCBondOperationUsed, forKey: "lastCBondOperationUsed")
+        }
+    }
+    
+    @Published var lastCBondLimitUsed: Int = UserDefaults.standard.integer(forKey: "lastCBondLimitUsed") {
+        didSet {
+            defaults.set(lastCBondLimitUsed, forKey: "lastCBondLimitUsed")
         }
     }
     

@@ -17,42 +17,42 @@ struct LocalDataSection: View {
         ){
             Group {
                 VStack(alignment: .leading, spacing: 3) {
-                    Text("В базе всего:")
+                    Text("В базе всего:").bold()
                     
                     VStack(alignment: .leading) {
-                        Text("Выпусков:" + userData.emissions.count.formattedGrouped)
+                        Text("Выпусков: " + userData.emissions.count.formattedGrouped)
                         Text("Эмитентов: " + userData.emissions.map({ $0.emitentID }).removingDuplicates().count.formattedGrouped)
                     }
                     .padding(.leading)
                 }
                 
                 VStack(alignment: .leading, spacing: 3) {
-                    if userData.emissionMetadata != nil {
-                        Text("Эмиссии:")
-                        
-                        VStack(alignment: .leading) {
-                            Text("Выпусков в локальной базе: " + (userData.emissionMetadata?.count.formattedGrouped)!)
-                            Text("(выпусков в базе cbonds.ru: " + (userData.emissionMetadata?.total.formattedGrouped)! + ")")
-                            Text("Дата обновления: " + (userData.emissionMetadata?.update.toString(format: "dd.MM.yyyy HH:ss"))!)
-                        }
-                        .padding(.leading)
-                    } else {
-                        Text("Информация по выпускам не обновлена")
-                    }
-                }
-                
-                VStack(alignment: .leading, spacing: 3) {
                     if userData.flowMetadata != nil {
-                        Text("Потоки:")
+                        Text("Потоки:").bold()
                         
                         VStack(alignment: .leading) {
+                            Text("Дата обновления: " + (userData.flowMetadata?.update.toString(format: "dd.MM.yyyy HH:mm"))!)
                             Text("Потоков в локальной базе: " + (userData.flowMetadata?.count.formattedGrouped)!)
                             Text("(потоков в базе cbonds.ru: " + (userData.flowMetadata?.total.formattedGrouped)! + ")")
-                            Text("Дата обновления: " + (userData.flowMetadata?.update.toString(format: "dd.MM.yyyy HH:ss"))!)
                         }
                         .padding(.leading)
                     } else {
                         Text("Информация по потокам не обновлена")
+                    }
+                }
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    if userData.emissionMetadata != nil {
+                        Text("Эмиссии:").bold()
+                        
+                        VStack(alignment: .leading) {
+                            Text("Дата обновления: " + (userData.emissionMetadata?.update.toString(format: "dd.MM.yyyy HH:mm"))!)
+                            Text("Выпусков в локальной базе: " + (userData.emissionMetadata?.count.formattedGrouped)!)
+                            Text("(выпусков в базе cbonds.ru: " + (userData.emissionMetadata?.total.formattedGrouped)! + ")")
+                        }
+                        .padding(.leading)
+                    } else {
+                        Text("Информация по выпускам не обновлена")
                     }
                 }
             }
