@@ -32,7 +32,7 @@ struct LocalDataSection: View {
                         
                         VStack(alignment: .leading) {
                             Text("Обновлены: " + (userData.flowMetadata?.update.toString(format: "dd.MM.yyyy"))! + " в " + (userData.flowMetadata?.update.toString(format: "HH:mm"))!)
-                            Text("Потоков в локальной базе: " + (userData.flowMetadata?.count.formattedGrouped)!)
+                            Text("В локальной базе: " + (userData.flowMetadata?.count.formattedGrouped)!)
                             Text("(в базе cbonds.ru: " + (userData.flowMetadata?.total.formattedGrouped)! + ")")
                         }
                         .padding(.leading)
@@ -47,7 +47,7 @@ struct LocalDataSection: View {
                         
                         VStack(alignment: .leading) {
                             Text("Обновлены: " + (userData.emissionMetadata?.update.toString(format: "dd.MM.yyyy"))! + " в " + (userData.emissionMetadata?.update.toString(format: "HH:mm"))!)
-                            Text("Выпусков в локальной базе: " + (userData.emissionMetadata?.count.formattedGrouped)!)
+                            Text("В локальной базе: " + (userData.emissionMetadata?.count.formattedGrouped)!)
                             Text("(в базе cbonds.ru: " + (userData.emissionMetadata?.total.formattedGrouped)! + ")")
                         }
                         .padding(.leading)
@@ -62,7 +62,7 @@ struct LocalDataSection: View {
             Button(action: {
                 self.showModal = true
             }) {
-                Text("Показать выпуски в локальной базе")
+                Text("Показать выпуски")
             }
         }
             

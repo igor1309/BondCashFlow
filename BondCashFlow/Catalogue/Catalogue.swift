@@ -10,20 +10,14 @@ import SwiftUI
 
 
 struct Catalogue: View {
-//    @Environment(\.presentationMode) var presentation
-//    @EnvironmentObject var userData: UserData
-    
     var body: some View {
         Form {
             LocalDataSection()
             
             CBondsSection()
-            
         }
         .navigationBarTitle("Справочники")
-        
     }
-    
 }
 
 struct Catalogue_Previews: PreviewProvider {
