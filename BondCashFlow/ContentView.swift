@@ -10,10 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var userData: UserData
-    @State private var selection = 2
     
     var body: some View {
-        TabView(selection: $selection){
+        TabView(selection: $userData.lastTabUsed){
             
             NavigationView {
                 CFCalendar()

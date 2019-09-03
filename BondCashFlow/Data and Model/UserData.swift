@@ -110,4 +110,10 @@ final class UserData: ObservableObject {
             defaults.set(password, forKey: "password")
         }
     }
+    
+    @Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {
+        didSet {
+            defaults.set(lastTabUsed, forKey: "lastTabUsed")
+        }
+    }
 }
