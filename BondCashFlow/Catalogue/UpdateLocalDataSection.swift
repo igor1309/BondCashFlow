@@ -11,22 +11,11 @@ import SwiftUI
 struct UpdateLocalDataSection: View {
     @EnvironmentObject var userData: UserData
     
-    //  MARK: - change to userdata, store if changed
-    //  MARK: use hash to store password
-    var login: String
-    var password: String
-    
-    //  MARK: - change to userdata, store if changed (UserDefaults)
-    var cbondOperation: String
-    var cbondLimit: Int
-    var cbondOffset: Int
-    
-    
+    //  MARK: TODO fix this: no more isins in positions
     var isinFilterString: String {
         
         return ""
         
-        //  MARK: TODO fix this: no more isins in positions
         //        let isins = userData.portfolios.flatMap{ $0.positions }.map{ $0.isin }.removingDuplicates()
         //        let isinsString = isins.reduce(""){ $0 + $1 + ", "}.dropLast(2)
         //
@@ -42,22 +31,20 @@ struct UpdateLocalDataSection: View {
     
     
     @State private var showConfirmation = false
-
+    
     //  MARK: Networking
     @State private var process = ""
     @State private var isLoading = false
     @State private var isFinished = false
     @State private var showAlert = false
     @State private var alertMessage = ""
-
+    
     func requestCompletedOK() {
         self.isLoading = false
-        self.process = "Загрузка завершена."
+        self.process = "Загрузка завершена, справочники обновлены."
         withAnimation(.easeInOut) {
             self.isFinished = true
         }
-        
-        //  MARK: TODO uodate emissions and flows in userData!!!!!
     }
     
     func handleCBondError(_ error: Error) {
@@ -69,7 +56,7 @@ struct UpdateLocalDataSection: View {
         self.showAlert = true
         self.process = "Ошибка получения данных CBond."
     }
-        
+    
     var body: some View {
         Group {
             if isFinished {
@@ -107,42 +94,39 @@ struct UpdateLocalDataSection: View {
                   dismissButton: .default(Text("OK"), action: {}))
         })
             
-        .actionSheet(isPresented: $showConfirmation, content: {
-            ActionSheet(title: Text("Обновить справочники"),
-                        message: Text("Полное обновление может занять время на получение данных и обработку."),
-                        buttons: [
-                            .cancel(
-                                Text("Отмена")),
-                            .default(
-                                Text("Обновить всю базу сейчас"),
-                                action: { self.loadEverything() }),
-                            .default(
-                                Text("Обновить сейчас только \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки")"),
-                                action: { self.loadSelectedCBondOperation() }),
-                            .destructive(
-                                Text("TDB: Избранные и в портфелях"),
-                                action: { self.loadSelects() }),
-                            .destructive(
-                                Text("TBD: Всё, но позже"),
-                                action: { self.loadInBackground() })
-            ])
-        })
+            .actionSheet(isPresented: $showConfirmation, content: {
+                ActionSheet(title: Text("Обновить справочники"),
+                            message: Text("Полное обновление может занять время на получение данных и обработку."),
+                            buttons: [
+                                .cancel(
+                                    Text("Отмена")),
+                                .default(
+                                    Text("Обновить всю базу сейчас"),
+                                    action: { self.loadEverything() }),
+                                .default(
+                                    Text("Обновить сейчас только \(self.userData.lastCBondOperationUsed == "get_emissions" ? "Эмиссии" : "Потоки")"),
+                                    action: { self.loadSelectedCBondOperation() }),
+                                .destructive(
+                                    Text("TBD: Всё, но позже"),
+                                    action: { self.loadInBackground() })
+                ])
+            })
         
     }
     
     let group = DispatchGroup()
-
+    
     private func loadEverything() {
         
         self.isLoading = true
         self.isFinished = false
         
         do {
-            try self.cbondSmartFetchBoth(login: self.login,
-                                     password: self.password,
-                                     filters: "",
-                                     limit: self.cbondLimit,
-                                     offset: self.cbondOffset)
+            try self.cbondSmartFetchBoth(login: self.userData.login,
+                                         password: self.userData.password,
+                                         filters: "",
+                                         limit: self.userData.lastCBondLimitUsed,
+                                         offset: self.userData.lastCBondOffsetUsed)
         } catch let error {
             self.handleCBondError(error)
         }
@@ -153,20 +137,15 @@ struct UpdateLocalDataSection: View {
         self.isFinished = false
         
         do {
-            try self.cbondSmartFetch(login: self.login,
-                                     password: self.password,
+            try self.cbondSmartFetch(login: self.userData.login,
+                                     password: self.userData.password,
                                      filters: "",
-                                     limit: self.cbondLimit,
-                                     offset: self.cbondOffset,
-                                     cbondOperation: self.cbondOperation)
+                                     limit: self.userData.lastCBondLimitUsed,
+                                     offset: self.userData.lastCBondOffsetUsed,
+                                     cbondOperation: self.userData.lastCBondOperationUsed)
         } catch let error {
             self.handleCBondError(error)
         }
-    }
-    
-    //  MARK: - TODO: filters!!!
-    private func loadSelects() {    //  Избранные и в портфелях
-        //  MARK: TODO
     }
     
     //  MARK: - TODO: do it: background operation
@@ -177,6 +156,6 @@ struct UpdateLocalDataSection: View {
 
 struct UpdateLocalDataSection_Previews: PreviewProvider {
     static var previews: some View {
-        UpdateLocalDataSection(login: "test", password: "test", cbondOperation: "get_emissions", cbondLimit: 50, cbondOffset: 0)
+        UpdateLocalDataSection()
     }
 }

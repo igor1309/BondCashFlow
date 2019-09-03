@@ -88,6 +88,12 @@ final class UserData: ObservableObject {
         }
     }
     
+    @Published var lastCBondOffsetUsed: Int = UserDefaults.standard.integer(forKey: "lastCBondOffsetUsed") {
+        didSet {
+            defaults.set(lastCBondOffsetUsed, forKey: "lastCBondOffsetUsed")
+        }
+    }
+    
     @Published var cashFlows = calendarCashFlowData
     
     @Published var baseDate = Date()

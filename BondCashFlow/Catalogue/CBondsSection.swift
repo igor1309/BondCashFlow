@@ -11,7 +11,6 @@ import SwiftUI
 struct CBondsSection: View {
     @EnvironmentObject var userData: UserData
     @State private var showModal = false
-    @State private var cbondOffset = 0
     
     var body: some View {
         Section(header: Text("Запросить cbonds.ru".uppercased()),
@@ -35,10 +34,10 @@ struct CBondsSection: View {
             CbondLimitPicker(cbondLimit: $userData.lastCBondLimitUsed)
             //                .environmentObject(self.userData)
             
-            CbondOffsetPicker(cbondOffset: $cbondOffset)
+            CbondOffsetPicker(cbondOffset: $userData.lastCBondOffsetUsed)
             //                .environmentObject(self.userData)
             
-            UpdateLocalDataSection(login: userData.login, password: userData.password, cbondOperation: userData.lastCBondOperationUsed, cbondLimit: userData.lastCBondLimitUsed, cbondOffset: cbondOffset)
+            UpdateLocalDataSection()
         }
             
         .sheet(isPresented: $showModal,
