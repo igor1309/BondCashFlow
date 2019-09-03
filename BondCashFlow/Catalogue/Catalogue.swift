@@ -10,11 +10,14 @@ import SwiftUI
 
 
 struct Catalogue: View {
+    @EnvironmentObject var userData: UserData
+    
     var body: some View {
         Form {
             LocalDataSection()
             
             CBondsSection()
+                .environmentObject(self.userData)
         }
         .navigationBarTitle("Справочники")
     }

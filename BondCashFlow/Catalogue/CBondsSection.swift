@@ -10,11 +10,7 @@ import SwiftUI
 
 struct CBondsSection: View {
     @EnvironmentObject var userData: UserData
-    
-    @State private var login: String = "test"
-    @State private var password: String = "test"
     @State private var showModal = false
-    
     @State private var cbondOffset = 0
     
     var body: some View {
@@ -22,39 +18,34 @@ struct CBondsSection: View {
                 footer: Text("Объем доступной информации cbonds.ru зависит от доступа (логин:пароль).\nTDB: Обновить можно все справочники или выбранные (Эмиссии или Потоки) или только изранные и по выпускам в портфелях.")
         ){
             HStack {
-                HStack {
-                    Text("Логин-пароль")
-                    
-                    // Image(systemName: "pencil.and.ellipsis.rectangle")
-                }
+                Text("Логин-пароль")
                 
                 Spacer()
                 
-                Text("\(login):\(password)")
+                Text("\(userData.login):\(userData.password)")
             }
             .foregroundColor(.accentColor)
             .onTapGesture {
-                //                self.modal = .credentials
                 self.showModal = true
             }
             
             CbondOperationPicker(cbondOperation: $userData.lastCBondOperationUsed)
+            //                .environmentObject(self.userData)
             
             CbondLimitPicker(cbondLimit: $userData.lastCBondLimitUsed)
+            //                .environmentObject(self.userData)
             
             CbondOffsetPicker(cbondOffset: $cbondOffset)
+            //                .environmentObject(self.userData)
             
-            UpdateLocalDataSection(login: login, password: password, cbondOperation: userData.lastCBondOperationUsed, cbondLimit: userData.lastCBondLimitUsed, cbondOffset: cbondOffset)
+            UpdateLocalDataSection(login: userData.login, password: userData.password, cbondOperation: userData.lastCBondOperationUsed, cbondLimit: userData.lastCBondLimitUsed, cbondOffset: cbondOffset)
         }
             
         .sheet(isPresented: $showModal,
-               
-               //  MARK: TODO: change to userdata
-            
-            //  MARK: TODO: use hash to store password
-            //  MARK: TODO: prevent dismiss by swipe with empty fields
-            content: {
-                CbondLogin(login: self.$login, password: self.$password)
+               content: {
+                CbondLogin()
+                    .environmentObject(self.userData)
+                
         })
     }
 }

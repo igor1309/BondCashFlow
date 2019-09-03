@@ -91,4 +91,17 @@ final class UserData: ObservableObject {
     @Published var cashFlows = calendarCashFlowData
     
     @Published var baseDate = Date()
+    
+    //  MARK: TODO: use hash to store password
+    @Published var login: String = UserDefaults.standard.string(forKey: "login") ?? "test" {
+        didSet {
+            defaults.set(login, forKey: "login")
+        }
+    }
+    
+    @Published var password: String = UserDefaults.standard.string(forKey: "password") ?? "test" {
+        didSet {
+            defaults.set(password, forKey: "password")
+        }
+    }
 }

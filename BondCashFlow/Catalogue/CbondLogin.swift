@@ -8,15 +8,18 @@
 
 import SwiftUI
 
+//  MARK: TODO: change to userdata
+
+//  MARK: TODO: use hash to store password
+//  MARK: TODO: prevent dismiss by swipe with empty fields
+
 struct CbondLogin: View {
     @Environment(\.presentationMode) var presentation
+    @EnvironmentObject var userData: UserData
     
-    @Binding var login: String
-    @Binding var password: String
     var footer: String {
-        (login.isNotEmpty && password.isNotEmpty) ? "" : "Логин-пароль не могут быть пустыми"
+        (userData.login.isNotEmpty && userData.password.isNotEmpty) ? "" : "Логин-пароль не могут быть пустыми"
     }
-    //  MARK: - TODO: prevent dismiss by swipe with empty fields
     
     var body: some View {
         NavigationView {
@@ -24,25 +27,25 @@ struct CbondLogin: View {
                 Section(header: Text("Логин-пароль к cbonds.ru".uppercased()),
                         footer: Text(footer).foregroundColor(.systemRed)
                 ){
-                    TextField("Логин", text: $login)
-                    TextField("Пароль", text: $password)
+                    TextField("Логин", text: $userData.login)
+                    TextField("Пароль", text: $userData.password)
                 }
                 
                 Section(header: Text("Доступ к cbonds.ru".uppercased())
                 ){
-                    if !(login == "test" && password == "test") {
+                    if !(userData.login == "test" && userData.password == "test") {
                         Button(action: {
-                            self.login = "test"
-                            self.password = "test"
+                            self.userData.login = "test"
+                            self.userData.password = "test"
                         }) {
                             Text("Тестовый доступ")
                         }
                     }
                     
-                    if !(login == "igor@rbiz.group" && password == "bonmaM-wojhed-fokza3") {
+                    if !(userData.login == "igor@rbiz.group" && userData.password == "bonmaM-wojhed-fokza3") {
                         Button(action: {
-                            self.login = "igor@rbiz.group"
-                            self.password = "bonmaM-wojhed-fokza3"
+                            self.userData.login = "igor@rbiz.group"
+                            self.userData.password = "bonmaM-wojhed-fokza3"
                             
                         }) {
                             Text("igor@rbiz.group")
@@ -66,7 +69,6 @@ struct CbondLogin: View {
 
 struct CbondLogin_Previews: PreviewProvider {
     static var previews: some View {
-        CbondLogin(login: .constant("test"),
-                   password: .constant("test"))
+        CbondLogin()
     }
 }
