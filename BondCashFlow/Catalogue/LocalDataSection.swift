@@ -16,45 +16,12 @@ struct LocalDataSection: View {
         Section(header: Text("Локальная база".uppercased())
         ){
             Group {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("В базе всего:").bold()
-                    
-                    VStack(alignment: .leading) {
-                        Text("Выпусков: " + userData.emissions.count.formattedGrouped)
-                        Text("Эмитентов: " + userData.emissions.map({ $0.emitentID }).removingDuplicates().count.formattedGrouped)
-                    }
-                    .padding(.leading)
-                }
+                LocalStoreInfo()
                 
-                VStack(alignment: .leading, spacing: 3) {
-                    if userData.flowMetadata != nil {
-                        Text("Потоки:").bold()
-                        
-                        VStack(alignment: .leading) {
-                            Text("Обновлены: " + (userData.flowMetadata?.update.toString(format: "dd.MM.yyyy"))! + " в " + (userData.flowMetadata?.update.toString(format: "HH:mm"))!)
-                            Text("В локальной базе: " + (userData.flowMetadata?.count.formattedGrouped)!)
-                            Text("(в базе cbonds.ru: " + (userData.flowMetadata?.total.formattedGrouped)! + ")")
-                        }
-                        .padding(.leading)
-                    } else {
-                        Text("Информация по потокам не обновлена")
-                    }
-                }
+                FlowsMetadata()
                 
-                VStack(alignment: .leading, spacing: 3) {
-                    if userData.emissionMetadata != nil {
-                        Text("Эмиссии:").bold()
-                        
-                        VStack(alignment: .leading) {
-                            Text("Обновлены: " + (userData.emissionMetadata?.update.toString(format: "dd.MM.yyyy"))! + " в " + (userData.emissionMetadata?.update.toString(format: "HH:mm"))!)
-                            Text("В локальной базе: " + (userData.emissionMetadata?.count.formattedGrouped)!)
-                            Text("(в базе cbonds.ru: " + (userData.emissionMetadata?.total.formattedGrouped)! + ")")
-                        }
-                        .padding(.leading)
-                    } else {
-                        Text("Информация по выпускам не обновлена")
-                    }
-                }
+                
+                EmissionsMetadata()
             }
             .foregroundColor(.secondary)
             .font(.footnote)
@@ -66,10 +33,9 @@ struct LocalDataSection: View {
             }
         }
             
-        .sheet(isPresented: $showModal,
-               content: {
-                EmissionList(local: true)
-                    .environmentObject(self.userData)
+        .sheet(isPresented: $showModal, content: {
+            EmissionList(local: true)
+                .environmentObject(self.userData)
         })
     }
 }

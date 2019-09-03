@@ -29,7 +29,7 @@ struct EmissionList: View {
     @State private var showFilter = false
     
     //  MARK: TODO доделать
-    //  MARK: TODO заменить на userData!!!!
+    //  MARK: TODO заменить на метаданные
     @State private var emissionsCount: Int = loadEmissionData().count
     @State private var emitemtsCount: Int = loadEmissionData().map({ $0.emitentID }).removingDuplicates().count
     
@@ -42,19 +42,19 @@ struct EmissionList: View {
                         .foregroundColor(.secondary)
                         .font(.caption)
                         .padding(.horizontal)
-
-                //  MARK: TODO доделать
-                Text("TBD: … выпуск/а/ов, … эмитент/а/ов")
-                    .foregroundColor(.systemTeal)
-                    //                Text("\(emissionsCount.formattedGrouped) выпуск/а/ов, \(emitemtsCount.formattedGrouped) эмитент/а/ов")
-                    //                    //  MARK: - одна из опций должна работать (не обрезать текст)
-                    //                    .lineLimit(nil)
-                    //                    .fixedSize(horizontal: false, vertical: true)
-                    //                    .foregroundColor(.secondary)
-                    .font(.caption)
-                    .padding(.horizontal)
+                    
+                    //  MARK: TODO доделать
+                    Text("TBD: … выпуск/а/ов, … эмитент/а/ов")
+                        .foregroundColor(.systemTeal)
+                        //                Text("\(emissionsCount.formattedGrouped) выпуск/а/ов, \(emitemtsCount.formattedGrouped) эмитент/а/ов")
+                        //                    //  MARK: - одна из опций должна работать (не обрезать текст)
+                        //                    .lineLimit(nil)
+                        //                    .fixedSize(horizontal: false, vertical: true)
+                        //                    .foregroundColor(.secondary)
+                        .font(.caption)
+                        .padding(.horizontal)
                 }
-
+                
                 List {
                     ForEach(userData.emissions.filter({
                         
@@ -95,15 +95,14 @@ struct EmissionList: View {
                     self.showFilter = true
                 }) {
                     Image(systemName: filterType == FilterType.all ? "line.horizontal.3.decrease.circle" : "line.horizontal.3.decrease.circle.fill")
-//                        .imageScale(.large)
+                    //                        .imageScale(.large)
                 },
                 
-                trailing: Button(action: {
+                
+                trailing: TrailingButton(name: "Закрыть", closure: {
                     self.presentation.wrappedValue.dismiss()
-                }) {
-                    Text("Закрыть")
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-            })
+                })
+            )
                 
                 //  по свайпу закрывания модала работает
                 //  фильт меняется и didSet происходит
@@ -112,8 +111,7 @@ struct EmissionList: View {
                 //  либо баг либо нет
                 //  решения пока не видно
                 .sheet(isPresented: $showFilter,
-                       onDismiss: {
-                },
+                       onDismiss: {  },
                        content: { EmitentFilter(filterType: self.$filterType,
                                                 filter: self.$filter)
                         .environmentObject(self.userData)

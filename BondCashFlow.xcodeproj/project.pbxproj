@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2A2EE062231C139700AAD7E2 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2EE061231C139700AAD7E2 /* Position.swift */; };
 		2A3F5736231F255E00BC3767 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F5735231F255E00BC3767 /* SettingsStore.swift */; };
+		2A3F5738231F2A9A00BC3767 /* LocalDataSubSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F5737231F2A9A00BC3767 /* LocalDataSubSections.swift */; };
 		2A40574F231F051B00B5FA63 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A40574E231F051B00B5FA63 /* Buttons.swift */; };
 		2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A783052231C43CC0047BDB6 /* PortfolioList.swift */; };
 		2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2B2319A100005756BB /* AppDelegate.swift */; };
@@ -108,6 +109,7 @@
 /* Begin PBXFileReference section */
 		2A2EE061231C139700AAD7E2 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		2A3F5735231F255E00BC3767 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		2A3F5737231F2A9A00BC3767 /* LocalDataSubSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataSubSections.swift; sourceTree = "<group>"; };
 		2A40574E231F051B00B5FA63 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		2A783052231C43CC0047BDB6 /* PortfolioList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioList.swift; sourceTree = "<group>"; };
 		2A8B7F282319A100005756BB /* BondCashFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BondCashFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -235,6 +237,7 @@
 			children = (
 				2A8B7F832319A1DF005756BB /* Catalogue.swift */,
 				2ABA2A92231D9F3400FDB14F /* LocalDataSection.swift */,
+				2A3F5737231F2A9A00BC3767 /* LocalDataSubSections.swift */,
 				2ABA2A90231D9CC600FDB14F /* CBondsSection.swift */,
 				2ABA2A94231DA19E00FDB14F /* UpdateLocalDataSection.swift */,
 				2ABA2A8E231D9BD400FDB14F /* AdditionalPickers.swift */,
@@ -594,6 +597,7 @@
 				2ABA2A93231D9F3400FDB14F /* LocalDataSection.swift in Sources */,
 				2A8B7FCC2319A1FF005756BB /* TimelineGraphForRow.swift in Sources */,
 				2A8B7F962319A1DF005756BB /* PortfolioView.swift in Sources */,
+				2A3F5738231F2A9A00BC3767 /* LocalDataSubSections.swift in Sources */,
 				2ABA2A91231D9CC600FDB14F /* CBondsSection.swift in Sources */,
 				2A40574F231F051B00B5FA63 /* Buttons.swift in Sources */,
 				2A8B7F6B2319A1C7005756BB /* CBondFlow.swift in Sources */,
