@@ -1,5 +1,5 @@
 //
-//  EmissionStructure.swift
+//  Emission.swift
 //  BondsCashFlow
 //
 //  Created by Igor Malyarov on 25.08.2019.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct EmissionStructure: Codable, Hashable {
+struct Emission: Codable, Hashable {
     let id: Int // Уникальный идентификатор long
     let isinCode: String // Код ISIN Varchar
     let emitentNameRus: String // Эмитент (rus) Varchar

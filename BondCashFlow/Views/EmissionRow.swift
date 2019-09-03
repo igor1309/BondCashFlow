@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EmissionSubRow: View {
     @EnvironmentObject var userData: UserData
-    var emission: EmissionStructure
+    var emission: Emission
     var bigStar: Bool = false
     
     var body: some View {
@@ -57,7 +57,7 @@ struct EmissionSubRow: View {
 struct EmissionRow: View {
     @EnvironmentObject var userData: UserData
     
-    var emission: EmissionStructure
+    var emission: Emission
     @State private var showDetail = false
     
     var body: some View {
@@ -77,7 +77,7 @@ struct EmissionRow: View {
 
 struct EmissionRow_Previews: PreviewProvider {
     static var previews: some View {
-        EmissionRow(emission: EmissionStructure())
+        EmissionRow(emission: Emission())
             .environmentObject(UserData())
             .previewLayout(.sizeThatFits)
     }

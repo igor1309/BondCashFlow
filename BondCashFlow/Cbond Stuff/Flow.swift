@@ -1,5 +1,5 @@
 //
-//  CashFlowStructure.swift
+//  Flow.swift
 //  BondsCashFlow
 //
 //  Created by Igor Malyarov on 25.08.2019.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CashFlowStructure: Codable, Hashable {
+struct Flow: Codable, Hashable {
     /// Основные поля: Денежный поток - get_flow
     let id: Int // Уникальный идентификатор long
     let emissionID: Int // Эмиссия (id) long

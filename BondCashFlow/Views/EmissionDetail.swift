@@ -12,13 +12,13 @@ struct EmissionDetail: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     
-    var emission: EmissionStructure
+    var emission: Emission
     
-    var flows: [CashFlowStructure] {
+    var flows: [Flow] {
         userData.flows.filter({ $0.emissionID == emission.id }).sorted(by: { $0.couponNum < $1.couponNum })
     }
     
-    //    var flows: [CashFlowStructure] {
+    //    var flows: [Flow] {
     //        loadCashFlowListData().filter({ $0.emissionID == emission.id })
     //    }
     
@@ -30,7 +30,7 @@ struct EmissionDetail: View {
     }
     
     var isFav: Bool
-    init(emission: EmissionStructure, isFav: Bool) {
+    init(emission: Emission, isFav: Bool) {
         self.emission = emission
         self.isFav = isFav
         self._isFavorite = State(initialValue: isFav)
@@ -89,7 +89,7 @@ struct EmissionDetail: View {
 
 struct EmissionDetail_Previews: PreviewProvider {
     static var previews: some View {
-        EmissionDetail(emission: EmissionStructure(),
+        EmissionDetail(emission: Emission(),
                        isFav: true)
             .environmentObject(UserData())
     }

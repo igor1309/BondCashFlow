@@ -1,5 +1,5 @@
 //
-//  CashFlow.swift
+//  CalendarCashFlow.swift
 //  BondCashFlow
 //
 //  Created by Igor Malyarov on 22.07.2019.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CashFlow: Identifiable, Codable, Hashable {
+struct CalendarCashFlow: Identifiable, Codable, Hashable {
     var id = UUID()
     
     var date: Date

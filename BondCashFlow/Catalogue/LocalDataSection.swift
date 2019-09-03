@@ -13,16 +13,51 @@ struct LocalDataSection: View {
     @State private var showModal = false
     
     var body: some View {
-        //  MARK: TODO: нужна дополнительная инфлрмация по базе (обновления и прочее)
-        //  метаданные!
         Section(header: Text("Локальная база".uppercased())
         ){
-            Text("В базе всего: \(userData.emissions.count.formattedGrouped) выпусков, \(userData.emissions.map({ $0.emitentID }).removingDuplicates().count.formattedGrouped) эмитентов.")
-                //  MARK: - одна из опций должна работать - не обрезать текст
-                .lineLimit(nil)
-                .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(.secondary)
-                .font(.subheadline)
+            Group {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("В базе всего:")
+                    
+                    VStack(alignment: .leading) {
+                        Text("Выпусков:" + userData.emissions.count.formattedGrouped)
+                        Text("Эмитентов: " + userData.emissions.map({ $0.emitentID }).removingDuplicates().count.formattedGrouped)
+                    }
+                    .padding(.leading)
+                }
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    if userData.cbondEmissionMetadata != nil {
+                        Text("Эмиссии:")
+                        
+                        VStack(alignment: .leading) {
+                            Text("Выпусков в локальной базе: " + (userData.cbondEmissionMetadata?.count.formattedGrouped)!)
+                            Text("(выпусков в базе cbonds.ru: " + (userData.cbondEmissionMetadata?.total.formattedGrouped)! + ")")
+                            Text("Дата обновления: " + (userData.cbondEmissionMetadata?.update.toString(format: "dd.MM.yyyy HH:ss"))!)
+                        }
+                        .padding(.leading)
+                    } else {
+                        Text("Информация по выпускам не обновлена")
+                    }
+                }
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    if userData.cbondFlowMetadata != nil {
+                        Text("Потоки:")
+                        
+                        VStack(alignment: .leading) {
+                            Text("Потоков в локальной базе: " + (userData.cbondFlowMetadata?.count.formattedGrouped)!)
+                            Text("(потоков в базе cbonds.ru: " + (userData.cbondFlowMetadata?.total.formattedGrouped)! + ")")
+                            Text("Дата обновления: " + (userData.cbondFlowMetadata?.update.toString(format: "dd.MM.yyyy HH:ss"))!)
+                        }
+                        .padding(.leading)
+                    } else {
+                        Text("Информация по потокам не обновлена")
+                    }
+                }
+            }
+            .foregroundColor(.secondary)
+            .font(.footnote)
             
             Button(action: {
                 self.showModal = true

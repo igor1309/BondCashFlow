@@ -67,14 +67,14 @@ let positionData = loadPositionData()
 
 let emissionData = loadEmissionData()
 
-func loadEmissionData() -> [EmissionStructure] {
-    guard let data: [EmissionStructure] = loadFromDocDir("emissions.json") else {
+func loadEmissionData() -> [Emission] {
+    guard let data: [Emission] = loadFromDocDir("emissions.json") else {
         return []
     }
     
     return data
 }
-func loadEmissionDataOLD() -> [EmissionStructure] {
+func loadEmissionDataOLD() -> [Emission] {
     let decoder = JSONDecoder()
     let filenameURL = URL(fileURLWithPath: "emissions",
                           relativeTo: FileManager.documentDirectoryURL)
@@ -82,7 +82,7 @@ func loadEmissionDataOLD() -> [EmissionStructure] {
     
     do {
         let data = try Data(contentsOf: filenameURL)
-        return try decoder.decode([EmissionStructure].self, from: data)
+        return try decoder.decode([Emission].self, from: data)
     }
     catch let error {
         print("Error: \(error.localizedDescription)")
@@ -92,14 +92,14 @@ func loadEmissionDataOLD() -> [EmissionStructure] {
 
 let cashFlowData = loadCashFlowData()
 
-func loadCashFlowData() -> [CashFlowStructure] {
-    guard let data: [CashFlowStructure] = loadFromDocDir("flow.json") else {
+func loadCashFlowData() -> [Flow] {
+    guard let data: [Flow] = loadFromDocDir("flow.json") else {
         return []
     }
     
     return data
 }
-func loadCashFlowDataOLD() -> [CashFlowStructure] {
+func loadCashFlowDataOLD() -> [Flow] {
     let decoder = JSONDecoder()
     let filenameURL = URL(fileURLWithPath: "flow",
                           relativeTo: FileManager.documentDirectoryURL)
@@ -107,7 +107,7 @@ func loadCashFlowDataOLD() -> [CashFlowStructure] {
     
     do {
         let data = try Data(contentsOf: filenameURL)
-        return try decoder.decode([CashFlowStructure].self, from: data)
+        return try decoder.decode([Flow].self, from: data)
     }
     catch let error {
         print("Error: \(error.localizedDescription)")
@@ -131,21 +131,18 @@ func loadPositionData() -> [Position] {
 
 let calendarCashFlowData = loadCalendarCashFlowData()
 
-func loadCalendarCashFlowData() -> [CashFlow] {
+func loadCalendarCashFlowData() -> [CalendarCashFlow] {
     return [
-        CashFlow(date: Date().firstDayOfWeekRU.addDays(0), amount: 100000, instrument: "Мастер", type: .coupon),
-        CashFlow(date: Date().firstDayOfWeekRU.addDays(2), amount: 10000, instrument: "Ломбард", type: .face),
-        
-        CashFlow(date: Date().addWeeks(1).firstDayOfWeekRU.addDays(3), amount: 200000, instrument: "Ломбард", type: .coupon),
-        
-        CashFlow(date: Date().addWeeks(2).firstDayOfWeekRU.addDays(2), amount: 200000, instrument: "Мастер", type: .face),
-        CashFlow(date: Date().addWeeks(2).firstDayOfWeekRU.addDays(3), amount: 100000, instrument: "Мастер", type: .coupon),
-        
-        CashFlow(date: Date().addWeeks(3).firstDayOfWeekRU.addDays(1), amount: 10000, instrument: "Ломбард", type: .face),
-        CashFlow(date: Date().addWeeks(5).firstDayOfWeekRU.addDays(3), amount: 200000, instrument: "Ломбард", type: .coupon),
-        CashFlow(date: Date().addWeeks(8).firstDayOfWeekRU.addDays(3), amount: 200000, instrument: "Ломбард", type: .face),
-        CashFlow(date: Date().addWeeks(15).firstDayOfWeekRU.addDays(4), amount: 200000, instrument: "Мастер", type: .coupon),
-        CashFlow(date: Date().addWeeks(19).firstDayOfWeekRU.addDays(0), amount: 200000, instrument: "Мастер", type: .coupon),
-        CashFlow(date: Date().addWeeks(26).firstDayOfWeekRU.addDays(1), amount: 200000, instrument: "Ломбард", type: .coupon)
+        CalendarCashFlow(date: Date().firstDayOfWeekRU.addDays(0), amount: 100000, instrument: "Мастер", type: .coupon),
+        CalendarCashFlow(date: Date().firstDayOfWeekRU.addDays(2), amount: 10000, instrument: "Ломбард", type: .face),
+        CalendarCashFlow(date: Date().addWeeks(1).firstDayOfWeekRU.addDays(3), amount: 200000, instrument: "Ломбард", type: .coupon),
+        CalendarCashFlow(date: Date().addWeeks(2).firstDayOfWeekRU.addDays(2), amount: 200000, instrument: "Мастер", type: .face),
+        CalendarCashFlow(date: Date().addWeeks(2).firstDayOfWeekRU.addDays(3), amount: 100000, instrument: "Мастер", type: .coupon),
+        CalendarCashFlow(date: Date().addWeeks(3).firstDayOfWeekRU.addDays(1), amount: 10000, instrument: "Ломбард", type: .face),
+        CalendarCashFlow(date: Date().addWeeks(5).firstDayOfWeekRU.addDays(3), amount: 200000, instrument: "Ломбард", type: .coupon),
+        CalendarCashFlow(date: Date().addWeeks(8).firstDayOfWeekRU.addDays(3), amount: 200000, instrument: "Ломбард", type: .face),
+        CalendarCashFlow(date: Date().addWeeks(15).firstDayOfWeekRU.addDays(4), amount: 200000, instrument: "Мастер", type: .coupon),
+        CalendarCashFlow(date: Date().addWeeks(19).firstDayOfWeekRU.addDays(0), amount: 200000, instrument: "Мастер", type: .coupon),
+        CalendarCashFlow(date: Date().addWeeks(26).firstDayOfWeekRU.addDays(1), amount: 200000, instrument: "Ломбард", type: .coupon)
     ]
 }

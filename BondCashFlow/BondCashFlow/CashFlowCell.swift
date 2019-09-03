@@ -14,7 +14,7 @@ struct CashFlowCell: View {
     
     var start: Date
     var end: Date
-    var cashFlow: CashFlow
+    var cashFlow: CalendarCashFlow
     
     @State private var showDetail = false
     
@@ -73,7 +73,7 @@ struct CashFlowCell: View {
 #if DEBUG
 struct CashFlowCell_Previews: PreviewProvider {
     static var previews: some View {
-        CashFlowCell(hasData: .constant(true), start: Date(), end: Date().addWeeks(20), cashFlow: CashFlow(date: Date().addingTimeInterval(4000000), amount: 100000, instrument: "Мастер", type: .coupon))
+        CashFlowCell(hasData: .constant(true), start: Date(), end: Date().addWeeks(20), cashFlow: CalendarCashFlow(date: Date().addingTimeInterval(4000000), amount: 100000, instrument: "Мастер", type: .coupon))
             
             .previewLayout(.sizeThatFits)
 //            .environmentObject(UserData())

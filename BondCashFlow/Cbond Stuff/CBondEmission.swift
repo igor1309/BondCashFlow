@@ -11,12 +11,14 @@ import Foundation
 // MARK: - CBondEmissionMetadata
 public struct CBondEmissionMetadata: Codable {
     public let count, total, limit, offset: Int
+    public let update: Date
     
     public init(from cbond: CBondGetEmission) {
         self.count = cbond.count
         self.total = cbond.total
         self.limit = cbond.limit
         self.offset = cbond.offset
+        self.update = Date()
     }
 }
 

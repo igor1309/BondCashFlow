@@ -23,10 +23,10 @@
 		2A8B7F6A2319A1C7005756BB /* CBondEmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F632319A1C7005756BB /* CBondEmission.swift */; };
 		2A8B7F6B2319A1C7005756BB /* CBondFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F642319A1C7005756BB /* CBondFlow.swift */; };
 		2A8B7F6C2319A1C7005756BB /* CBondMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F652319A1C7005756BB /* CBondMeta.swift */; };
-		2A8B7F6D2319A1C7005756BB /* CashFlowStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F662319A1C7005756BB /* CashFlowStructure.swift */; };
+		2A8B7F6D2319A1C7005756BB /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F662319A1C7005756BB /* Flow.swift */; };
 		2A8B7F6E2319A1C7005756BB /* Extension+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F672319A1C7005756BB /* Extension+DateFormatter.swift */; };
 		2A8B7F6F2319A1C7005756BB /* cbondFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F682319A1C7005756BB /* cbondFetch.swift */; };
-		2A8B7F702319A1C7005756BB /* EmissionStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F692319A1C7005756BB /* EmissionStructure.swift */; };
+		2A8B7F702319A1C7005756BB /* Emission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F692319A1C7005756BB /* Emission.swift */; };
 		2A8B7F742319A1D7005756BB /* readCbondJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F722319A1D7005756BB /* readCbondJSON.swift */; };
 		2A8B7F752319A1D7005756BB /* WorkWithJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F732319A1D7005756BB /* WorkWithJSON.swift */; };
 		2A8B7F872319A1DF005756BB /* EmissionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F772319A1DF005756BB /* EmissionList.swift */; };
@@ -62,7 +62,7 @@
 		2A8B7FC22319A1FF005756BB /* CashFlowGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB12319A1FF005756BB /* CashFlowGridItem.swift */; };
 		2A8B7FC32319A1FF005756BB /* GridColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB22319A1FF005756BB /* GridColumn.swift */; };
 		2A8B7FC42319A1FF005756BB /* CashFlowTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB32319A1FF005756BB /* CashFlowTimeline.swift */; };
-		2A8B7FC52319A1FF005756BB /* CashFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB42319A1FF005756BB /* CashFlow.swift */; };
+		2A8B7FC52319A1FF005756BB /* CalendarCashFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB42319A1FF005756BB /* CalendarCashFlow.swift */; };
 		2A8B7FC62319A1FF005756BB /* CashFlowRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB52319A1FF005756BB /* CashFlowRow.swift */; };
 		2A8B7FC72319A1FF005756BB /* CashFlowGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB62319A1FF005756BB /* CashFlowGrid.swift */; };
 		2A8B7FC82319A1FF005756BB /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FB72319A1FF005756BB /* TimelineView.swift */; };
@@ -126,10 +126,10 @@
 		2A8B7F632319A1C7005756BB /* CBondEmission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBondEmission.swift; sourceTree = "<group>"; };
 		2A8B7F642319A1C7005756BB /* CBondFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBondFlow.swift; sourceTree = "<group>"; };
 		2A8B7F652319A1C7005756BB /* CBondMeta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBondMeta.swift; sourceTree = "<group>"; };
-		2A8B7F662319A1C7005756BB /* CashFlowStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashFlowStructure.swift; sourceTree = "<group>"; };
+		2A8B7F662319A1C7005756BB /* Flow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
 		2A8B7F672319A1C7005756BB /* Extension+DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+DateFormatter.swift"; sourceTree = "<group>"; };
 		2A8B7F682319A1C7005756BB /* cbondFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cbondFetch.swift; sourceTree = "<group>"; };
-		2A8B7F692319A1C7005756BB /* EmissionStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmissionStructure.swift; sourceTree = "<group>"; };
+		2A8B7F692319A1C7005756BB /* Emission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emission.swift; sourceTree = "<group>"; };
 		2A8B7F722319A1D7005756BB /* readCbondJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = readCbondJSON.swift; sourceTree = "<group>"; };
 		2A8B7F732319A1D7005756BB /* WorkWithJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkWithJSON.swift; sourceTree = "<group>"; };
 		2A8B7F772319A1DF005756BB /* EmissionList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmissionList.swift; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 		2A8B7FB12319A1FF005756BB /* CashFlowGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashFlowGridItem.swift; sourceTree = "<group>"; };
 		2A8B7FB22319A1FF005756BB /* GridColumn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridColumn.swift; sourceTree = "<group>"; };
 		2A8B7FB32319A1FF005756BB /* CashFlowTimeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashFlowTimeline.swift; sourceTree = "<group>"; };
-		2A8B7FB42319A1FF005756BB /* CashFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashFlow.swift; sourceTree = "<group>"; };
+		2A8B7FB42319A1FF005756BB /* CalendarCashFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCashFlow.swift; sourceTree = "<group>"; };
 		2A8B7FB52319A1FF005756BB /* CashFlowRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashFlowRow.swift; sourceTree = "<group>"; };
 		2A8B7FB62319A1FF005756BB /* CashFlowGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashFlowGrid.swift; sourceTree = "<group>"; };
 		2A8B7FB72319A1FF005756BB /* TimelineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
@@ -345,11 +345,11 @@
 				2A8B7F632319A1C7005756BB /* CBondEmission.swift */,
 				2A8B7F642319A1C7005756BB /* CBondFlow.swift */,
 				2A8B7F652319A1C7005756BB /* CBondMeta.swift */,
-				2A8B7F662319A1C7005756BB /* CashFlowStructure.swift */,
+				2A8B7F692319A1C7005756BB /* Emission.swift */,
+				2A8B7F662319A1C7005756BB /* Flow.swift */,
 				2A8B7F672319A1C7005756BB /* Extension+DateFormatter.swift */,
 				2A8B7F682319A1C7005756BB /* cbondFetch.swift */,
 				2ABA2A96231DB7B700FDB14F /* cbondRequest.swift */,
-				2A8B7F692319A1C7005756BB /* EmissionStructure.swift */,
 			);
 			path = "Cbond Stuff";
 			sourceTree = "<group>";
@@ -414,7 +414,7 @@
 				2A8B7FB12319A1FF005756BB /* CashFlowGridItem.swift */,
 				2A8B7FB22319A1FF005756BB /* GridColumn.swift */,
 				2A8B7FB32319A1FF005756BB /* CashFlowTimeline.swift */,
-				2A8B7FB42319A1FF005756BB /* CashFlow.swift */,
+				2A8B7FB42319A1FF005756BB /* CalendarCashFlow.swift */,
 				2A8B7FB52319A1FF005756BB /* CashFlowRow.swift */,
 				2A8B7FB62319A1FF005756BB /* CashFlowGrid.swift */,
 				2A8B7FB72319A1FF005756BB /* TimelineView.swift */,
@@ -579,9 +579,9 @@
 				2A8B7FA72319A1F6005756BB /* Format+Extensions.swift in Sources */,
 				2A8B7FC62319A1FF005756BB /* CashFlowRow.swift in Sources */,
 				2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */,
-				2A8B7FC52319A1FF005756BB /* CashFlow.swift in Sources */,
+				2A8B7FC52319A1FF005756BB /* CalendarCashFlow.swift in Sources */,
 				2A8B7F872319A1DF005756BB /* EmissionList.swift in Sources */,
-				2A8B7F702319A1C7005756BB /* EmissionStructure.swift in Sources */,
+				2A8B7F702319A1C7005756BB /* Emission.swift in Sources */,
 				2A8B7FD62319A206005756BB /* CalendarCashFlowDetail.swift in Sources */,
 				2A8B7F922319A1DF005756BB /* EmissionRow.swift in Sources */,
 				2A8B7FC12319A1FF005756BB /* CashFlowType.swift in Sources */,
@@ -612,7 +612,7 @@
 				2ABA2A99231DB92900FDB14F /* URLSession+Extension.swift in Sources */,
 				2A2EE062231C139700AAD7E2 /* Position.swift in Sources */,
 				2A8B7F912319A1DF005756BB /* CFCalendar.swift in Sources */,
-				2A8B7F6D2319A1C7005756BB /* CashFlowStructure.swift in Sources */,
+				2A8B7F6D2319A1C7005756BB /* Flow.swift in Sources */,
 				2AA4821D231D409000E7823F /* RotatingActivityIndicator.swift in Sources */,
 				2A8B7FC32319A1FF005756BB /* GridColumn.swift in Sources */,
 				2A8B7F952319A1DF005756BB /* AddPortfolio.swift in Sources */,

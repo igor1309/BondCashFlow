@@ -14,7 +14,7 @@ struct PositionDetail: View {
     @State private var showAlert = false
     
     var position: Position
-    var emission: EmissionStructure?
+    var emission: Emission?
     
     func deletePosition() {
         if let positionIndex =

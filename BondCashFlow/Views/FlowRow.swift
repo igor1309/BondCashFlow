@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FlowRow: View {
-    var flow: CashFlowStructure
+    var flow: Flow
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,10 +38,10 @@ struct FlowRow_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             List {
-                FlowRow(flow: CashFlowStructure())
-                FlowRow(flow: CashFlowStructure())
-                FlowRow(flow: CashFlowStructure())
-                FlowRow(flow: CashFlowStructure())
+                FlowRow(flow: Flow())
+                FlowRow(flow: Flow())
+                FlowRow(flow: Flow())
+                FlowRow(flow: Flow())
             }
         .navigationBarTitle("Купоны")
         }

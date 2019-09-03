@@ -13,7 +13,7 @@ struct PositionRow: View {
     
     var position: Position
     
-    var emission: EmissionStructure? {
+    var emission: Emission? {
         userData.emissions.first(where: { $0.id == position.emissionID })
     }
     
