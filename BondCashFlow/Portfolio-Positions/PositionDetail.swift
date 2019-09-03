@@ -54,12 +54,7 @@ struct PositionDetail: View {
                 
                 .navigationBarBackButtonHidden(true)
                 
-                .navigationBarItems(trailing: Button(action: {
-                    self.presentation.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "xmark.circle")
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-                })
+                .navigationBarItems(trailing: TrailingCloseButton(name: "Закрыть", extraClosure: {}))
                 
                 .actionSheet(isPresented: $showAlert) { () -> ActionSheet in
                     ActionSheet(title: Text("Удалить позицию?"),

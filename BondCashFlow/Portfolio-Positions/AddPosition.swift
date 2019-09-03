@@ -132,6 +132,8 @@ struct AddPosition: View {
                         self.modal = .portfolioList
                         self.showwModal = true
                     }
+                    
+                    ShowEmissionListButton()
                 }
             }
                 
