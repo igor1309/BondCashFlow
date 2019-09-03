@@ -15,20 +15,17 @@ struct CBondsSection: View {
     @State private var password: String = "test"
     @State private var showModal = false
     
-//    @State private var cbondOperation: String = userData.lastCBondOperationUsed // = "get_emissions"//"get_flow"  // get_emissions
-        
-//    @State private var cbondLimit = 100
     @State private var cbondOffset = 0
     
     var body: some View {
-        Section(header: Text("cbonds.ru".uppercased()),
-                footer: Text("Можно обновить все справочники или выбранные (Эмиссии или Потоки) или только по выпускам в портфелях.")
+        Section(header: Text("Запросить cbonds.ru".uppercased()),
+                footer: Text("Объем доступной информации cbonds.ru зависит от доступа (логин:пароль).\nTDB: Обновить можно все справочники или выбранные (Эмиссии или Потоки) или только изранные и по выпускам в портфелях.")
         ){
             HStack {
                 HStack {
                     Text("Логин-пароль")
                     
-                    //                        Image(systemName: "pencil.and.ellipsis.rectangle")
+                    // Image(systemName: "pencil.and.ellipsis.rectangle")
                 }
                 
                 Spacer()

@@ -116,10 +116,7 @@ struct UpdateLocalDataSection: View {
                             .destructive(
                                 Text("TBD: Обновить всё сейчас"),
                                 action: { self.loadEverything() }),
-                            .destructive(
-                                Text("NEW Обновить \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки") сейчас"),
-                                action: { self.loadEverything() }),
-                            .destructive(
+                            .default(
                                 Text("Обновить \(self.cbondOperation == "get_emissions" ? "Эмиссии" : "Потоки") сейчас"),
                                 action: { self.loadSelectedCBondOperation() }),
                             .default(
@@ -135,6 +132,10 @@ struct UpdateLocalDataSection: View {
     
     //  MARK: - TODO
     private func loadEverything() {
+        
+    }
+    
+    private func loadSelectedCBondOperation() {
         self.isLoading = true
         self.isFinished = false
         
@@ -145,25 +146,6 @@ struct UpdateLocalDataSection: View {
                                      limit: self.cbondLimit,
                                      offset: self.cbondOffset,
                                      cbondOperation: self.cbondOperation)
-        } catch let error {
-            self.handleCBondError(error)
-        }
-        
-    }
-    
-    private func loadSelectedCBondOperation() {
-        //  MARK: - TODO:
-        self.isLoading = true
-        self.isFinished = false
-        
-        do {
-            //self.isinFilterString,
-            try self.cbondFetch(login: self.login,
-                                password: self.password,
-                                filters: "",
-                                limit: self.cbondLimit,
-                                offset: self.cbondOffset,
-                                cbondOperation: self.cbondOperation)
         } catch let error {
             self.handleCBondError(error)
         }
