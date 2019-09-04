@@ -21,7 +21,7 @@ extension View {
     /// - Parameter borderColor: color of the border
     /// - Parameter width: border witdth
     /// - Parameter cornerRadius: corner radius
-    public func cardStyle(borderColor: Color = .systemGray5, width: CGFloat = 1, cornerRadius: CGFloat = 16) -> some View {
+    public func cardStyle(borderColor: Color = .systemGray3, width: CGFloat = 1, cornerRadius: CGFloat = 16) -> some View {
         return padding().overlay(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous).strokeBorder(borderColor))
         
     }

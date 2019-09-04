@@ -27,7 +27,6 @@ struct PositionRowInDetail: View {
 struct PositionDetail: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
-    @State private var showFlows = false
     @State private var showAlert = false
     
     var position: Position
@@ -44,29 +43,18 @@ struct PositionDetail: View {
         NavigationView {
             Form {
                 
-                Section(header: Text("………".uppercased())) {
-                    PositionRowInDetail(title: "Выпуск", detail: emission?.documentRus ?? "#n/a")
+                Section(footer: Text("Редактирование позиции (количество облигаций) будет сделано в следующей версии. В этой придется сначала удалить позицию и потом завести заново.")) {
+                    Text(emission?.documentRus ?? "#n/a")
                     
                     PositionRowInDetail(title: "emissionID", detail: String(position.emissionID))
                         .foregroundColor(.secondary)
                     
-                    PositionRowInDetail(title: "Количество", detail: position.qty.formattedGrouped)
-                    
                     PositionRowInDetail(title: "Портфель", detail: position.portfolioName)
-                }
-                
-                Section(header: Text("Количество".uppercased())
-                ){
-                    Text(position.qty.formattedGrouped)
-                }
-                
-                Section(footer: Text(emission == nil ? "Этого выпуска нет в базе" : "")) {
-                    Button(action: {
-                        self.showFlows = true
-                    }) {
-                        Text("Потоки по выпуску")
-                    }
-                    .disabled(emission == nil)
+                    
+                    //  MARK: TODO: make qty editable
+                    //  using QtyTextField(qty: T##Binding<Int>, error: T##String)
+                    PositionRowInDetail(title: "Количество", detail: position.qty.formattedGrouped)
+                        .foregroundColor(Color.systemOrange)
                 }
                 
                 Section {
@@ -74,6 +62,15 @@ struct PositionDetail: View {
                         self.showAlert = true
                     }) {
                         Text("Удалить позицию").foregroundColor(.systemRed)
+                    }
+                }
+                
+                if emission != nil {
+                    Section(header: Text("Потоки".uppercased())) {
+                        FlowsList(flows: userData.flows
+                            .filter({ $0.emissionID == emission!.id })
+                            .sorted(by: { $0.couponNum < $1.couponNum }), qty: self.position.qty
+                        )
                     }
                 }
             }
@@ -99,11 +96,6 @@ struct PositionDetail: View {
                                                     self.presentation.wrappedValue.dismiss()
                                     })
                     ])
-            }
-            
-            .sheet(isPresented: $showFlows) {
-                EmissionDetail2(emission: self.emission!)
-                    .environmentObject(self.userData)
             }
         }
     }
