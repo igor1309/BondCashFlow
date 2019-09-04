@@ -22,14 +22,17 @@ struct FlowRow2: View {
                 Text((Double(qty) * flow.cuponSum).formattedGrouped) // (Double(qty) * flow).cuponSum.formattedGrouped
             }
             
-            HStack {
-                Text("Купон №" + flow.couponNum.formattedGrouped)
+            Group {
+                HStack {
+                    Text("Купон №" + flow.couponNum.formattedGrouped)
+                    
+                    Spacer()
+                    
+                    Text("Сумма: " + flow.cuponSum.formattedGrouped)
+                    
+                }
+                
                 Text("Ставка купона: " + flow.cuponRate.formattedPercentageWithDecimals)
-                
-                Spacer()
-                
-                Text("Сумма: " + flow.cuponSum.formattedGrouped)
-                
             }
             .font(.footnote)
             .foregroundColor(.secondary)

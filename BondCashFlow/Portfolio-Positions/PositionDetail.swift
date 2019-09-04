@@ -43,7 +43,7 @@ struct PositionDetail: View {
         NavigationView {
             Form {
                 
-                Section(footer: Text("Редактирование позиции (количество облигаций) будет сделано в следующей версии. В этой придется сначала удалить позицию и потом завести заново.")) {
+                Section(footer: Text("Редактирование позиции (количество облигаций) будет сделано в следующей версии. В этой версии нужно сначала удалить позицию и потом завести новую с нужным количеством.").foregroundColor(.systemTeal)) {
                     Text(emission?.documentRus ?? "#n/a")
                     
                     PositionRowInDetail(title: "emissionID", detail: String(position.emissionID))

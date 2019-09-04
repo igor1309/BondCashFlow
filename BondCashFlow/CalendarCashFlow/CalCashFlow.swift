@@ -31,3 +31,25 @@ enum CalendarCashFlowType: String {
     case principal = "Номинал"
     case coupon = "Купон"
 }
+
+///
+///
+///
+
+struct CashFlow: Identifiable {
+    var id = UUID()
+    
+    var date: Date
+    var portfolioName: String
+    var emissionID: Int
+    var amount: Int
+    var type: CashFlowType
+    
+    init(date: Date, portfolioName: String, emissionID: Int, amount: Int, type: CashFlowType) {
+        self.date = date
+        self.portfolioName = portfolioName
+        self.emissionID = emissionID
+        self.amount = amount
+        self.type = type
+    }
+}

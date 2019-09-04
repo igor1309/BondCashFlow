@@ -73,7 +73,7 @@ struct CashFlowCell: View {
 #if DEBUG
 struct CashFlowCell_Previews: PreviewProvider {
     static var previews: some View {
-        CashFlowCell(hasData: .constant(true), start: Date(), end: Date().addWeeks(20), cashFlow: CalendarCashFlow(date: Date().addingTimeInterval(4000000), amount: 100000, instrument: "Мастер", type: .coupon))
+        CashFlowCell(hasData: .constant(true), start: Date(), end: Date().addWeeks(20), cashFlow: CalendarCashFlow(date: Date().addingTimeInterval(4000000), portfolioName: "Bumblebee", emitent: "Ломбард", instrument: "Мастер", amount: 100000, type: .coupon))
             
             .previewLayout(.sizeThatFits)
 //            .environmentObject(UserData())
