@@ -66,4 +66,7 @@ final class SettingsStore: ObservableObject {
             defaults.set(lastCBondOffsetUsed, forKey: "lastCBondOffsetUsed")
         }
     }
+    
+    @Published var weeksToShowInCalendar = 52
+    
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CashFlowView: View {
-    @EnvironmentObject private var userData: UserData
+    @EnvironmentObject var userData: UserData
     
     var body: some View {
         
@@ -31,6 +31,15 @@ struct CashFlowView: View {
                 .padding(.vertical, 4)
             
             CashFlowList()
+                //  MARK: old edition:
+                // ScrollView(.vertical, showsIndicators: false) {
+                //     VStack(alignment: .leading, spacing: 0) {
+                //         ForEach(0 ..< 52) { weekNo in
+                //             CashFlowRow(weekNo: weekNo)
+                //                 .environmentObject(self.userData)
+                //         }
+                //     }
+                // }
                 .padding(.horizontal)
         }
     }
@@ -41,6 +50,9 @@ struct CashFlowView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             CashFlowView()
+                
+                .navigationBarTitle("Потоки")
+            
         }
         .environmentObject(UserData())
         .preferredColorScheme(.dark)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension CalendarCashFlowDetail {
+extension CFCalendar {
     func createCashFlow() -> [CalendarCashFlow] {
         print("\n\(self.userData.flows.count) - total # of flows in database")
         /// get a slice of `emissions` for those in `positions` only

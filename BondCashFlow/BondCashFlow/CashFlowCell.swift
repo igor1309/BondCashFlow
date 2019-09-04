@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct CashFlowCell: View {
-//    @EnvironmentObject private var userData: UserData
-    @Binding var hasData: Bool
+    @EnvironmentObject var userData: UserData
+    var hasData: Bool
     
     var start: Date
     var end: Date
@@ -59,13 +59,15 @@ struct CashFlowCell: View {
                 .padding(.vertical, 4)
         }
         .padding(.bottom, 6)
-        
+            
         .onTapGesture {
             self.showDetail = true
         }
-        
+            
         .sheet(isPresented: $showDetail) {
-            CalendarCashFlowDetail(ccf: ccf2.filter { $0.date >= self.start && $0.date <= self.end })
+            //  MARK: TODO это неправильный вызов, сделан чтобы компилировалось!!! нужно исправлять!!!
+            CalendarCashFlowDetail(ccf: [self.cashFlow])
+                .environmentObject(self.userData)
         }
     }
 }
@@ -73,11 +75,15 @@ struct CashFlowCell: View {
 #if DEBUG
 struct CashFlowCell_Previews: PreviewProvider {
     static var previews: some View {
-        CashFlowCell(hasData: .constant(true), start: Date(), end: Date().addWeeks(20), cashFlow: CalendarCashFlow(date: Date().addingTimeInterval(4000000), portfolioName: "Bumblebee", emitent: "Ломбард", instrument: "Мастер", amount: 100000, type: .coupon))
+        NavigationView {
+            VStack {
+                CashFlowCell(hasData: true, start: Date(), end: Date().addWeeks(20), cashFlow: CalendarCashFlow(date: Date().addingTimeInterval(4000000), portfolioName: "Bumblebee", emitent: "Ломбард", instrument: "Мастер", amount: 100000, type: .coupon))
+            }
+        }
             
-            .previewLayout(.sizeThatFits)
-//            .environmentObject(UserData())
-            .environment(\.sizeCategory, .extraLarge)
+        .previewLayout(.sizeThatFits)
+        .environmentObject(UserData())
+        .environment(\.sizeCategory, .extraLarge)
     }
 }
 #endif

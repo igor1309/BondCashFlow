@@ -31,7 +31,7 @@ struct PortfolioView: View {
     @State private var modal: Modal = .filter
     
     private enum Modal {
-        case filter, addPortfolio, addPosition, addIssue
+        case filter, addPortfolio, addPosition, addIssue, allFlows
     }
     
     var body: some View {
@@ -62,31 +62,32 @@ struct PortfolioView: View {
         .navigationBarTitle("Позиции")
             
         .navigationBarItems(
-            leading: Button(action: {
-                if self.userData.hasAtLeastTwoPortfolios {
-                    self.modal = .filter
+            leading: HStack {
+                LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                    if self.userData.hasAtLeastTwoPortfolios {
+                        self.modal = .filter
+                        self.showModal = true
+                    }
+                }
+                .disabled(!self.userData.hasAtLeastTwoPortfolios)
+                
+                LeadingButtonSFSymbol(systemName: "rectangle.stack") {
+                    self.modal = .allFlows
                     self.showModal = true
                 }
-            }) {
-                Image(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
-                    .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
-            }
-            .disabled(!self.userData.hasAtLeastTwoPortfolios),
+                .foregroundColor(.secondary)
+
+            },
             
             trailing: HStack {
-                Button(action: {
+                TrailingButtonSFSymbol(systemName: "plus.square.on.square") {
                     self.showActions = true
-                }) {
-                    Image(systemName: "plus.square.on.square")
-                        .foregroundColor(.secondary)
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
                 }
-                Button(action: {
+                .foregroundColor(.secondary)
+                
+                TrailingButtonSFSymbol(systemName: "plus") {
                     self.modal = .addPosition
                     self.showModal = true
-                }) {
-                    Image(systemName: "plus")
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
                 }
         })
             
@@ -126,6 +127,11 @@ struct PortfolioView: View {
                 
                 if self.modal == .addIssue {
                     AddIssue()
+                        .environmentObject(self.userData)
+                }
+                
+                if self.modal == .allFlows {
+                    ShowAllFlowsPastAndFuture()
                         .environmentObject(self.userData)
                 }
                 

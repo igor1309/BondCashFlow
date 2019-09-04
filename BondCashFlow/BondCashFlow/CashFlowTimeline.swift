@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CashFlowTimeline: View {
-    @EnvironmentObject private var userData: UserData
+    @EnvironmentObject var userData: UserData
     
     var body: some View {
         NavigationView {

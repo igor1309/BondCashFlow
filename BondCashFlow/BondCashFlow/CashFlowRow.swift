@@ -8,8 +8,56 @@
 
 import SwiftUI
 
+struct CashFlowRow2: View {
+    @EnvironmentObject var userData: UserData
+    var weekNo: Int
+    var flows: [CalendarCashFlow]
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 8) {
+            
+            //  MARK:- ПРОБЛЕМА: при изменении baseDate ZStack с боковой полосой с пустыми или заполненными точками НЕ ПЕРЕРИСОВЫВАЕТСЯ!!
+            TimelineGraphForRow(hasData: flows.count > 0)
+            
+            VStack(alignment: .leading, spacing: 1) {
+                
+                HStack(alignment: .center) {
+                    Text(self.userData.baseDate.addWeeks(weekNo).firstDayOfWeekRU.toString())
+                        .font(.caption)
+                        .foregroundColor(.systemOrange)
+                        .fontWeight(flows.count > 0 ? .light : .ultraLight)
+
+                    Spacer()
+
+                    if flows.count > 0 {
+                        //  MARK:- TODO: finish this: map, reduce
+                        //  сумма за неделю
+                        Text(flows.reduce(0, { $0 + $1.amount }).formattedGrouped)
+                            .font(.headline)
+                            .foregroundColor(.systemOrange)
+                            .fontWeight(.light)
+                    }
+                }
+                
+                VStack {
+                    ForEach(flows, id: \.self) { flow in
+
+                        CashFlowCell(hasData: self.flows.count > 0,
+                                     start: self.userData.baseDate.addWeeks(self.weekNo).firstDayOfWeekRU,
+                                     end: self.userData.baseDate.addWeeks(self.weekNo + 1).firstDayOfWeekRU,
+                                     cashFlow: flow)
+                            .environmentObject(self.userData)
+                    }
+                }
+            }
+        }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+
 struct CashFlowRow: View {
-    @EnvironmentObject private var userData: UserData
+    @EnvironmentObject var userData: UserData
     @State private var hasData = false
     
     var weekNo: Int
@@ -41,18 +89,20 @@ struct CashFlowRow: View {
                 }
                 
                 VStack {
-                    ForEach(self.userData.cashFlows) { cashFlow in
+                    ForEach(self.userData.cashFlows
                         
-                        if (self.userData.baseDate.addWeeks(self.weekNo).firstDayOfWeekRU <= cashFlow.date)
-                            && (cashFlow.date <= self.userData.baseDate.addWeeks(self.weekNo + 1).firstDayOfWeekRU)
-                        {
-                            CashFlowCell(hasData: self.$hasData,
-                                         start: self.userData.baseDate.addWeeks(self.weekNo).firstDayOfWeekRU,
-                                         end: self.userData.baseDate.addWeeks(self.weekNo + 1).firstDayOfWeekRU,
-                                         cashFlow: cashFlow)
-                                //  .environmentObject(self.userData)
-                                .onAppear(perform: { self.hasData = true })
-                        }
+                    ) { cashFlow in
+                        
+                        //                        if (self.userData.baseDate.addWeeks(self.weekNo).firstDayOfWeekRU <= cashFlow.date)
+                        //                            && (cashFlow.date <= self.userData.baseDate.addWeeks(self.weekNo + 1).firstDayOfWeekRU)
+                        //                        {
+                        CashFlowCell(hasData: self.hasData,
+                                     start: self.userData.baseDate.addWeeks(self.weekNo).firstDayOfWeekRU,
+                                     end: self.userData.baseDate.addWeeks(self.weekNo + 1).firstDayOfWeekRU,
+                                     cashFlow: cashFlow)
+                            .environmentObject(self.userData)
+                            .onAppear(perform: { self.hasData = true })
+                        //                        }
                     }
                 }
             }

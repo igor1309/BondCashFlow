@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CashFlowGridColumn: View {
-    @EnvironmentObject private var userData: UserData
+    @EnvironmentObject var userData: UserData
 //    @Binding var baseDate: Date
     @Binding var activeWeek: Int
     

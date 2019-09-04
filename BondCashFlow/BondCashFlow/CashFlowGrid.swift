@@ -12,7 +12,8 @@ struct CashFlowGrid: View {
     
     //  MARK: - TODO filter by selected portfolio
     
-    @EnvironmentObject private var userData: UserData
+    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
 //    @Binding var baseDate: Date
     @State var activeWeek = 0
     
@@ -22,7 +23,7 @@ struct CashFlowGrid: View {
         HStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 3) {
-                    ForEach(0..<52) { item in
+                    ForEach(0..<settings.weeksToShowInCalendar) { item in
                         CashFlowGridColumn(activeWeek: self.$activeWeek, weekNo: item, date: self.date)
 //                            .environmentObject(self.userData)
                     }
@@ -44,6 +45,7 @@ struct CashFlowGrid_Previews: PreviewProvider {
                 .preferredColorScheme(.dark)
         }
         .environmentObject(UserData())
+        .environmentObject(SettingsStore())
     }
 }
 #endif

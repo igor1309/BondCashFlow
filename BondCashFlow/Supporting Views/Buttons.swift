@@ -50,3 +50,38 @@ struct LeadingButton: View {
         }
     }
 }
+
+
+
+
+struct TrailingButtonSFSymbol: View {
+    @Environment(\.presentationMode) var presentation
+    var systemName: String
+    var closure: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            self.closure()
+        }) {
+            Image(systemName: systemName)
+                .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+        }
+    }
+}
+
+
+struct LeadingButtonSFSymbol: View {
+    @Environment(\.presentationMode) var presentation
+    var systemName: String
+    var closure: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            self.closure()
+        }) {
+            Image(systemName: systemName)
+                .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
+        }
+    }
+}
+
