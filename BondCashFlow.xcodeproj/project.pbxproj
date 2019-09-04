@@ -81,7 +81,6 @@
 		2A8B7FD42319A206005756BB /* CalCashFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FCF2319A206005756BB /* CalCashFlow.swift */; };
 		2A8B7FD52319A206005756BB /* CalendarCFRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FD02319A206005756BB /* CalendarCFRow.swift */; };
 		2A8B7FD62319A206005756BB /* CalendarCashFlowDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FD12319A206005756BB /* CalendarCashFlowDetail.swift */; };
-		2A8B7FD72319A206005756BB /* CalendarCashFlowRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FD22319A206005756BB /* CalendarCashFlowRow.swift */; };
 		2A8B7FD82319A206005756BB /* ccf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FD32319A206005756BB /* ccf.swift */; };
 		2AA4821D231D409000E7823F /* RotatingActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4821C231D409000E7823F /* RotatingActivityIndicator.swift */; };
 		2ABA2A8F231D9BD400FDB14F /* AdditionalPickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A8E231D9BD400FDB14F /* AdditionalPickers.swift */; };
@@ -191,7 +190,6 @@
 		2A8B7FCF2319A206005756BB /* CalCashFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalCashFlow.swift; sourceTree = "<group>"; };
 		2A8B7FD02319A206005756BB /* CalendarCFRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCFRow.swift; sourceTree = "<group>"; };
 		2A8B7FD12319A206005756BB /* CalendarCashFlowDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCashFlowDetail.swift; sourceTree = "<group>"; };
-		2A8B7FD22319A206005756BB /* CalendarCashFlowRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCashFlowRow.swift; sourceTree = "<group>"; };
 		2A8B7FD32319A206005756BB /* ccf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccf.swift; sourceTree = "<group>"; };
 		2AA4821C231D409000E7823F /* RotatingActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingActivityIndicator.swift; sourceTree = "<group>"; };
 		2ABA2A8E231D9BD400FDB14F /* AdditionalPickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalPickers.swift; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 			children = (
 				2A8B7FCF2319A206005756BB /* CalCashFlow.swift */,
 				2A8B7FD12319A206005756BB /* CalendarCashFlowDetail.swift */,
-				2A8B7FD22319A206005756BB /* CalendarCashFlowRow.swift */,
 				2A8B7FD02319A206005756BB /* CalendarCFRow.swift */,
 				2A3F57422320012D00BC3767 /* createCashFlow.swift */,
 				2A8B7FD32319A206005756BB /* ccf.swift */,
@@ -668,7 +665,6 @@
 				2A8B7FC42319A1FF005756BB /* CashFlowTimeline.swift in Sources */,
 				2A8B7FCA2319A1FF005756BB /* CashFlowList.swift in Sources */,
 				2ABA2A95231DA19E00FDB14F /* UpdateLocalDataSection.swift in Sources */,
-				2A8B7FD72319A206005756BB /* CalendarCashFlowRow.swift in Sources */,
 				2A8B7FC82319A1FF005756BB /* TimelineView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

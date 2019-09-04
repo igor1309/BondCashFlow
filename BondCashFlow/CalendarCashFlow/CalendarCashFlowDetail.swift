@@ -9,34 +9,39 @@
 import SwiftUI
 
 struct CalendarCashFlowDetail: View {
+    @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
-    var ccf: CalCashFlow
+//    var ccf: CalCashFlow
+    var ccf: [CalendarCashFlow]
     
     var body: some View {
         NavigationView {
             
             VStack(alignment: .leading, spacing: 8) {
                 
-                CalendarCashFlowDetailHeader(date: ccf.date, total: ccf.total)
+                CalendarCashFlowDetailHeader(date: ccf.map({ $0.date }).min() ?? .distantPast,
+                                             total: ccf.reduce(0, { $0 + $1.amount }))
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     
-                    ForEach(ccf.flows.map({ $0.portfolioName }).removingDuplicates(), id:\.self) { portfolioName in
+                    ForEach(ccf.map({ $0.portfolioName }).removingDuplicates(), id:\.self) { portfolioName in
                         
                         VStack(alignment: .leading, spacing: 12) {
                             
                             CalendarCashFlowDetailPortfolioName(name: portfolioName)
                             
-                            ForEach(self.ccf.flows.filter({ $0.portfolioName == portfolioName })) { item in
-                                CalendarCashFlowRow(documentRus: item.documentRus,
-                                                    amount: item.amount,
-                                                    flowType: item.flowType)
+                            ForEach(self.ccf.filter({ $0.portfolioName == portfolioName })) { flow in
+                                CalendarCFRow(title: flow.emitent,
+                                              subtitle: flow.instrument,
+                                              detail: flow.amount.formattedGrouped,
+                                              subdetail: flow.type.rawValue)
                             }
                             
                             CalendarCashFlowDetailPortfolioTotal(
-                                principal: self.ccf.flows.filter({ $0.portfolioName == portfolioName && $0.flowType == .principal }).reduce(0, { $0 + $1.amount }),
-                                coupon: self.ccf.flows.filter({ $0.portfolioName == portfolioName && $0.flowType == .coupon }).reduce(0, { $0 + $1.amount }),
-                                amount: self.ccf.flows.filter({ $0.portfolioName == portfolioName }).reduce(0, { $0 + $1.amount })
+                                face: self.ccf.filter({ $0.portfolioName == portfolioName && $0.type == .face }).reduce(0, { $0 + $1.amount }),
+                                coupon: self.ccf.filter({ $0.portfolioName == portfolioName && $0.type == .coupon }).reduce(0, { $0 + $1.amount }),
+                                amount: self.ccf.filter({ $0.portfolioName == portfolioName }).reduce(0, { $0 + $1.amount }
+                                )
                             )
                         }
                     }
@@ -85,22 +90,26 @@ struct CalendarCashFlowDetailPortfolioName: View {
     var name: String
     
     var body: some View {
-        Text(name)
-            .font(.largeTitle)
-            .fontWeight(.light)
-            .foregroundColor(.systemOrange)
-            .padding(.vertical)    }
+        HStack {
+            Text(name)
+                .font(.largeTitle)
+                .fontWeight(.light)
+                .foregroundColor(.systemOrange)
+                .padding(.vertical)
+            Spacer()
+        }
+    }
 }
 
 struct CalendarCashFlowDetailPortfolioTotal: View {
-    var principal: Int
+    var face: Int
     var coupon: Int
     var amount: Int
     
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("Н: " + principal.formattedGrouped)
+                Text("Н: " + face.formattedGrouped)
                 Text("К: " + coupon.formattedGrouped)
             }
             .font(.caption)
@@ -119,18 +128,19 @@ struct CalendarCashFlowDetailPortfolioTotal: View {
 struct CalendarCashFlowDetail_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CalendarCashFlowDetail(ccf: ccf)
+            CalendarCashFlowDetail(ccf: ccf2)
                 .environment(\.colorScheme, .dark)
             
-            CalendarCashFlowDetail(ccf: ccf)
+            CalendarCashFlowDetail(ccf: ccf2)
                 .environment(\.sizeCategory, .extraLarge)
             
             CalendarCashFlowDetailHeader(date: Date().addWeeks(2), total: 98765432)
             
             CalendarCashFlowDetailPortfolioName(name: "Optimus Prime")
             
-            CalendarCashFlowDetailPortfolioTotal(principal: 1_000_000, coupon: 200_000, amount: 1_200_000)
+            CalendarCashFlowDetailPortfolioTotal(face: 1_000_000, coupon: 200_000, amount: 1_200_000)
         }
         .previewLayout(.sizeThatFits)
+        .environmentObject(UserData())
     }
 }

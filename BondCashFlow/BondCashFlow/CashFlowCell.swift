@@ -65,7 +65,7 @@ struct CashFlowCell: View {
         }
         
         .sheet(isPresented: $showDetail) {
-            CalendarCashFlowDetail(ccf: ccf)
+            CalendarCashFlowDetail(ccf: ccf2.filter { $0.date >= self.start && $0.date <= self.end })
         }
     }
 }

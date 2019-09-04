@@ -8,8 +8,8 @@
 
 import Foundation
 
-extension CFCalendar {
-    private func createCashFlow() -> [CalendarCashFlow] {
+extension CalendarCashFlowDetail {
+    func createCashFlow() -> [CalendarCashFlow] {
         print("\n\(self.userData.flows.count) - total # of flows in database")
         /// get a slice of `emissions` for those in `positions` only
         let flowsForEmissionsInPortfolio = self.userData.flows.filter {

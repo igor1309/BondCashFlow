@@ -24,3 +24,17 @@ let ccf = CalCashFlow(date: Date().addWeeks(5),
     CalCashFlowItem(portfolioName: "Megatron", documentRus: "Маджонг, БО-П02", amount: 50_000, flowType: .coupon),
     CalCashFlowItem(portfolioName: "Megatron", documentRus: "Маджонг, БО-П02", amount: 2_000_000, flowType: .principal)
 ])
+
+let ccf2 = [
+    CalendarCashFlow(date: Date().firstDayOfWeekRU.addDays(0), portfolioName: "Megatron", emitent: "Мастер", instrument: "Fhhsd-83456", amount: 100000, type: .coupon),
+    CalendarCashFlow(date: Date().firstDayOfWeekRU.addDays(2), portfolioName: "Megatron", emitent: "Ломбард", instrument: "Fhhsd-83456", amount: 10000, type: .face),
+    CalendarCashFlow(date: Date().addWeeks(1).firstDayOfWeekRU.addDays(3), portfolioName: "Bumblebee", emitent: "Ломбард", instrument: "Fhhsd-83456", amount: 200000, type: .coupon),
+    CalendarCashFlow(date: Date().addWeeks(2).firstDayOfWeekRU.addDays(2), portfolioName: "Bumblebee", emitent: "Мастер", instrument: "Fhhsd-83456", amount: 200000, type: .face),
+    CalendarCashFlow(date: Date().addWeeks(2).firstDayOfWeekRU.addDays(3), portfolioName: "Bumblebee", emitent: "Мастер", instrument: "Fhhsd-83456", amount: 100000, type: .coupon),
+    CalendarCashFlow(date: Date().addWeeks(3).firstDayOfWeekRU.addDays(1), portfolioName: "Bumblebee", emitent: "Ломбард", instrument: "Fhhsd-83456", amount: 10000, type: .face),
+    CalendarCashFlow(date: Date().addWeeks(5).firstDayOfWeekRU.addDays(3), portfolioName: "Bumblebee", emitent: "Ломбард", instrument: "Fhhsd-83456", amount: 200000, type: .coupon),
+    CalendarCashFlow(date: Date().addWeeks(8).firstDayOfWeekRU.addDays(3), portfolioName: "Megatron", emitent: "Ломбард", instrument: "Fhhsd-83456", amount: 200000, type: .face),
+    CalendarCashFlow(date: Date().addWeeks(15).firstDayOfWeekRU.addDays(4), portfolioName: "Megatron", emitent: "Мастер", instrument: "Fhhsd-83456", amount: 200000, type: .coupon),
+    CalendarCashFlow(date: Date().addWeeks(19).firstDayOfWeekRU.addDays(0), portfolioName: "Megatron", emitent: "Мастер", instrument: "Fhhsd-83456", amount: 200000, type: .coupon),
+    CalendarCashFlow(date: Date().addWeeks(26).firstDayOfWeekRU.addDays(1), portfolioName: "Megatron", emitent: "Ломбард", instrument: "Fhhsd-83456", amount: 200000, type: .coupon)
+]
