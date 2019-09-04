@@ -24,17 +24,8 @@ struct CalCashFlowItem: Identifiable, Hashable {
     var portfolioName: String
     var documentRus: String
     var amount: Int
-    var flowType: CalendarCashFlowType
+    var flowType: CashFlowType
 }
-
-enum CalendarCashFlowType: String {
-    case principal = "Номинал"
-    case coupon = "Купон"
-}
-
-///
-///
-///
 
 struct CashFlow: Identifiable {
     var id = UUID()

@@ -29,7 +29,7 @@ struct CashFlowList: View {
                     CashFlowRow2(weekNo: weekNo, flows: self.userData.cashFlows
                         .filter({
                             (self.userData.baseDate.addWeeks(weekNo).firstDayOfWeekRU <= $0.date)
-                                && ($0.date <= self.userData.baseDate.addWeeks(weekNo + 1).firstDayOfWeekRU)
+                                && ($0.date < self.userData.baseDate.addWeeks(weekNo + 1).firstDayOfWeekRU)
                         })
                     )
                         .environmentObject(self.userData)

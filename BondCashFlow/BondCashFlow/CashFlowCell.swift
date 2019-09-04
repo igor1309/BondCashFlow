@@ -8,22 +8,11 @@
 
 import SwiftUI
 
-struct CashFlowCell: View {
+struct CashFlowCell2: View {
     @EnvironmentObject var userData: UserData
-    var hasData: Bool
     
-    var start: Date
-    var end: Date
-    var cashFlow: CalendarCashFlow
-    
-    @State private var showDetail = false
-    
-    //    private var tableInCell: some View {
-    //        TableInCell(instrument: self.cashFlow.instrument,
-    //                    date: self.cashFlow.date,
-    //                    type: self.cashFlow.type,
-    //                    amount: self.cashFlow.amount)
-    //    }
+    var coupon: Int
+    var face: Int
     
     var body: some View {
         
@@ -32,43 +21,39 @@ struct CashFlowCell: View {
             Spacer().frame(width: 6).fixedSize()
             
             VStack(alignment: .leading) {
-                HStack{
-                    Text(cashFlow.instrument.uppercased())
-                        .fontWeight(.light)
-                    
-                    Spacer()
-                    
-                    Text(String(cashFlow.amount.formattedGrouped))
-                        .fontWeight(.light)
+                if coupon > 0 {
+                    HStack{
+                        Text("Купон".uppercased())
+                            .font(.caption)
+                            .fontWeight(.light)
+                        
+                        Spacer()
+                        
+                        Text(coupon.formattedGrouped)
+                            .font(.footnote)
+                            .fontWeight(.light)
+                            .foregroundColor(.systemOrange)
+                    }
                 }
-                .font(.footnote)
                 
-                HStack {
-                    Text(cashFlow.date.toString())
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                    Text(cashFlow.type.id)
-                        .foregroundColor(.systemOrange)
-                        .fontWeight(.light)
+                if face > 0 {
+                    HStack{
+                        Text("Номинал".uppercased())
+                            .font(.caption)
+                            .fontWeight(.light)
+                        
+                        Spacer()
+                        
+                        Text(face.formattedGrouped)
+                            .font(.footnote)
+                            .fontWeight(.light)
+                            .foregroundColor(.systemOrange)
+                    }
                 }
-                .font(.caption)
             }
-                //            .onAppear(perform: { self.hasData = true })
-                .padding(.vertical, 4)
+            .padding(.vertical, 4)
         }
         .padding(.bottom, 6)
-            
-        .onTapGesture {
-            self.showDetail = true
-        }
-            
-        .sheet(isPresented: $showDetail) {
-            //  MARK: TODO это неправильный вызов, сделан чтобы компилировалось!!! нужно исправлять!!!
-            CalendarCashFlowDetail(ccf: [self.cashFlow])
-                .environmentObject(self.userData)
-        }
     }
 }
 
@@ -77,10 +62,13 @@ struct CashFlowCell_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             VStack {
-                CashFlowCell(hasData: true, start: Date(), end: Date().addWeeks(20), cashFlow: CalendarCashFlow(date: Date().addingTimeInterval(4000000), portfolioName: "Bumblebee", emitent: "Ломбард", instrument: "Мастер", amount: 100000, type: .coupon))
+                CashFlowCell2(coupon: 12345, face: 54321)
+                CashFlowCell2(coupon: 12345, face: 54321)
+                CashFlowCell2(coupon: 12345, face: 54321)
+                CashFlowCell2(coupon: 12345, face: 54321)
             }
         }
-            
+        .environment(\.colorScheme, .dark)
         .previewLayout(.sizeThatFits)
         .environmentObject(UserData())
         .environment(\.sizeCategory, .extraLarge)

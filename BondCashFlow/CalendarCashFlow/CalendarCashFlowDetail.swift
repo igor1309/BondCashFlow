@@ -11,26 +11,26 @@ import SwiftUI
 struct CalendarCashFlowDetail: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
-//    var ccf: CalCashFlow
-    var ccf: [CalendarCashFlow]
+
+    var flows: [CalendarCashFlow]
     
     var body: some View {
         NavigationView {
             
             VStack(alignment: .leading, spacing: 8) {
                 
-                CalendarCashFlowDetailHeader(date: ccf.map({ $0.date }).min() ?? .distantPast,
-                                             total: ccf.reduce(0, { $0 + $1.amount }))
+                CalendarCashFlowDetailHeader(date: flows.map({ $0.date }).min() ?? .distantPast,
+                                             total: flows.reduce(0, { $0 + $1.amount }))
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     
-                    ForEach(ccf.map({ $0.portfolioName }).removingDuplicates(), id:\.self) { portfolioName in
+                    ForEach(flows.map({ $0.portfolioName }).removingDuplicates(), id:\.self) { portfolioName in
                         
                         VStack(alignment: .leading, spacing: 12) {
                             
                             CalendarCashFlowDetailPortfolioName(name: portfolioName)
                             
-                            ForEach(self.ccf.filter({ $0.portfolioName == portfolioName })) { flow in
+                            ForEach(self.flows.filter({ $0.portfolioName == portfolioName })) { flow in
                                 CalendarCFRow(title: flow.emitent,
                                               subtitle: flow.instrument,
                                               detail: flow.amount.formattedGrouped,
@@ -38,9 +38,9 @@ struct CalendarCashFlowDetail: View {
                             }
                             
                             CalendarCashFlowDetailPortfolioTotal(
-                                face: self.ccf.filter({ $0.portfolioName == portfolioName && $0.type == .face }).reduce(0, { $0 + $1.amount }),
-                                coupon: self.ccf.filter({ $0.portfolioName == portfolioName && $0.type == .coupon }).reduce(0, { $0 + $1.amount }),
-                                amount: self.ccf.filter({ $0.portfolioName == portfolioName }).reduce(0, { $0 + $1.amount }
+                                face: self.flows.filter({ $0.portfolioName == portfolioName && $0.type == .face }).reduce(0, { $0 + $1.amount }),
+                                coupon: self.flows.filter({ $0.portfolioName == portfolioName && $0.type == .coupon }).reduce(0, { $0 + $1.amount }),
+                                amount: self.flows.filter({ $0.portfolioName == portfolioName }).reduce(0, { $0 + $1.amount }
                                 )
                             )
                         }
@@ -49,7 +49,7 @@ struct CalendarCashFlowDetail: View {
             }
             .padding()
                 
-            .navigationBarTitle(Date().addWeeks(5).toString())
+            .navigationBarTitle(flows.map({ $0.date }).min() ?? .distantPast)
                 
             .navigationBarItems(trailing: Button(action: {
                 self.presentation.wrappedValue.dismiss()
@@ -128,10 +128,10 @@ struct CalendarCashFlowDetailPortfolioTotal: View {
 struct CalendarCashFlowDetail_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CalendarCashFlowDetail(ccf: ccf2)
+            CalendarCashFlowDetail(flows: ccf2)
                 .environment(\.colorScheme, .dark)
             
-            CalendarCashFlowDetail(ccf: ccf2)
+            CalendarCashFlowDetail(flows: ccf2)
                 .environment(\.sizeCategory, .extraLarge)
             
             CalendarCashFlowDetailHeader(date: Date().addWeeks(2), total: 98765432)

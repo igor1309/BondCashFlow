@@ -48,7 +48,7 @@ struct CalendarCFRow_Previews: PreviewProvider {
         CalendarCFRow(title: "Ломбард Мастер",
                       subtitle: "БО-П02",
                       detail: 2_000_000.formattedGrouped,
-                      subdetail: CalendarCashFlowType.principal.rawValue)
+                      subdetail: CashFlowType.face.rawValue)
         .previewLayout(.sizeThatFits)
     }
 }
