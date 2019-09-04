@@ -8,9 +8,26 @@
 
 import SwiftUI
 
+struct PositionRowInDetail: View {
+    var title: String
+    var detail: String
+    
+    var body: some View {
+        HStack {
+            Text(title)
+            
+            Spacer()
+            
+            Text(detail)
+        }
+    }
+}
+
+
 struct PositionDetail: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
+    @State private var showFlows = false
     @State private var showAlert = false
     
     var position: Position
@@ -26,14 +43,16 @@ struct PositionDetail: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Портфель".uppercased())
-                ){
-                    Text(position.portfolioName)
-                }
                 
-                Section(header: Text("Выпуск".uppercased())
-                ){
-                    Text("TBD").foregroundColor(.systemRed)
+                Section(header: Text("………".uppercased())) {
+                    PositionRowInDetail(title: "Выпуск", detail: emission?.documentRus ?? "#n/a")
+                    
+                    PositionRowInDetail(title: "emissionID", detail: String(position.emissionID))
+                        .foregroundColor(.secondary)
+                    
+                    PositionRowInDetail(title: "Количество", detail: position.qty.formattedGrouped)
+                    
+                    PositionRowInDetail(title: "Портфель", detail: position.portfolioName)
                 }
                 
                 Section(header: Text("Количество".uppercased())
@@ -42,15 +61,24 @@ struct PositionDetail: View {
                 }
                 
                 Button(action: {
-                    self.showAlert = true
+                    if self.emission != nil {
+                        self.showFlows = true
+                    }
                 }) {
-                    Text("Удалить").foregroundColor(.systemRed)
+                    Text("Потоки по выпуску")
                 }
                 
+                Section {
+                    Button(action: {
+                        self.showAlert = true
+                    }) {
+                        Text("Удалить позицию").foregroundColor(.systemRed)
+                    }
+                }
             }
                 
                 //  MARK: get more data about emission an put into title
-                .navigationBarTitle(String(position.emissionID))
+                .navigationBarTitle("Позиция")
                 
                 .navigationBarBackButtonHidden(true)
                 
@@ -70,6 +98,11 @@ struct PositionDetail: View {
                                                     self.presentation.wrappedValue.dismiss()
                                     })
                     ])
+            }
+            
+            .sheet(isPresented: $showFlows) {
+                EmissionDetail2(emission: self.emission!)
+                    .environmentObject(self.userData)
             }
         }
     }

@@ -10,6 +10,7 @@
 		2A2EE062231C139700AAD7E2 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2EE061231C139700AAD7E2 /* Position.swift */; };
 		2A3F5736231F255E00BC3767 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F5735231F255E00BC3767 /* SettingsStore.swift */; };
 		2A3F5738231F2A9A00BC3767 /* LocalDataSubSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F5737231F2A9A00BC3767 /* LocalDataSubSections.swift */; };
+		2A3F573A231FB4B200BC3767 /* EmissionDetail2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F5739231FB4B200BC3767 /* EmissionDetail2.swift */; };
 		2A40574F231F051B00B5FA63 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A40574E231F051B00B5FA63 /* Buttons.swift */; };
 		2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A783052231C43CC0047BDB6 /* PortfolioList.swift */; };
 		2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2B2319A100005756BB /* AppDelegate.swift */; };
@@ -110,6 +111,7 @@
 		2A2EE061231C139700AAD7E2 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		2A3F5735231F255E00BC3767 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		2A3F5737231F2A9A00BC3767 /* LocalDataSubSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataSubSections.swift; sourceTree = "<group>"; };
+		2A3F5739231FB4B200BC3767 /* EmissionDetail2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmissionDetail2.swift; sourceTree = "<group>"; };
 		2A40574E231F051B00B5FA63 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		2A783052231C43CC0047BDB6 /* PortfolioList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioList.swift; sourceTree = "<group>"; };
 		2A8B7F282319A100005756BB /* BondCashFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BondCashFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -228,6 +230,7 @@
 				2A8B7F7C2319A1DF005756BB /* AddPosition.swift */,
 				2A8B7F7A2319A1DF005756BB /* PositionRow.swift */,
 				2A8B7F842319A1DF005756BB /* PositionDetail.swift */,
+				2A3F5739231FB4B200BC3767 /* EmissionDetail2.swift */,
 			);
 			path = "Portfolio-Positions";
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				2A8B7FC92319A1FF005756BB /* GridItem.swift in Sources */,
 				2A8B7F8F2319A1DF005756BB /* PotfolioFilter.swift in Sources */,
 				2A8B7FBE2319A1FF005756BB /* CashFlowView.swift in Sources */,
+				2A3F573A231FB4B200BC3767 /* EmissionDetail2.swift in Sources */,
 				2A8B7F752319A1D7005756BB /* WorkWithJSON.swift in Sources */,
 				2A8B7FBD2319A1FF005756BB /* CashFlowCell.swift in Sources */,
 				2A8B7FA92319A1F6005756BB /* Color+Extensions.swift in Sources */,

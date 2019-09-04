@@ -8,6 +8,19 @@
 
 import SwiftUI
 
+struct PositionList: View {
+    var positions: [Position]
+    
+    var body: some View {
+        List {
+            ForEach(positions, id: \.self) { position in
+                PositionRow(position: position)
+            }
+        }
+    }
+}
+
+
 struct PortfolioView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
@@ -40,7 +53,6 @@ struct PortfolioView: View {
                     ForEach(userData.positions.filter({ $0.portfolioName == settings.selectedPortfolio }).sorted(by: { $0.emissionID < $1.emissionID })
                     ){ position in
                         PositionRow(position: position)
-                        
                     }
                 }
             }
@@ -100,19 +112,24 @@ struct PortfolioView: View {
                     if self.modal == .addPortfolio {
                         //  MARK: TODO решить нужно ли отдельно создавать портфель
                         //  и что делать с этим блоком
-                        AddPortfolio(portfolioName: .constant("")).environmentObject(self.userData)
+                        AddPortfolio(portfolioName: .constant(""))
+                            .environmentObject(self.userData)
                     }
                     
                     if self.modal == .addPosition {
-                        AddPosition().environmentObject(self.userData)
+                        AddPosition()
+                            .environmentObject(self.userData)
                     }
                     
                     if self.modal == .addIssue {
-                        AddIssue().environmentObject(self.userData)
+                        AddIssue()
+                            .environmentObject(self.userData)
                     }
                     
                     if self.modal == .filter {
-                        PotfolioFilter().environmentObject(self.userData)
+                        PotfolioFilter()
+                            .environmentObject(self.userData)
+                            .environmentObject(self.settings)
                     }
                 })
         }
@@ -125,5 +142,6 @@ struct Portfolio_Previews: PreviewProvider {
             PortfolioView()
         }
         .environmentObject(UserData())
+        .environmentObject(SettingsStore())
     }
 }

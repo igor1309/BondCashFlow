@@ -27,7 +27,7 @@ struct RotatingSqureSplit: View {
     @State private var isAnimated = false
     
     var body: some View {
-        Image(systemName: "slowmo")
+        Image(systemName: "sun.max")
             .foregroundColor(.systemGray2)
             .rotationEffect(.degrees(isAnimated ? 0 : -720), anchor: .center)
             .opacity(isAnimated ? 0.1 : 1)

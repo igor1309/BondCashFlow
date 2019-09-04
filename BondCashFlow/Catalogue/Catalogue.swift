@@ -28,6 +28,7 @@ struct Catalogue_Previews: PreviewProvider {
         NavigationView {
             Catalogue()
                 .environmentObject(UserData())
+                .environmentObject(SettingsStore())
         }
     }
 }
