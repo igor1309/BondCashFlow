@@ -60,12 +60,13 @@ struct PositionDetail: View {
                     Text(position.qty.formattedGrouped)
                 }
                 
-                Button(action: {
-                    if self.emission != nil {
+                Section(footer: Text(emission == nil ? "Этого выпуска нет в базе" : "")) {
+                    Button(action: {
                         self.showFlows = true
+                    }) {
+                        Text("Потоки по выпуску")
                     }
-                }) {
-                    Text("Потоки по выпуску")
+                    .disabled(emission == nil)
                 }
                 
                 Section {

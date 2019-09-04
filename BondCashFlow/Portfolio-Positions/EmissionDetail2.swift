@@ -29,13 +29,22 @@ struct EmissionDetail2: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text(/*@START_MENU_TOKEN@*/"Hello World!"/*@END_MENU_TOKEN@*/)
+                EmissionSubRowIDISINEmiitent(emission: emission)
+                Text(emission.documentRus)
+                Text(String(emission.id))
+                Text(String(emission.isinCode))
+                Text(String(emission.cupon_period))
+
+                Text(emission.cupon_rus)
+
+                Text(emission.emitentNameRus)
                 
                 FlowsList(flows: userData.flows
                     .filter({ $0.emissionID == emission.id })
-                    .sorted(by: { $0.couponNum < $1.couponNum }))
+                    .sorted(by: { $0.couponNum < $1.couponNum })
+                )
             }
-            
+                
             .navigationBarTitle("Выпуск и потоки")
                 
             .navigationBarItems(trailing: TrailingButton(name: "Закрыть", closure: {
@@ -48,7 +57,7 @@ struct EmissionDetail2: View {
 struct EmissionDetail2_Previews: PreviewProvider {
     static var previews: some View {
         EmissionDetail2(emission: Emission())
-        .environmentObject(UserData())
-        .environmentObject(SettingsStore())
+            .environmentObject(UserData())
+            .environmentObject(SettingsStore())
     }
 }

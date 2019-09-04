@@ -8,6 +8,26 @@
 
 import SwiftUI
 
+struct EmissionSubRowIDISINEmiitent: View {
+    var emission: Emission
+    
+    var body: some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(String(emission.id))
+            
+            Text(emission.isinCode.isEmpty ? "" : emission.isinCode)
+            
+            Spacer()
+            
+            Text(emission.emitentNameRus)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .font(.caption)
+        .foregroundColor(.systemOrange)
+    }
+}
+
+
 struct EmissionSubRow: View {
     @EnvironmentObject var userData: UserData
     var emission: Emission
@@ -15,20 +35,8 @@ struct EmissionSubRow: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(String(emission.id))
-                
-                Text(emission.isinCode.isEmpty ? "" : emission.isinCode)
-                
-                Spacer()
-                
-                //                Text("emitentID " + String(emission.emitentID))
-                Text(emission.emitentNameRus)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .font(.caption)
-            .foregroundColor(.systemOrange)
             
+            EmissionSubRowIDISINEmiitent(emission: emission)
             
             Text(emission.documentRus)
                 .fixedSize(horizontal: false, vertical: true)

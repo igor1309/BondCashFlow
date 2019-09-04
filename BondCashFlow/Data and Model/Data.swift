@@ -93,7 +93,7 @@ func loadEmissionDataOLD() -> [Emission] {
 let cashFlowData = loadCashFlowData()
 
 func loadCashFlowData() -> [Flow] {
-    guard let data: [Flow] = loadFromDocDir("flow.json") else {
+    guard let data: [Flow] = loadFromDocDir("flows.json") else {
         return []
     }
     
