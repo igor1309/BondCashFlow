@@ -19,12 +19,21 @@ enum FilterType: String, CaseIterable {
 
 struct EmissionList: View {
     @Environment(\.presentationMode) var presentation
+    @EnvironmentObject var settings: SettingsStore
     @EnvironmentObject var userData: UserData
     
     var local = true
     
     @State private var filter: String = ""
     @State private var filterType: FilterType = .favorites
+    
+    
+    //  MARK: хотелось бы сохранять выбранный фильтр в selectedFilter в SettingsStore
+    //  но как это делать???
+//    init(local: Bool = true) {
+//        self.local = local
+//        self._filterType = State(initialValue: FilterType(rawValue: settings.selectedFilter) ?? .favorites)
+//    }
     
     @State private var showFilter = false
     
@@ -61,8 +70,12 @@ struct EmissionList: View {
                         switch filterType {
                         case .all:
                             return true
+                        case .withFlows:
+                            return userData.flows.map { $0.emissionID }.contains($0.id)
                         case .emitent:
                             return $0.emitentNameRus == filter
+                        case .favorites:
+                            return userData.favoriteEmissions[$0.id] ?? false
                         case .byText:
                             return $0.documentRus.contains(filter) ||
                                 $0.documentRus.contains(filter.uppercased()) ||
@@ -73,10 +86,6 @@ struct EmissionList: View {
                                 $0.isinCode.contains(filter.lowercased()) ||
                                 $0.isinCode.contains(filter.capitalized) ||
                                 $0.id == Int(filter) ?? -1
-                        case .withFlows:
-                            return userData.flows.map { $0.emissionID }.contains($0.id)
-                        case .favorites:
-                            return userData.favoriteEmissions[$0.id] ?? false
                         }
                         
                     }).sorted(by: {
@@ -95,9 +104,7 @@ struct EmissionList: View {
                     self.showFilter = true
                 }) {
                     Image(systemName: filterType == FilterType.all ? "line.horizontal.3.decrease.circle" : "line.horizontal.3.decrease.circle.fill")
-                    //                        .imageScale(.large)
                 },
-                
                 
                 trailing: TrailingButton(name: "Закрыть", closure: {
                     self.presentation.wrappedValue.dismiss()

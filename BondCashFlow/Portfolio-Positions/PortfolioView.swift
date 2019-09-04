@@ -42,51 +42,52 @@ struct PortfolioView: View {
                 .font(.caption)
                 .padding(.horizontal)
             
-            List {
-                if settings.isAllPortfoliosSelected {
-                    ForEach(userData.positions.sorted(by: {
-                        ($0.portfolioName, $0.emissionID) < ($1.portfolioName, $1.emissionID) })
-                    ){ position in
-                        PositionRow(position: position)
+            PositionList(positions: userData.positions
+                .filter({
+                    if settings.isAllPortfoliosSelected {
+                        return true
+                    } else {
+                        return $0.portfolioName == settings.selectedPortfolio
                     }
-                } else {
-                    ForEach(userData.positions.filter({ $0.portfolioName == settings.selectedPortfolio }).sorted(by: { $0.emissionID < $1.emissionID })
-                    ){ position in
-                        PositionRow(position: position)
+                })
+                .sorted(by: {
+                    if settings.isAllPortfoliosSelected {
+                        return ($0.portfolioName, $0.emissionID) < ($1.portfolioName, $1.emissionID)
+                    } else {
+                        return $0.emissionID < $1.emissionID
                     }
-                }
-            }
+                }))
                 
-            .navigationBarTitle("Позиции")
+                .navigationBarTitle("Позиции")
                 
-            .navigationBarItems(
-                leading: Button(action: {
-                    if self.userData.hasAtLeastTwoPortfolios {
-                        self.modal = .filter
-                        self.showModal = true
-                    }
-                }) {
-                    Image(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
-                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
-                }
-                .disabled(!self.userData.hasAtLeastTwoPortfolios),
-                
-                trailing: HStack {
-                    Button(action: {
-                        self.showActions = true
+                .navigationBarItems(
+                    leading: Button(action: {
+                        if self.userData.hasAtLeastTwoPortfolios {
+                            self.modal = .filter
+                            self.showModal = true
+                        }
                     }) {
-                        Image(systemName: "plus.square.on.square")
-                            .foregroundColor(.secondary)
-                            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+                        Image(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
+                            .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                     }
-                    Button(action: {
-                        self.modal = .addPosition
-                        self.showModal = true
-                    }) {
-                        Image(systemName: "plus")
-                            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-                    }
-            })
+                    .disabled(!self.userData.hasAtLeastTwoPortfolios),
+                    
+                    trailing: HStack {
+                        Button(action: {
+                            self.showActions = true
+                        }) {
+                            Image(systemName: "plus.square.on.square")
+                                .foregroundColor(.secondary)
+                                .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+                        }
+                        Button(action: {
+                            self.modal = .addPosition
+                            self.showModal = true
+                        }) {
+                            Image(systemName: "plus")
+                                .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+                        }
+                })
                 
                 .actionSheet(isPresented: $showActions, content: {
                     ActionSheet(title: Text("Добавить"),
@@ -119,6 +120,7 @@ struct PortfolioView: View {
                     if self.modal == .addPosition {
                         AddPosition()
                             .environmentObject(self.userData)
+                            .environmentObject(self.settings)
                     }
                     
                     if self.modal == .addIssue {

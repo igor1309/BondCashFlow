@@ -102,6 +102,7 @@ struct AddPortfolioButton: View {
 
 struct AddPosition: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     @Environment(\.presentationMode) var presentation
     
     @State private var portfolioName: String = ""
@@ -235,6 +236,7 @@ struct AddPosition: View {
                     if self.modal == .emissionList {
                         EmissionList(local: true)
                             .environmentObject(self.userData)
+                            .environmentObject(self.settings)
                     }
                 })
             
@@ -246,5 +248,6 @@ struct AddPosition_Previews: PreviewProvider {
     static var previews: some View {
         AddPosition()
             .environmentObject(UserData())
+            .environmentObject(SettingsStore())
     }
 }

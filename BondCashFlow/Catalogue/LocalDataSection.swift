@@ -10,6 +10,7 @@ import SwiftUI
 
 struct LocalDataSection: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     @State private var showModal = false
     
     var body: some View {
@@ -36,6 +37,7 @@ struct LocalDataSection: View {
         .sheet(isPresented: $showModal, content: {
             EmissionList(local: true)
                 .environmentObject(self.userData)
+                .environmentObject(self.settings)
         })
     }
 }

@@ -116,7 +116,7 @@ func loadCashFlowDataOLD() -> [Flow] {
 }
 
 func loadPositionData() -> [Position] {
-    guard let data: [Position] = loadFromDocDir("porfolios.json") else {
+    guard let data: [Position] = loadFromDocDir("positions.json") else {
         return [
             Position(portfolioName: "Bumblebee", emissionID: 460, qty: 10),
             Position(portfolioName: "Bumblebee", emissionID: 2928, qty: 100),

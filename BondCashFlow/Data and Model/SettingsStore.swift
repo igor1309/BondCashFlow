@@ -43,6 +43,12 @@ final class SettingsStore: ObservableObject {
         }
     }
     
+    @Published var selectedFilter: String = UserDefaults.standard.string(forKey: "selectedFilter") ?? "" {
+        didSet {
+            defaults.set(selectedFilter, forKey: "selectedFilter")
+        }
+    }
+    
     @Published var lastCBondOperationUsed: String = UserDefaults.standard.string(forKey: "lastCBondOperationUsed") ?? "" {
         didSet {
             defaults.set(lastCBondOperationUsed, forKey: "lastCBondOperationUsed")
