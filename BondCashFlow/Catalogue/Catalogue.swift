@@ -11,10 +11,12 @@ import SwiftUI
 
 struct Catalogue: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
     var body: some View {
         Form {
             LocalDataSection()
+//                .environmentObject(self.settings)
             
             CBondsSection()
                 .environmentObject(self.userData)

@@ -42,6 +42,7 @@ struct CBondsSection: View {
                content: {
                 CbondLogin()
                     .environmentObject(self.userData)
+                    .environmentObject(self.settings)
                 
         })
     }

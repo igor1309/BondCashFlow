@@ -49,7 +49,7 @@ struct CalendarCashFlowDetail: View {
             }
             .padding()
                 
-            .navigationBarTitle(flows.map({ $0.date }).min() ?? .distantPast)
+            .navigationBarTitle((flows.map({ $0.date }).min() ?? .distantPast).toString())
                 
             .navigationBarItems(trailing: Button(action: {
                 self.presentation.wrappedValue.dismiss()

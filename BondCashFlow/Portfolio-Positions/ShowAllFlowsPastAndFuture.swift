@@ -32,6 +32,7 @@ struct FlowRow3: View {
                 }
                 HStack {
                     Text(flow.portfolioName)
+                        .foregroundColor(.systemOrange)
                     
                     Spacer()
                     

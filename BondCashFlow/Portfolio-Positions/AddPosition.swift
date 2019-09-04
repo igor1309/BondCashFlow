@@ -201,13 +201,11 @@ struct AddPosition: View {
             .navigationBarTitle("Новая позиция")
                 
             .navigationBarItems(
-                leading: Button(action: {
+                leading: LeadingButton(name: "Отмена", closure: {
                     self.presentation.wrappedValue.dismiss()
-                }) {
-                    Text("Отмена")
-                        .foregroundColor(.systemRed)
-                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
-                },
+                })
+                    .foregroundColor(.systemRed),
+                
                 trailing: Button(action: {
                     //  MARK: finish this
                     if self.positionIsValid {
