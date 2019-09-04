@@ -13,7 +13,7 @@ struct EmissionSubRowIDISINEmiitent: View {
     
     var body: some View {
         HStack(alignment: .firstTextBaseline) {
-            Text(String(emission.id))
+            Text("#" + String(emission.id))
             
             Text(emission.isinCode.isEmpty ? "" : emission.isinCode)
             

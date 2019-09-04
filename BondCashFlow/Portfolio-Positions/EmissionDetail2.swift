@@ -29,15 +29,33 @@ struct EmissionDetail2: View {
     var body: some View {
         NavigationView {
             VStack {
-                EmissionSubRowIDISINEmiitent(emission: emission)
-                Text(emission.documentRus)
-                Text(String(emission.id))
-                Text(String(emission.isinCode))
-                Text(String(emission.cupon_period))
-
-                Text(emission.cupon_rus)
-
-                Text(emission.emitentNameRus)
+                VStack(alignment: .leading, spacing: 3) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        EmissionSubRowIDISINEmiitent(emission: emission)
+                        
+                        Text(emission.documentRus)
+                            .padding(.top, 3)
+                        
+                        VStack(alignment: .leading) {
+                            
+                            Text("cupon_period " + emission.cupon_period.formattedGrouped)
+                            
+                            Text(emission.cupon_rus.isEmpty ? "-" : "cupon_rus " + emission.cupon_rus)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    }
+                    .cardStyle()
+                    
+                    Text("Потоки")
+                        .font(.title)
+                        .fontWeight(.black)
+                        .scaleEffect(0.9)
+                        .padding(.top, 6)
+                }
+                .padding(.horizontal)
+                
                 
                 FlowsList(flows: userData.flows
                     .filter({ $0.emissionID == emission.id })
