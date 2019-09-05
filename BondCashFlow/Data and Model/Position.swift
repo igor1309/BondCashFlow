@@ -12,7 +12,7 @@ struct Position: Identifiable, Codable, Hashable {
     var id = UUID()
     
     var portfolioName: String = ""
-    let emissionID: Int
+    let emissionID: EmissionID
     var qty: Int = 1
     
     init() {
@@ -21,7 +21,7 @@ struct Position: Identifiable, Codable, Hashable {
         self.qty = 1
     }
     
-    init(portfolioName: String, emissionID: Int, qty: Int) {
+    init(portfolioName: String, emissionID: EmissionID, qty: Int) {
         self.portfolioName = portfolioName
         self.emissionID = emissionID
         self.qty = qty

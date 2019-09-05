@@ -85,25 +85,25 @@ struct EmissionRow: View {
                 }
             }
             
-            Button(action: {
-                //  MARK: TODO: ДОДЕЛАТЬ!!!
-            }) {
-                HStack {
-                    //  MARK: TODO HOW TO GET FAV??
-                    Image(systemName: true ? "star" : "star.fill")
-                    Spacer()
-                    Text(true ? "TBD: В избранные" : "TBD: Убрать из избранных")
+            if (userData.favoriteEmissions[emission.id] ?? false) {
+                Button(action: {
+                    self.userData.favoriteEmissions[self.emission.id] = nil
+                }) {
+                    HStack {
+                        Image(systemName: "star.fill")
+                        Spacer()
+                        Text("Убрать из избранных")
+                    }
                 }
-            }
-            
-            Button(action: {
-                //  MARK: TODO: ДОДЕЛАТЬ!!!
-            }) {
-                HStack {
-                    //  MARK: TODO HOW TO GET FAV??
-                    Image(systemName: false ? "star" : "star.fill")
-                    Spacer()
-                    Text(false ? "TBD: В избранные" : "TBD: Убрать из избранных")
+            } else {
+                Button(action: {
+                    self.userData.favoriteEmissions.updateValue(true, forKey: self.emission.id)
+                }) {
+                    HStack {
+                        Image(systemName: "star")
+                        Spacer()
+                        Text("Добавить в избранные")
+                    }
                 }
             }
         }
