@@ -15,17 +15,6 @@ struct ContentView: View {
         TabView(selection: $settings.lastTabUsed){
             
             NavigationView {
-                CFCalendar()
-            }
-            .tabItem {
-                VStack {
-                    Image(systemName: "calendar")
-                    Text("Календарь")
-                }
-            }
-            .tag(0)
-            
-            NavigationView {
                 PortfolioView()
             }
             .tabItem {
@@ -34,18 +23,40 @@ struct ContentView: View {
                     Text("Позиции")
                 }
             }
+            .tag(0)
+            
+            NavigationView {
+                CashFlowTable()
+            }
+            .tabItem {
+                VStack {
+                    Image(systemName: "flowchart")
+                    Text("Потоки")
+                }
+            }
             .tag(1)
             
             NavigationView {
-                Catalogue()
+                CFCalendar()
+            }
+            .tabItem {
+                VStack {
+                    Image(systemName: "calendar")
+                    Text("Календарь")
+                }
+            }
+            .tag(2)
+            
+            NavigationView {
+                Emissions()
             }
             .tabItem {
                 VStack {
                     Image(systemName: "tray.2.fill")
-                    Text("Справочники")
+                    Text("Выпуски")
                 }
             }
-            .tag(2)
+            .tag(3)
             
             NavigationView {
                 Settings()
@@ -56,7 +67,18 @@ struct ContentView: View {
                     Text("Настройки")
                 }
             }
-            .tag(3)
+            .tag(4)
+            
+            NavigationView {
+                Settings()
+            }
+            .tabItem {
+                VStack {
+                    Image(systemName: "gear")
+                    Text("Настройки")
+                }
+            }
+            .tag(5)
         }
     }
 }
@@ -65,5 +87,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(UserData())
+            .environmentObject(SettingsStore())
+            .environment(\.colorScheme, .dark)
     }
 }

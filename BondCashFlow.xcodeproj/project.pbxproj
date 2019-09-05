@@ -17,6 +17,8 @@
 		2A40574F231F051B00B5FA63 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A40574E231F051B00B5FA63 /* Buttons.swift */; };
 		2A542D352321129B00E902B9 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D342321129B00E902B9 /* FilterType.swift */; };
 		2A542D372321148900E902B9 /* EmissionID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D362321148900E902B9 /* EmissionID.swift */; };
+		2A542D3E2321CE3700E902B9 /* CashFlowTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D3D2321CE3700E902B9 /* CashFlowTable.swift */; };
+		2A542D402321CFD000E902B9 /* Emissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D3F2321CFD000E902B9 /* Emissions.swift */; };
 		2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A783052231C43CC0047BDB6 /* PortfolioList.swift */; };
 		2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2B2319A100005756BB /* AppDelegate.swift */; };
 		2A8B7F2E2319A100005756BB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2D2319A100005756BB /* SceneDelegate.swift */; };
@@ -123,6 +125,8 @@
 		2A40574E231F051B00B5FA63 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		2A542D342321129B00E902B9 /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
 		2A542D362321148900E902B9 /* EmissionID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmissionID.swift; sourceTree = "<group>"; };
+		2A542D3D2321CE3700E902B9 /* CashFlowTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashFlowTable.swift; sourceTree = "<group>"; };
+		2A542D3F2321CFD000E902B9 /* Emissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emissions.swift; sourceTree = "<group>"; };
 		2A783052231C43CC0047BDB6 /* PortfolioList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioList.swift; sourceTree = "<group>"; };
 		2A8B7F282319A100005756BB /* BondCashFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BondCashFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A8B7F2B2319A100005756BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 				2A8B7F842319A1DF005756BB /* PositionDetail.swift */,
 				2A3F573D231FE33700BC3767 /* FlowsList.swift */,
 				2ADEC00C23203D94003DCEB9 /* ShowAllFlowsPastAndFuture.swift */,
+				2A542D3D2321CE3700E902B9 /* CashFlowTable.swift */,
 			);
 			path = "Portfolio-Positions";
 			sourceTree = "<group>";
@@ -256,6 +261,7 @@
 				2ABA2A94231DA19E00FDB14F /* UpdateLocalDataSection.swift */,
 				2ABA2A8E231D9BD400FDB14F /* AdditionalPickers.swift */,
 				2A8B7F7D2319A1DF005756BB /* CbondLogin.swift */,
+				2A542D3F2321CFD000E902B9 /* Emissions.swift */,
 			);
 			path = Catalogue;
 			sourceTree = "<group>";
@@ -647,6 +653,7 @@
 				2A8B7F882319A1DF005756BB /* EmissionDetail.swift in Sources */,
 				2A8B7F902319A1DF005756BB /* Settings.swift in Sources */,
 				2A8B7FC92319A1FF005756BB /* GridItem.swift in Sources */,
+				2A542D402321CFD000E902B9 /* Emissions.swift in Sources */,
 				2A8B7F8F2319A1DF005756BB /* PotfolioFilter.swift in Sources */,
 				2A542D352321129B00E902B9 /* FilterType.swift in Sources */,
 				2A8B7FBE2319A1FF005756BB /* CashFlowView.swift in Sources */,
@@ -668,6 +675,7 @@
 				2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */,
 				2A8B7F8C2319A1DF005756BB /* AddPosition.swift in Sources */,
 				2ABA2A9B231DBE9200FDB14F /* Result+Extension.swift in Sources */,
+				2A542D3E2321CE3700E902B9 /* CashFlowTable.swift in Sources */,
 				2A3F5736231F255E00BC3767 /* SettingsStore.swift in Sources */,
 				2A8B7F602319A1BB005756BB /* Data.swift in Sources */,
 				2A8B7F5F2319A1BB005756BB /* Potfolio.swift in Sources */,

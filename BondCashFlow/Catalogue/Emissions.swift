@@ -1,15 +1,14 @@
 //
-//  EmissionList.swift
-//  BondsCashFlow
+//  Emissions.swift
+//  BondCashFlow
 //
-//  Created by Igor Malyarov on 27.08.2019.
+//  Created by Igor Malyarov on 06.09.2019.
 //  Copyright © 2019 Igor Malyarov. All rights reserved.
 //
 
 import SwiftUI
 
-struct EmissionList: View {
-    @Environment(\.presentationMode) var presentation
+struct Emissions: View {
     @EnvironmentObject var settings: SettingsStore
     @EnvironmentObject var userData: UserData
     
@@ -152,12 +151,7 @@ struct EmissionList: View {
                     self.showFilter = true
                 }) {
                     Image(systemName: filterType == FilterType.all ? "line.horizontal.3.decrease.circle" : "line.horizontal.3.decrease.circle.fill")
-                },
-                
-                trailing: TrailingButton(name: "Закрыть", closure: {
-                    self.presentation.wrappedValue.dismiss()
                 })
-            )
                 
                 //  по свайпу закрывания модала работает
                 //  фильт меняется и didSet происходит
@@ -175,9 +169,9 @@ struct EmissionList: View {
     }
 }
 
-struct EmissionList_Previews: PreviewProvider {
+struct Emissions_Previews: PreviewProvider {
     static var previews: some View {
-        EmissionList()
+        Emissions()
             .environmentObject(UserData())
             .environmentObject(SettingsStore())
             .environment(\.colorScheme, .dark)
