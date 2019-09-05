@@ -75,11 +75,10 @@ struct PositionRow: View {
                 self.showConfirmation = true
             }) {
                 HStack {
-                    Image(systemName: "cart.badge.minus")
+                    Image(systemName: "trash")
                     Spacer()
-                    Text("TBD: Закрыть позицию")
+                    Text("Закрыть позицию")
                 }
-                .foregroundColor(.systemRed)
             }
         }
         .actionSheet(isPresented: self.$showConfirmation) {

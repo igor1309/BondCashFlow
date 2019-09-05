@@ -83,7 +83,6 @@ struct EmissionRow: View {
                     Spacer()
                     Text("TBD: Купить")
                 }
-                .foregroundColor(.systemRed)
             }
             
             Button(action: {
@@ -93,9 +92,8 @@ struct EmissionRow: View {
                     //  MARK: TODO HOW TO GET FAV??
                     Image(systemName: true ? "star" : "star.fill")
                     Spacer()
-                    Text(true ? "В избранные" : "Убрать из избранных")
+                    Text(true ? "TBD: В избранные" : "TBD: Убрать из избранных")
                 }
-                .foregroundColor(.systemRed)
             }
             
             Button(action: {
@@ -105,9 +103,8 @@ struct EmissionRow: View {
                     //  MARK: TODO HOW TO GET FAV??
                     Image(systemName: false ? "star" : "star.fill")
                     Spacer()
-                    Text(false ? "В избранные" : "Убрать из избранных")
+                    Text(false ? "TBD: В избранные" : "TBD: Убрать из избранных")
                 }
-                .foregroundColor(.systemRed)
             }
         }
             
