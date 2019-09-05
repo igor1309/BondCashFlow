@@ -8,15 +8,6 @@
 
 import SwiftUI
 
-enum FilterType: String, CaseIterable {
-    case all = "все эмиссии"
-    case withFlows = "только эмиссии с потоками"
-    case favorites = "★ избранные"
-    //  MARK: TODO додумать и доделать
-    case emitent = "фильтр по эмитенту"
-    case byText = "текстовый фильтр"
-}
-
 struct EmissionList: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var settings: SettingsStore

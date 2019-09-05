@@ -15,6 +15,7 @@
 		2A3F5741231FFD9E00BC3767 /* UserDetaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F5740231FFD9E00BC3767 /* UserDetaultWrapper.swift */; };
 		2A3F57432320012D00BC3767 /* createCashFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F57422320012D00BC3767 /* createCashFlow.swift */; };
 		2A40574F231F051B00B5FA63 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A40574E231F051B00B5FA63 /* Buttons.swift */; };
+		2A542D352321129B00E902B9 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D342321129B00E902B9 /* FilterType.swift */; };
 		2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A783052231C43CC0047BDB6 /* PortfolioList.swift */; };
 		2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2B2319A100005756BB /* AppDelegate.swift */; };
 		2A8B7F2E2319A100005756BB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2D2319A100005756BB /* SceneDelegate.swift */; };
@@ -119,6 +120,7 @@
 		2A3F5740231FFD9E00BC3767 /* UserDetaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetaultWrapper.swift; sourceTree = "<group>"; };
 		2A3F57422320012D00BC3767 /* createCashFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createCashFlow.swift; sourceTree = "<group>"; };
 		2A40574E231F051B00B5FA63 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		2A542D342321129B00E902B9 /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
 		2A783052231C43CC0047BDB6 /* PortfolioList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioList.swift; sourceTree = "<group>"; };
 		2A8B7F282319A100005756BB /* BondCashFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BondCashFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A8B7F2B2319A100005756BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			children = (
 				2A8B7F7B2319A1DF005756BB /* AddIssue.swift */,
 				2A8B7F772319A1DF005756BB /* EmissionList.swift */,
+				2A542D342321129B00E902B9 /* FilterType.swift */,
 				2A8B7F822319A1DF005756BB /* EmissionRow.swift */,
 				2A8B7F782319A1DF005756BB /* EmissionDetail.swift */,
 				2A8B7F792319A1DF005756BB /* FlowRow.swift */,
@@ -642,6 +645,7 @@
 				2A8B7F902319A1DF005756BB /* Settings.swift in Sources */,
 				2A8B7FC92319A1FF005756BB /* GridItem.swift in Sources */,
 				2A8B7F8F2319A1DF005756BB /* PotfolioFilter.swift in Sources */,
+				2A542D352321129B00E902B9 /* FilterType.swift in Sources */,
 				2A8B7FBE2319A1FF005756BB /* CashFlowView.swift in Sources */,
 				2A3F573E231FE33700BC3767 /* FlowsList.swift in Sources */,
 				2A8B7F752319A1D7005756BB /* WorkWithJSON.swift in Sources */,
