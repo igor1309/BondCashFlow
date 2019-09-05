@@ -57,6 +57,7 @@ struct PortfolioView: View {
                         return $0.emissionID < $1.emissionID
                     }
                 }))
+                .environmentObject(self.userData)
         }
             
         .navigationBarTitle("Позиции")
@@ -76,7 +77,7 @@ struct PortfolioView: View {
                     self.showModal = true
                 }
                 .foregroundColor(.secondary)
-
+                
             },
             
             trailing: HStack {

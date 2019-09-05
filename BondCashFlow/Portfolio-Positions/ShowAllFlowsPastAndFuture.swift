@@ -30,6 +30,7 @@ struct FlowRow3: View {
                     
                     Text(flow.instrument)
                 }
+                
                 HStack {
                     Text(flow.portfolioName)
                         .foregroundColor(.systemOrange)
@@ -37,7 +38,6 @@ struct FlowRow3: View {
                     Spacer()
                     
                     Text(flow.type.id)
-                    
                 }
             }
             .font(.footnote)
@@ -54,23 +54,20 @@ struct ShowAllFlowsPastAndFuture: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(userData.cashFlows.sorted(by: {
-                    
-                    print("\(userData.cashFlows.count) - userData.cashFlows.count")
-                    
-                    
-                    return ($0.date, $0.emitent, $0.instrument) < ($1.date, $1.emitent, $1.instrument)
+                ForEach(userData.cashFlows
+                    .sorted(by: {
+                        ($0.date, $0.emitent, $0.instrument) < ($1.date, $1.emitent, $1.instrument)
                 }), id: \.self) { flow in
                     
                     FlowRow3(flow: flow)
                         
-                        .navigationBarTitle("Все потоки")
-                        
-                        .navigationBarItems(trailing: TrailingButton(name: "Закрыть", closure: {
-                            self.presentation.wrappedValue.dismiss()
-                        }))
                 }
             }
+            .navigationBarTitle("Все потоки")
+                
+            .navigationBarItems(trailing: TrailingButton(name: "Закрыть", closure: {
+                self.presentation.wrappedValue.dismiss()
+            }))
         }
     }
 }

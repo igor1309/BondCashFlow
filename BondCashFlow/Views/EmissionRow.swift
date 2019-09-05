@@ -74,6 +74,42 @@ struct EmissionRow: View {
             .onTapGesture {
                 self.showDetail = true
         }
+        .contextMenu {
+            Button(action: {
+                //  MARK: TODO: ДОДЕЛАТЬ!!!
+            }) {
+                HStack {
+                    Image(systemName: "cart.badge.plus")
+                    Spacer()
+                    Text("TBD: Купить")
+                }
+                .foregroundColor(.systemRed)
+            }
+            
+            Button(action: {
+                //  MARK: TODO: ДОДЕЛАТЬ!!!
+            }) {
+                HStack {
+                    //  MARK: TODO HOW TO GET FAV??
+                    Image(systemName: true ? "star" : "star.fill")
+                    Spacer()
+                    Text(true ? "В избранные" : "Убрать из избранных")
+                }
+                .foregroundColor(.systemRed)
+            }
+            
+            Button(action: {
+                //  MARK: TODO: ДОДЕЛАТЬ!!!
+            }) {
+                HStack {
+                    //  MARK: TODO HOW TO GET FAV??
+                    Image(systemName: false ? "star" : "star.fill")
+                    Spacer()
+                    Text(false ? "В избранные" : "Убрать из избранных")
+                }
+                .foregroundColor(.systemRed)
+            }
+        }
             
         .sheet(isPresented: $showDetail,
                content: { EmissionDetail(emission: self.emission,

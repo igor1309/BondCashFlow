@@ -18,6 +18,13 @@ struct PositionRow: View {
     }
     
     @State private var showDetail = false
+    @State private var showConfirmation = false
+    
+    private func deletePosition(position: Position) {
+        if let index = userData.positions.firstIndex(where: { $0.id == position.id}) {
+            userData.positions.remove(at: index)
+        }
+    }
     
     var body: some View {
         
@@ -61,6 +68,30 @@ struct PositionRow: View {
         }
         .onTapGesture {
             self.showDetail = true
+        }
+        .contextMenu {
+            Button(action: {
+                //  MARK: TODO: ДОДЕЛАТЬ!!!
+                self.showConfirmation = true
+            }) {
+                HStack {
+                    Image(systemName: "cart.badge.minus")
+                    Spacer()
+                    Text("TBD: Закрыть позицию")
+                }
+                .foregroundColor(.systemRed)
+            }
+        }
+        .actionSheet(isPresented: self.$showConfirmation) {
+            ActionSheet(title: Text("Закрыть?"),
+                        message: Text("Отменить закрытие позиции будет невозможно."),
+                        buttons: [
+                            .cancel(Text("Отмена")),
+                            .destructive(Text("Да, закрыть позицию"),
+                                         action: {
+                                            self.deletePosition(position: self.position)
+                            })
+            ])
         }
             
         .sheet(isPresented: $showDetail,

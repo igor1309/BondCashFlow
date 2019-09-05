@@ -23,34 +23,29 @@ struct CashFlowCell2: View {
             VStack(alignment: .leading) {
                 if coupon > 0 {
                     HStack{
-                        Text("Купон".uppercased())
-                            .font(.caption)
+                        Text("Купон".lowercased())
                             .fontWeight(.light)
                         
                         Spacer()
                         
                         Text(coupon.formattedGrouped)
-                            .font(.footnote)
                             .fontWeight(.light)
-                            .foregroundColor(.systemOrange)
                     }
                 }
                 
                 if face > 0 {
                     HStack{
-                        Text("Номинал".uppercased())
-                            .font(.caption)
+                        Text("Номинал".lowercased())
                             .fontWeight(.light)
                         
                         Spacer()
                         
                         Text(face.formattedGrouped)
-                            .font(.footnote)
                             .fontWeight(.light)
-                            .foregroundColor(.systemOrange)
                     }
                 }
             }
+            .font(.footnote)
             .padding(.vertical, 4)
         }
         .padding(.bottom, 6)
