@@ -105,6 +105,8 @@ struct AddPosition: View {
     @EnvironmentObject var settings: SettingsStore
     @Environment(\.presentationMode) var presentation
     
+    var proposedEmissionID: EmissionID = -1
+    
     @State private var portfolioName: String = ""
     @State private var emissionID: EmissionID = -1
     @State private var qty: Int = 1
@@ -112,6 +114,10 @@ struct AddPosition: View {
     @State private var portfolioNameError: String = ""
     @State private var emissionIDError: String = ""
     @State private var qtyError: String = ""
+    
+    init(proposedEmissionID: EmissionID = -1) {
+        self._emissionID = State(initialValue: proposedEmissionID)
+    }
     
     private var positionIsValid: Bool {
         
@@ -150,6 +156,10 @@ struct AddPosition: View {
         }
         
         return true
+    }
+    
+    func favEmission() {
+        userData.favoriteEmissions.updateValue(true, forKey: emissionID)
     }
     
     @State private var showModal = false
@@ -211,6 +221,10 @@ struct AddPosition: View {
                     if self.positionIsValid {
                         let position = Position(portfolioName: self.portfolioName, emissionID: self.emissionID, qty: self.qty)
                         self.userData.positions.append(position)
+                        
+                        /// mark emission as favotite
+                        self.favEmission()
+
                         self.presentation.wrappedValue.dismiss()
                     }
                 }) {

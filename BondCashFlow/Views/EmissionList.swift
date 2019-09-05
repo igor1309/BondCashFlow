@@ -21,10 +21,10 @@ struct EmissionList: View {
     
     //  MARK: хотелось бы сохранять выбранный фильтр в selectedFilter в SettingsStore
     //  но как это делать???
-//    init(local: Bool = true) {
-//        self.local = local
-//        self._filterType = State(initialValue: FilterType(rawValue: settings.selectedFilter) ?? .favorites)
-//    }
+    //    init(local: Bool = true) {
+    //        self.local = local
+    //        self._filterType = State(initialValue: FilterType(rawValue: settings.selectedFilter) ?? .favorites)
+    //    }
     
     @State private var showFilter = false
     
@@ -37,22 +37,67 @@ struct EmissionList: View {
         
         NavigationView {
             VStack(alignment: .leading) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(filterType == .all ? filterType.rawValue : "Фильтр: " + filterType.rawValue)
+                //                VStack(alignment: .leading, spacing: 3) {
+                HStack {
+                    // Text(filterType == .all ? filterType.rawValue : "Фильтр: " + filterType.rawValue)
+                    Text(filterType.rawValue)
                         .foregroundColor(.secondary)
                         .font(.caption)
                         .padding(.horizontal)
                     
-                    //  MARK: TODO доделать
-                    Text("TBD: … выпуск/а/ов, … эмитент/а/ов")
-                        .foregroundColor(.systemTeal)
+                    Spacer()
+                    
+                    HStack {
+                        //  MARK: TODO доделать
+                        Text("Выпусков …")
+                        Text("Эмитентов …")
                         //                Text("\(emissionsCount.formattedGrouped) выпуск/а/ов, \(emitemtsCount.formattedGrouped) эмитент/а/ов")
                         //                    //  MARK: - одна из опций должна работать (не обрезать текст)
                         //                    .lineLimit(nil)
                         //                    .fixedSize(horizontal: false, vertical: true)
                         //                    .foregroundColor(.secondary)
-                        .font(.caption)
-                        .padding(.horizontal)
+                    }
+                    .foregroundColor(.systemTeal)
+                    .font(.caption)
+                    .padding(.horizontal)
+                }
+                .contextMenu {
+                    if filterType != .all {
+                        Button(action: {
+                            self.filterType = .all
+                        }) {
+                            HStack {
+                                Image(systemName: "sun.max")
+                                Spacer()
+                                Text("все выпуски")
+                            }
+                        }
+                    }
+                    
+                    if filterType != .withFlows {
+                        Button(action: {
+                            self.filterType = .withFlows
+                        }) {
+                            HStack {
+                                Image(systemName: "flowchart")
+                                Spacer()
+                                Text("выпуски с потоками")
+                            }
+                            
+                        }
+                    }
+                    
+                    if filterType != .favorites {
+                        Button(action: {
+                            self.filterType = .favorites
+                        }) {
+                            HStack {
+                                Image(systemName: "star")
+                                Spacer()
+                                Text("избранные выпуски")
+                            }
+                        }
+                    }
                 }
                 
                 List {
@@ -122,5 +167,6 @@ struct EmissionList_Previews: PreviewProvider {
     static var previews: some View {
         EmissionList()
             .environmentObject(UserData())
+            .environmentObject(SettingsStore())
     }
 }

@@ -66,17 +66,28 @@ struct EmissionRow: View {
     @EnvironmentObject var userData: UserData
     
     var emission: Emission
-    @State private var showDetail = false
+    @State private var showModal = false
+    @State var modal: Modal = .emissionDetail
+    enum Modal { case emissionDetail, addPosition }
+    
+    func favEmission() {
+        userData.favoriteEmissions.updateValue(true, forKey: emission.id)
+    }
+    func unfavEmission() {
+        self.userData.favoriteEmissions[self.emission.id] = nil
+    }
     
     var body: some View {
         EmissionSubRow(emission: emission)
             //            .environmentObject(userData)
             .onTapGesture {
-                self.showDetail = true
+                self.modal = .emissionDetail
+                self.showModal = true
         }
         .contextMenu {
             Button(action: {
-                //  MARK: TODO: ДОДЕЛАТЬ!!!
+                self.showModal = true
+                self.modal = .addPosition
             }) {
                 HStack {
                     Image(systemName: "cart.badge.plus")
@@ -87,7 +98,7 @@ struct EmissionRow: View {
             
             if (userData.favoriteEmissions[emission.id] ?? false) {
                 Button(action: {
-                    self.userData.favoriteEmissions[self.emission.id] = nil
+                    self.unfavEmission()
                 }) {
                     HStack {
                         Image(systemName: "star.fill")
@@ -97,7 +108,7 @@ struct EmissionRow: View {
                 }
             } else {
                 Button(action: {
-                    self.userData.favoriteEmissions.updateValue(true, forKey: self.emission.id)
+                    self.favEmission()
                 }) {
                     HStack {
                         Image(systemName: "star")
@@ -108,11 +119,20 @@ struct EmissionRow: View {
             }
         }
             
-        .sheet(isPresented: $showDetail,
-               content: { EmissionDetail(emission: self.emission,
-                                         isFav: self.userData.favoriteEmissions[self.emission.id] ?? false)
-                .environmentObject(self.userData)
+        .sheet(isPresented: $showModal,
+               content: {
+                if self.modal == .emissionDetail {
+                    EmissionDetail(emission: self.emission,
+                                   isFav: self.userData.favoriteEmissions[self.emission.id] ?? false)
+                        .environmentObject(self.userData)
+                }
+                
+                if self.modal == .addPosition {
+                    AddPosition(proposedEmissionID: self.emission.id)
+                        .environmentObject(self.userData)
+                }
         })
+        
     }
 }
 
