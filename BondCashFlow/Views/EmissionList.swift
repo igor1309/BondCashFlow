@@ -12,19 +12,9 @@ struct EmissionList: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var settings: SettingsStore
     @EnvironmentObject var userData: UserData
-    
-    var local = true
-    
+        
     @State private var filter: String = ""
     @State private var filterType: FilterType = .favorites
-    
-    
-    //  MARK: хотелось бы сохранять выбранный фильтр в selectedFilter в SettingsStore
-    //  но как это делать???
-    //    init(local: Bool = true) {
-    //        self.local = local
-    //        self._filterType = State(initialValue: FilterType(rawValue: settings.selectedFilter) ?? .favorites)
-    //    }
     
     @State private var showFilter = false
     
@@ -32,6 +22,11 @@ struct EmissionList: View {
     //  MARK: TODO заменить на метаданные
     @State private var emissionsCount: Int = loadEmissionData().count
     @State private var emitemtsCount: Int = loadEmissionData().map({ $0.emitentID }).removingDuplicates().count
+    
+    
+    init(proposedFilter: FilterType = .favorites) {
+        self._filterType = State(initialValue: proposedFilter)
+    }
     
     var body: some View {
         

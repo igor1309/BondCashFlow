@@ -86,13 +86,16 @@ struct EmissionRow: View {
         }
         .contextMenu {
             Button(action: {
+                /// fav emission otherwise it would not show up in a list of emissions in AppPosition view
+                self.favEmission()
+                
                 self.showModal = true
                 self.modal = .addPosition
             }) {
                 HStack {
                     Image(systemName: "cart.badge.plus")
                     Spacer()
-                    Text("TBD: Купить")
+                    Text("Купить этот выпуск")
                 }
             }
             

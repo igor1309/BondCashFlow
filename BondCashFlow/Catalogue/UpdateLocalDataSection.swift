@@ -62,6 +62,7 @@ struct UpdateLocalDataSection: View {
         Group {
             if isFinished {
                 Text(process)
+                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundColor(.secondary)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {

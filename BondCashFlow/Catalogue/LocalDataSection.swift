@@ -35,7 +35,7 @@ struct LocalDataSection: View {
         }
             
         .sheet(isPresented: $showModal, content: {
-            EmissionList(local: true)
+            EmissionList()
                 .environmentObject(self.userData)
                 .environmentObject(self.settings)
         })

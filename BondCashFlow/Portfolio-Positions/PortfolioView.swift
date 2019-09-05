@@ -121,7 +121,7 @@ struct PortfolioView: View {
                 }
                 
                 if self.modal == .addPosition {
-                    AddPosition()
+                    AddPosition(proposedPortfolioName: self.settings.selectedPortfolio)
                         .environmentObject(self.userData)
                         .environmentObject(self.settings)
                 }

@@ -24,6 +24,7 @@ struct CbondLimitPicker: View {
     
     var body: some View {
         Picker(selection: $cbondLimit, label: Text("Лимит запроса")) {
+            Text("0").tag(0)
             Text("1").tag(1)
             Text("10").tag(10)
             Text("50").tag(50)
