@@ -24,36 +24,41 @@ struct CbondLogin: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Логин-пароль к cbonds.ru".uppercased()),
+                Section(header: Text("Доступ к cbonds.ru".uppercased()),
                         footer: Text(footer).foregroundColor(.systemRed)
                 ){
                     TextField("Логин", text: $settings.login)
                     TextField("Пароль", text: $settings.password)
-                }
-                
-                Section(header: Text("Доступ к cbonds.ru".uppercased())
-                ){
-                    if !(settings.login == "test" && settings.password == "test") {
+                    
+                    if !(settings.isTestLogin) {
                         Button(action: {
-                            self.settings.login = "test"
-                            self.settings.password = "test"
+                            self.settings.loginTest()
                         }) {
                             Text("Тестовый доступ")
                         }
                     }
                     
-                    if !(settings.login == "igor@rbiz.group" && settings.password == "bonmaM-wojhed-fokza3") {
+                    if !(settings.isIgorLogin) {
                         Button(action: {
-                            self.settings.login = "igor@rbiz.group"
-                            self.settings.password = "bonmaM-wojhed-fokza3"
+                            self.settings.loginIgor()
                             
                         }) {
                             Text("igor@rbiz.group")
                         }
                     }
                 }
+                
+                Section(header: Text("Параметры запроса".uppercased()),
+                        footer: Text("Лимит: 1000 записей")) {
+                    
+                    CbondOperationPicker(cbondOperation: $settings.lastCBondOperationUsed)
+                    
+                    CbondLimitPicker(cbondLimit: $settings.lastCBondLimitUsed)
+                    
+                    CbondOffsetPicker(cbondOffset: $settings.lastCBondOffsetUsed)
+                }
             }
-            .navigationBarTitle("Логин-пароль")
+            .navigationBarTitle("Параметры")
                 
             .navigationBarItems(trailing: Button(action: {
                 //  MARK: - add actions
@@ -70,5 +75,6 @@ struct CbondLogin: View {
 struct CbondLogin_Previews: PreviewProvider {
     static var previews: some View {
         CbondLogin()
+            .environmentObject(SettingsStore())
     }
 }

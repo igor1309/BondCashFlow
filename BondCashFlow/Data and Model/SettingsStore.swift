@@ -23,6 +23,24 @@ final class SettingsStore: ObservableObject {
         weeksToShowInCalendar = 52
     }
     
+    func loginTest() {
+        login = "test"
+        password = "test"
+    }
+    
+    func loginIgor() {
+        login = "igor@rbiz.group"
+        password = "bonmaM-wojhed-fokza3"
+    }
+    
+    var isTestLogin: Bool {
+        login == "test" && password == "test"
+    }
+    
+    var isIgorLogin: Bool {
+        login == "igor@rbiz.group" && password == "bonmaM-wojhed-fokza3"
+    }
+    
     private let defaults = UserDefaults.standard
     
     @Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {

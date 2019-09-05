@@ -21,11 +21,10 @@ struct LocalDataSection: View {
                 
                 FlowsMetadata()
                 
-                
                 EmissionsMetadata()
             }
             .foregroundColor(.secondary)
-            .font(.footnote)
+            .font(.subheadline)
             
             Button(action: {
                 self.showModal = true
@@ -49,6 +48,7 @@ struct LocalDataSection_Previews: PreviewProvider {
             Form {
                 LocalDataSection()
                     .environmentObject(UserData())
+                    .environmentObject(SettingsStore())
             }
         }
     }

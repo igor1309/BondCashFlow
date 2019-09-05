@@ -28,9 +28,9 @@ struct RotatingSqureSplit: View {
     
     var body: some View {
         Image(systemName: "sun.max")
-            .foregroundColor(.systemGray2)
+            .foregroundColor(color)
             .rotationEffect(.degrees(isAnimated ? 0 : -720), anchor: .center)
-            .opacity(isAnimated ? 0.1 : 1)
+            .opacity(isAnimated ? 0.2 : 1)
             .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false).speed(2/6))
             .onAppear {
                 self.isAnimated = true

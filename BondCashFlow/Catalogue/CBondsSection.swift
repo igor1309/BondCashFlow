@@ -17,23 +17,29 @@ struct CBondsSection: View {
         Section(header: Text("Запросить cbonds.ru".uppercased()),
                 footer: Text("Объем доступной информации cbonds.ru зависит от доступа (логин:пароль). Обновить можно все справочники или выбранные (Эмиссии или Потоки).")
         ){
-            HStack {
-                Text("Логин-пароль")
-                
-                Spacer()
-                
-                Text("\(settings.login):\(settings.password)")
+            Button("Параметры доступа") {
+                self.showModal = true
             }
-            .foregroundColor(.accentColor)
-            
-            CbondOperationPicker(cbondOperation: $settings.lastCBondOperationUsed)
-            .onAppear {
-                print(self.settings.lastCBondOperationUsed)
+            .contextMenu {
+                Button(action: {
+                    self.settings.loginTest()
+                }) {
+                    HStack {
+                        Image(systemName: "person.circle.fill")
+                        Spacer()
+                        Text("тестовый доступ")
+                    }
+                }
+                Button(action: {
+                    self.settings.loginIgor()
+                }) {
+                    HStack {
+                        Image(systemName: "person.crop.circle.badge.checkmark")
+                        Spacer()
+                        Text("igor@rbiz.group")
+                    }
+                }
             }
-            
-            CbondLimitPicker(cbondLimit: $settings.lastCBondLimitUsed)
-            
-            CbondOffsetPicker(cbondOffset: $settings.lastCBondOffsetUsed)
             
             UpdateLocalDataSection()
         }
@@ -43,7 +49,6 @@ struct CBondsSection: View {
                 CbondLogin()
                     .environmentObject(self.userData)
                     .environmentObject(self.settings)
-                
         })
     }
 }

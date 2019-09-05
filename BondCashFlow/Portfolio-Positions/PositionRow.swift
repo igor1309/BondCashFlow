@@ -26,6 +26,20 @@ struct PositionRow: View {
         }
     }
     
+    private func doubleQty() {
+        if let index = userData.positions.firstIndex(where: { $0.id == position.id}) {
+            userData.positions[index].qty = 2 * position.qty
+        }
+    }
+    private func halfQty() {
+        if position.qty > 1{
+            if let index = userData.positions.firstIndex(where: { $0.id == position.id}) {
+                userData.positions[index].qty = Int((Double(position.qty) / 2).rounded(.up))
+            }
+        }
+    }
+    
+    
     var body: some View {
         
         let isin = emission?.isinCode == nil ? "" : " ISIN: " + String(emission?.isinCode ?? "")
@@ -71,13 +85,30 @@ struct PositionRow: View {
         }
         .contextMenu {
             Button(action: {
-                //  MARK: TODO: ДОДЕЛАТЬ!!!
                 self.showConfirmation = true
             }) {
                 HStack {
                     Image(systemName: "trash")
                     Spacer()
                     Text("Закрыть позицию")
+                }
+            }
+            Button(action: {
+                self.doubleQty()
+            }) {
+                HStack {
+                    Image(systemName: "2.circle")
+                    Spacer()
+                    Text("Удвоить")
+                }
+            }
+            Button(action: {
+                self.halfQty()
+            }) {
+                HStack {
+                    Image(systemName: "square.and.line.vertical.and.square.fill")
+                    Spacer()
+                    Text("Уполовинить")
                 }
             }
         }
