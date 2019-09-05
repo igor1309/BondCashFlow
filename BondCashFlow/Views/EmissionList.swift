@@ -14,7 +14,7 @@ struct EmissionList: View {
     @EnvironmentObject var userData: UserData
         
     @State private var filter: String = ""
-    @State private var filterType: FilterType = .favorites
+    @State private var filterType: FilterType = .withFlows
     
     @State private var showFilter = false
     

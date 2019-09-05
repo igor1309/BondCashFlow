@@ -47,16 +47,16 @@ struct ContentView: View {
             }
             .tag(2)
             
-//            NavigationView {
-//                Settings()
-//            }
-//            .tabItem {
-//                VStack {
-//                    Image(systemName: "gear")
-//                    Text("Настройки")
-//                }
-//            }
-//            .tag(3)
+            NavigationView {
+                Settings()
+            }
+            .tabItem {
+                VStack {
+                    Image(systemName: "gear")
+                    Text("Настройки")
+                }
+            }
+            .tag(3)
         }
     }
 }

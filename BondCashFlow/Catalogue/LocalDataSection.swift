@@ -32,10 +32,11 @@ struct LocalDataSection: View {
             }) {
                 Text("Показать выпуски")
             }
+            .disabled(userData.emissions.count == 0)
         }
             
         .sheet(isPresented: $showModal, content: {
-            EmissionList()
+            EmissionList(proposedFilter: .withFlows)
                 .environmentObject(self.userData)
                 .environmentObject(self.settings)
         })

@@ -9,6 +9,20 @@
 import Foundation
 
 final class SettingsStore: ObservableObject {
+    
+    func reset() {
+//        lastTabUsed = 2
+        login = "test"
+        password = "test"
+        isAllPortfoliosSelected = true
+        selectedPortfolio = ""
+        selectedFilter = ""
+        lastCBondOperationUsed = "get_emissions"
+        lastCBondLimitUsed = 10
+        lastCBondOffsetUsed = 0
+        weeksToShowInCalendar = 52
+    }
+    
     private let defaults = UserDefaults.standard
     
     @Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {

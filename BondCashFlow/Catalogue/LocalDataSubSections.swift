@@ -39,7 +39,7 @@ struct FlowsMetadata: View {
                 }
                 .padding(.leading)
             } else {
-                Text("Информация по потокам не обновлена")
+                Text("Информация по потокам отсутствует")
             }
         }
     }
@@ -60,7 +60,7 @@ struct EmissionsMetadata: View {
                 }
                 .padding(.leading)
             } else {
-                Text("Информация по выпускам не обновлена")
+                Text("Информация по выпускам отсутствует")
             }
         }
         

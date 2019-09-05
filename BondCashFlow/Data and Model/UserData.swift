@@ -11,8 +11,29 @@
 import Foundation
 
 final class UserData: ObservableObject {
+    
+    func reset() {
+        emissionMetadata = nil
+        flowMetadata = nil
+        emissions = []
+        flows = []
+        portfolioNames = []
+        favoriteEmissions = [:]
+        positions = []
+        cashFlows = []
+        baseDate = Date()
+    }
+    
     private let defaults = UserDefaults.standard
     
+    var hasAtLeastTwoPortfolios: Bool {
+        positions.map({ $0.portfolioName }).removingDuplicates().count > 1
+    }
+    
+    var emitents: [String] {
+        emissions.map { $0.emitentNameRus }.removingDuplicates()
+    }
+
     @Published var emissionMetadata: CBondEmissionMetadata? = emissionMetadataData {
         didSet {
             saveJSON(data: emissionMetadata, filename: "emissionMetadata.json")
@@ -37,10 +58,6 @@ final class UserData: ObservableObject {
         }
     }
     
-    var emitents: [String] {
-        emissions.map { $0.emitentNameRus }.removingDuplicates()
-    }
-    
     @Published var portfolioNames: [String] = portfolioNamesData {
         didSet {
             saveJSON(data: portfolioNames, filename: "portfolioNames.json")
@@ -59,9 +76,7 @@ final class UserData: ObservableObject {
         }
     }
     
-    var hasAtLeastTwoPortfolios: Bool {
-        positions.map({ $0.portfolioName }).removingDuplicates().count > 1
-    }
+    @Published var baseDate = Date()
     
     @Published var cashFlows: [CalendarCashFlow] = calendarCashFlowData
 //    {
@@ -113,6 +128,4 @@ final class UserData: ObservableObject {
 //        return cashFlows
 //    }
 //
-    @Published var baseDate = Date()
-    
 }

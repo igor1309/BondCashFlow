@@ -15,7 +15,7 @@ struct CBondsSection: View {
     
     var body: some View {
         Section(header: Text("Запросить cbonds.ru".uppercased()),
-                footer: Text("Объем доступной информации cbonds.ru зависит от доступа (логин:пароль).\nTDB: Обновить можно все справочники или выбранные (Эмиссии или Потоки).")
+                footer: Text("Объем доступной информации cbonds.ru зависит от доступа (логин:пароль). Обновить можно все справочники или выбранные (Эмиссии или Потоки).")
         ){
             HStack {
                 Text("Логин-пароль")
@@ -25,11 +25,11 @@ struct CBondsSection: View {
                 Text("\(settings.login):\(settings.password)")
             }
             .foregroundColor(.accentColor)
-            .onTapGesture {
-                self.showModal = true
-            }
             
             CbondOperationPicker(cbondOperation: $settings.lastCBondOperationUsed)
+            .onAppear {
+                print(self.settings.lastCBondOperationUsed)
+            }
             
             CbondLimitPicker(cbondLimit: $settings.lastCBondLimitUsed)
             

@@ -9,11 +9,95 @@
 import SwiftUI
 
 struct Settings: View {
-    var body: some View {
-        Text("Настройки")
+    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
+    
+    @State private var isCleaning = false
+    @State private var showAlert = false
+    @State private var isConfirmed = false
+    
+    func deleteDataAndSettings() {
+        if isConfirmed {
+            print("about to delete all  data and settings")
             
-            .navigationBarTitle("Настройки")
-        
+            //  reset UserData
+            userData.reset()
+            
+            //  reset Settings
+            settings.reset()
+            
+            //  clean UserDefaults
+            let domain = Bundle.main.bundleIdentifier!
+            UserDefaults.standard.removePersistentDomain(forName: domain)
+            UserDefaults.standard.synchronize()
+            print("UserDefaults cleaned")
+            
+            //  clean Document Directory
+            let fileManager = FileManager.default
+            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                do {
+                    let filePaths = try fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil, options: [])
+                    for filePath in filePaths {
+                        try fileManager.removeItem(at: filePath)
+                    }
+                    print("Document Directory cleaned")
+                } catch {
+                    print("Could not clear temp folder: \(error)")
+                }
+            }
+        }
+    }
+    
+    var body: some View {
+        Form {
+            Section(header: Text("Сброс".uppercased())) {
+                if isCleaning {
+                    HStack {
+                        RotatingActivityIndicator(text: "очистка…",
+                                                  color: .systemGray2)
+                    }
+                }
+                
+                Button(action: {
+                    self.showAlert = true
+                }){
+                    Text("Сбросить все настройки и данные")
+                }
+                .foregroundColor(.systemRed)
+                .actionSheet(isPresented: $showAlert) {
+                    
+                    ActionSheet(title: Text("Удалить всё"),
+                                message: Text("Вы точно хотите удалить все данные и настройки без возможности восстановления?"),
+                                buttons: [
+                                    .cancel(Text("Отмена")),
+                                    .destructive(Text("Да, удалить всё!"), action: {
+                                        self.isConfirmed = true
+                                    })
+                    ])
+                }
+            }
+        }
+        .navigationBarTitle("Настройки")
+            
+        .actionSheet(isPresented: $isConfirmed) {
+            
+            ActionSheet(title: Text("Удалить всё".uppercased()),
+                        message: Text("Восстановление невозможно.\nУдалить?".uppercased()),
+                        buttons: [
+                            .cancel(Text("Отмена")),
+                            .destructive(Text("Да, удалить всё!".uppercased()), action: {
+                                if self.isConfirmed {
+                                    self.isCleaning = true
+                                    self.deleteDataAndSettings()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                        withAnimation(.easeInOut) {
+                                            self.isCleaning = false
+                                        }
+                                    }
+                                }
+                            })
+            ])
+        }
     }
 }
 
@@ -21,6 +105,8 @@ struct Settings_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             Settings()
+                .environmentObject(UserData())
+                .environmentObject(SettingsStore())
         }
     }
 }

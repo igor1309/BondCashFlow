@@ -179,8 +179,16 @@ struct AddPosition: View {
     var body: some View {
         NavigationView {
             Form {
-                
-                if userData.emissions.count == 0 {
+                if userData.portfolioNames.count == 0 {
+                    Section(header: Text("Проблема".uppercased())) {
+                        Text("У вас нет ни одного портфеля.")
+                            .fixedSize(horizontal: false, vertical: true)
+                        Button("Создать портфель") {
+                            self.modal = .addPortfolio
+                            self.showModal = true
+                        }
+                    }
+                } else if userData.emissions.count == 0 {
                     Section(header: Text("Проблема".uppercased())) {
                         Text("В базе нет ни одного выпуска. Чтобы ввести позицию нужно обновить базу.")
                             .fixedSize(horizontal: false, vertical: true)
@@ -212,7 +220,8 @@ struct AddPosition: View {
                             footer: Text(qtyError + "\n В СОФТЕ БАГ! ДЛЯ ЗАПИСИ ЧИСЛА НУЖНО НАЖАТЬ ВВОД!").foregroundColor(.systemRed)
                     ){
                         TextField("Штуки", value: $qty, formatter: NumberFormatter())
-                            .multilineTextAlignment(.trailing)
+                        //  MARK: TODO: вернуть когда починят TextField
+//                            .multilineTextAlignment(.trailing)
                         //  MARK: TODO: В СОФТЕ БАГ! ДЛЯ ЗАПИСИ ЧИСЛА НУЖНО НАЖАТЬ ВВОД!
                         //  поэтому .keyboardType(.numberPad) отложим
 //                            .keyboardType(.numberPad)
