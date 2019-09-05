@@ -56,10 +56,11 @@ struct CashFlowGridColumn: View {
             }
         }
         .onTapGesture {
-            //  MARK: TODO add haptic feedback
             self.activeWeek = self.weekNo
             self.userData.baseDate = self.date
             self.header = self.date.toString(format: "dd.MM")
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
         }
         .modifier(GridHighlighter(show: activeWeek == weekNo))
         .animation(.spring())

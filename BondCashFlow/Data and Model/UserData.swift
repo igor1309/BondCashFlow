@@ -14,7 +14,15 @@ final class UserData: ObservableObject {
     
     //    @Published var cashFlows: [CalendarCashFlow] = []//calendarCashFlowData
     
-func reset() {
+    func favEmission(emissionID: EmissionID) {
+        favoriteEmissions.updateValue(true, forKey: emissionID)
+    }
+    //  MARK: TODO fix func
+//    func unfavEmission(emissionID: EmissionID) {
+//        favoriteEmissions[EmissionID] = nil
+//    }
+    
+    func reset() {
         emissionMetadata = nil
         flowMetadata = nil
         emissions = []
@@ -22,7 +30,7 @@ func reset() {
         portfolioNames = []
         favoriteEmissions = [:]
         positions = []
-//        cashFlows = []
+        //        cashFlows = []
         baseDate = Date()
     }
     
@@ -78,7 +86,7 @@ func reset() {
         }
     }
     
-    @Published var baseDate = DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!//Date()
+    @Published var baseDate = Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
     
     func calculateCashFlows() -> [CalendarCashFlow] {
         
@@ -125,12 +133,12 @@ func reset() {
                 }
             }
         }
-//        print(cashFlows)
+        //        print(cashFlows)
         if cashFlows.count > 0 {
             print(cashFlows[0])
         }
         print("… and more: TOTAL \(cashFlows.count) - cashFlows.count")
-
+        
         return cashFlows
     }
     

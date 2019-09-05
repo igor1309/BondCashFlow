@@ -70,9 +70,7 @@ struct EmissionRow: View {
     @State var modal: Modal = .emissionDetail
     enum Modal { case emissionDetail, addPosition }
     
-    func favEmission() {
-        userData.favoriteEmissions.updateValue(true, forKey: emission.id)
-    }
+    //  MARK: TODO after fix in UserData replace this func
     func unfavEmission() {
         self.userData.favoriteEmissions[self.emission.id] = nil
     }
@@ -87,7 +85,7 @@ struct EmissionRow: View {
         .contextMenu {
             Button(action: {
                 /// fav emission otherwise it would not show up in a list of emissions in AppPosition view
-                self.favEmission()
+                self.userData.favEmission(emissionID: self.emission.id)
                 
                 self.showModal = true
                 self.modal = .addPosition
@@ -111,7 +109,8 @@ struct EmissionRow: View {
                 }
             } else {
                 Button(action: {
-                    self.favEmission()
+                    /// fav emission otherwise it would not show up in a list of emissions in AppPosition view
+                    self.userData.favEmission(emissionID: self.emission.id)
                 }) {
                     HStack {
                         Image(systemName: "star")

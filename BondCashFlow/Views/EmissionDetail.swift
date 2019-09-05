@@ -36,6 +36,8 @@ struct EmissionDetail: View {
         self._isFavorite = State(initialValue: isFav)
     }
     
+    @State var showModal = false
+    
     var body: some View {
         
         NavigationView {
@@ -47,42 +49,40 @@ struct EmissionDetail: View {
                     .padding()
                     .onTapGesture {
                         self.isFavorite.toggle()
-                        //  MARK: TODO haptic feedback
+                        let generator = UINotificationFeedbackGenerator()
+                        generator.notificationOccurred(.success)
                 }
                 
                 HStack {
                     Spacer()
                     
-                    Button("TBD: КУПИТЬ") {
-                        //  MARK: TODO добавить операцию покупки
+                    Button("Купить этот выпуск") {
+                        /// fav emission otherwise it would not show up in a list of emissions in AppPosition view
+                        self.userData.favEmission(emissionID: self.emission.id)
+
+                        self.showModal = true
                     }
-//                    .foregroundColor(.systemOrange)
                     .padding(.horizontal)
                 }
-                
-//                Text("Потоки")
-//                    .font(.title)
-//                    .fontWeight(.heavy)
-//                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 6, trailing: 0))
-                //                    .border(Color.systemRed)
                 
                 List {
                     ForEach(flows, id: \.self) { flow in
                         FlowRow(flow: flow)
                     }
                 }
-                //            .border(Color.systemPink)
             }
                 
-            .navigationBarTitle("Выпуск и потоки")
-                
-            .navigationBarItems(trailing: Button(action: {
-                //  MARK: - add actions
-                self.presentation.wrappedValue.dismiss()
-            }) {
-                Text("Закрыть")
-                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
+            .sheet(isPresented: $showModal,
+                   content: {
+                    AddPosition(proposedEmissionID: self.emission.id)
+                        .environmentObject(self.userData)
             })
+                
+                .navigationBarTitle("Выпуск и потоки")
+                
+                .navigationBarItems(trailing: TrailingButton(name: "Закрыть", closure: {
+                    self.presentation.wrappedValue.dismiss()
+                }))
         }
     }
 }

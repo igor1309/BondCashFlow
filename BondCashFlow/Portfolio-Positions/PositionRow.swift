@@ -99,7 +99,7 @@ struct PositionRow: View {
                 HStack {
                     Image(systemName: "2.circle")
                     Spacer()
-                    Text("Удвоить")
+                    Text("Удвоить позицию")
                 }
             }
             Button(action: {
@@ -108,7 +108,7 @@ struct PositionRow: View {
                 HStack {
                     Image(systemName: "square.and.line.vertical.and.square.fill")
                     Spacer()
-                    Text("Уполовинить")
+                    Text("Уполовинить позицию")
                 }
             }
         }
@@ -120,6 +120,8 @@ struct PositionRow: View {
                             .destructive(Text("Да, закрыть позицию"),
                                          action: {
                                             self.deletePosition(position: self.position)
+                                            let generator = UINotificationFeedbackGenerator()
+                                            generator.notificationOccurred(.success)
                             })
             ])
         }

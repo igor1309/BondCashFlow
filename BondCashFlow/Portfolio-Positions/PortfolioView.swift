@@ -134,6 +134,7 @@ struct PortfolioView: View {
                 if self.modal == .allFlows {
                     ShowAllFlowsPastAndFuture()
                         .environmentObject(self.userData)
+                        .environmentObject(self.settings)
                 }
                 
                 if self.modal == .filter {

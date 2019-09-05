@@ -12,9 +12,9 @@ struct EmissionList: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var settings: SettingsStore
     @EnvironmentObject var userData: UserData
-        
+    
     @State private var filter: String = ""
-    @State private var filterType: FilterType = .withFlows
+    @State private var filterType: FilterType = .withFutureFlows
     
     @State private var showFilter = false
     
@@ -82,6 +82,19 @@ struct EmissionList: View {
                         }
                     }
                     
+                    if filterType != .withFutureFlows {
+                        Button(action: {
+                            self.filterType = .withFutureFlows
+                        }) {
+                            HStack {
+                                Image(systemName: "flowchart.fill")
+                                Spacer()
+                                Text("с будущими потоками")
+                            }
+                            
+                        }
+                    }
+                    
                     if filterType != .favorites {
                         Button(action: {
                             self.filterType = .favorites
@@ -102,7 +115,11 @@ struct EmissionList: View {
                         case .all:
                             return true
                         case .withFlows:
-                            return userData.flows.map { $0.emissionID }.contains($0.id)
+                            return userData.flows.map { $0.emissionID } .contains($0.id)
+                        case .withFutureFlows:
+                            return
+                                userData.flows.filter { $0.date >= self.settings.startDate }
+                                    .map { $0.emissionID }.contains($0.id)
                         case .emitent:
                             return $0.emitentNameRus == filter
                         case .favorites:

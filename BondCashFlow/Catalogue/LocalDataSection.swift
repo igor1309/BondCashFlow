@@ -35,7 +35,7 @@ struct LocalDataSection: View {
         }
             
         .sheet(isPresented: $showModal, content: {
-            EmissionList(proposedFilter: .withFlows)
+            EmissionList(proposedFilter: .withFutureFlows)
                 .environmentObject(self.userData)
                 .environmentObject(self.settings)
         })

@@ -160,10 +160,6 @@ struct AddPosition: View {
         return true
     }
     
-    func favEmission() {
-        userData.favoriteEmissions.updateValue(true, forKey: emissionID)
-    }
-    
     @State private var showModal = false
     @State private var modal: ModalType = .portfolioList
     
@@ -267,7 +263,7 @@ struct AddPosition: View {
                         self.userData.positions.append(position)
                         
                         /// mark emission as favotite
-                        self.favEmission()
+                        self.userData.favEmission(emissionID: self.emissionID)
                         
                         self.presentation.wrappedValue.dismiss()
                     }
@@ -287,7 +283,7 @@ struct AddPosition: View {
                     }
                     
                     if self.modal == .emissionList {
-                        EmissionList(proposedFilter: .withFlows)
+                        EmissionList(proposedFilter: .withFutureFlows)
                             .environmentObject(self.userData)
                             .environmentObject(self.settings)
                     }

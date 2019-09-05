@@ -53,7 +53,8 @@ struct Settings: View {
     
     var body: some View {
         Form {
-            Section(footer: Text("Дата максимально давно и период в \(manyWeeks) недель")) {
+            Section(header: Text("Тестирование".uppercased()),
+                    footer: Text("Дата максимально давно и период в \(manyWeeks) недель")) {
                 
                 Picker("Период", selection: $manyWeeks) {
                     Text("1 год").tag(52)
@@ -70,6 +71,8 @@ struct Settings: View {
                     print("\(self.manyWeeks) - manyWeeks")
                     
                     self.testButtonName = "тестирование включено"
+                    let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.success)
                 }
                 .disabled(self.testButtonName == "тестирование включено")
             }
@@ -96,6 +99,8 @@ struct Settings: View {
                                     .cancel(Text("Отмена")),
                                     .destructive(Text("Да, удалить всё!"), action: {
                                         self.isConfirmed = true
+                                        let generator = UINotificationFeedbackGenerator()
+                                        generator.notificationOccurred(.warning)
                                     })
                     ])
                 }

@@ -46,6 +46,9 @@ struct UpdateLocalDataSection: View {
         withAnimation(.easeInOut) {
             self.isFinished = true
         }
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+
     }
     
     func handleCBondError(_ error: Error) {
