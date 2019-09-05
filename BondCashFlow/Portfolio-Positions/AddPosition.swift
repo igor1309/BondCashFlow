@@ -30,7 +30,7 @@ struct PortfolioPicker: View {
 
 struct EmissionPicker: View {
     @EnvironmentObject var userData: UserData
-    @Binding var emissionID: Int
+    @Binding var emissionID: EmissionID
     var error: String
     
     var body: some View {
@@ -106,7 +106,7 @@ struct AddPosition: View {
     @Environment(\.presentationMode) var presentation
     
     @State private var portfolioName: String = ""
-    @State private var emissionID: Int = -1
+    @State private var emissionID: EmissionID = -1
     @State private var qty: Int = 1
     
     @State private var portfolioNameError: String = ""

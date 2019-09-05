@@ -47,7 +47,7 @@ final class UserData: ObservableObject {
         }
     }
     
-    @Published var favoriteEmissions: [Int: Bool] = favoriteEmissionsData {
+    @Published var favoriteEmissions: [EmissionID: Bool] = favoriteEmissionsData {
         didSet {
             saveJSON(data: favoriteEmissions, filename: "favoriteEmissions.json")
         }

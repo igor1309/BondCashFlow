@@ -11,7 +11,7 @@ import Foundation
 struct Flow: Codable, Hashable {
     /// Основные поля: Денежный поток - get_flow
     let id: Int // Уникальный идентификатор long
-    let emissionID: Int // Эмиссия (id) long
+    let emissionID: EmissionID // Эмиссия (id) long
     let emissionIsinCode: String // Код ISIN эмиссии Varchar
     let emissionEmitentID: Int //Эмитент (id) long
     let date: Date // Дата выплаты Date

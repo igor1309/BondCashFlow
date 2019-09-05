@@ -32,11 +32,11 @@ struct CashFlow: Identifiable {
     
     var date: Date
     var portfolioName: String
-    var emissionID: Int
+    var emissionID: EmissionID
     var amount: Int
     var type: CashFlowType
     
-    init(date: Date, portfolioName: String, emissionID: Int, amount: Int, type: CashFlowType) {
+    init(date: Date, portfolioName: String, emissionID: EmissionID, amount: Int, type: CashFlowType) {
         self.date = date
         self.portfolioName = portfolioName
         self.emissionID = emissionID
