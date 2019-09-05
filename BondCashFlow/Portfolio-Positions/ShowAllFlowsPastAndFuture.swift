@@ -19,26 +19,22 @@ struct FlowRow3: View {
                 
                 Spacer()
                 
+                Text(flow.type.id)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                
                 Text(flow.amount.formattedGrouped) // (Double(qty) * flow).cuponSum.formattedGrouped
             }
             
-            Group {
-                HStack {
-                    Text(flow.emitent)
-                    
-                    Spacer()
-                    
-                    Text(flow.instrument)
-                }
+            HStack {
+                Text(flow.portfolioName)
+                    .foregroundColor(.systemOrange)
                 
-                HStack {
-                    Text(flow.portfolioName)
-                        .foregroundColor(.systemOrange)
-                    
-                    Spacer()
-                    
-                    Text(flow.type.id)
-                }
+                Spacer()
+                
+                Text(flow.emitent)
+                
+                Text(flow.instrument)
             }
             .font(.footnote)
             .foregroundColor(.secondary)
@@ -51,23 +47,28 @@ struct ShowAllFlowsPastAndFuture: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
     
+    @State private var cashFlows: [CalendarCashFlow] = []
+    
     var body: some View {
         NavigationView {
             List {
-                ForEach(userData.cashFlows
+                ForEach(cashFlows
                     .sorted(by: {
-                        ($0.date, $0.emitent, $0.instrument) < ($1.date, $1.emitent, $1.instrument)
-                }), id: \.self) { flow in
-                    
-                    FlowRow3(flow: flow)
-                        
+                        ($0.date, $0.emitent, $0.instrument)
+                            < ($1.date, $1.emitent, $1.instrument) }), id: \.self) { flow in
+                                
+                                FlowRow3(flow: flow)
                 }
             }
-            .navigationBarTitle("Все потоки")
+            .onAppear(perform: {
+                self.cashFlows = self.userData.calculateCashFlows()
+            })
                 
-            .navigationBarItems(trailing: TrailingButton(name: "Закрыть", closure: {
-                self.presentation.wrappedValue.dismiss()
-            }))
+                .navigationBarTitle("Все потоки")
+                
+                .navigationBarItems(trailing: TrailingButton(name: "Закрыть", closure: {
+                    self.presentation.wrappedValue.dismiss()
+                }))
         }
     }
 }

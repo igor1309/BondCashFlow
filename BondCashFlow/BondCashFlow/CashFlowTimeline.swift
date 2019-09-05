@@ -10,11 +10,14 @@ import SwiftUI
 
 struct CashFlowTimeline: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
+    
+    var cashFlows: [CalendarCashFlow]
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                CashFlowGrid()
+                CashFlowGrid(startDate: settings.startDate, cashFlows: cashFlows)
                     .environmentObject(self.userData)
                     .padding()
             }
@@ -25,8 +28,9 @@ struct CashFlowTimeline: View {
 #if DEBUG
 struct CashFlowTimeline_Previews: PreviewProvider {
     static var previews: some View {
-        CashFlowTimeline()
+        CashFlowTimeline(cashFlows: [CalendarCashFlow(date: Date().addWeeks(6), portfolioName: "Optimus", emitent: "VTB", instrument: "GHS-457", amount: 12345, type: .coupon)])
             .environmentObject(UserData())
+            .environmentObject(SettingsStore())
     }
 }
 #endif

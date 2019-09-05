@@ -16,6 +16,9 @@ struct Settings: View {
     @State private var showAlert = false
     @State private var isConfirmed = false
     
+    @State private var manyWeeks = 520
+    @State private var testButtonName = "Включить тестирование потоков"
+    
     func deleteDataAndSettings() {
         if isConfirmed {
             print("about to delete all  data and settings")
@@ -50,6 +53,27 @@ struct Settings: View {
     
     var body: some View {
         Form {
+            Section(footer: Text("Дата максимально давно и период в \(manyWeeks) недель")) {
+                
+                Picker("Период", selection: $manyWeeks) {
+                    Text("1 год").tag(52)
+                    Text("3 года").tag(156)
+                    Text("10 лет").tag(520)
+                }
+                
+                Button("Включить тестирование потоков") {
+                    self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
+                    self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
+                    self.settings.weeksToShowInCalendar = self.manyWeeks
+                    print("\nвключаю тестирование")
+                    print("\(self.userData.baseDate) - baseDate")
+                    print("\(self.manyWeeks) - manyWeeks")
+                    
+                    self.testButtonName = "тестирование включено"
+                }
+                .disabled(self.testButtonName == "тестирование включено")
+            }
+            
             Section(header: Text("Сброс".uppercased())) {
                 if isCleaning {
                     HStack {
@@ -105,8 +129,10 @@ struct Settings_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             Settings()
+                .navigationBarTitle("Настройки")
                 .environmentObject(UserData())
                 .environmentObject(SettingsStore())
+                .environment(\.colorScheme, .dark)
         }
     }
 }

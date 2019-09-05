@@ -9,6 +9,10 @@
 import Foundation
 
 final class SettingsStore: ObservableObject {
+
+    @Published var weeksToShowInCalendar = 52
+    
+    @Published var startDate = DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!//Date()
     
     func reset() {
 //        lastTabUsed = 2
@@ -98,7 +102,4 @@ final class SettingsStore: ObservableObject {
             defaults.set(lastCBondOffsetUsed, forKey: "lastCBondOffsetUsed")
         }
     }
-    
-    @Published var weeksToShowInCalendar = 52
-    
 }

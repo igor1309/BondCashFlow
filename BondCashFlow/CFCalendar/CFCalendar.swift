@@ -15,9 +15,9 @@ struct CFCalendar: View {
     
     var body: some View {
         CashFlowView()
-            .onAppear(perform: {
-                self.userData.cashFlows = self.createCashFlow()
-            })
+//            .onAppear(perform: {
+//                self.userData.cashFlows = self.createCashFlow()
+//            })
             
             .navigationBarTitle("Потоки")
             
@@ -29,16 +29,7 @@ struct CFCalendar: View {
                     Image(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
                         .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
                 }
-                .disabled(!self.userData.hasAtLeastTwoPortfolios),
-                
-                trailing: Button(action: {
-                    self.userData.baseDate = self.userData.flows.map({ $0.date }).min() ?? .distantPast
-                    self.settings.weeksToShowInCalendar = 520
-                }, label: {
-                    Image(systemName: "calendar")
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-                })
-        )
+                .disabled(!self.userData.hasAtLeastTwoPortfolios))
             
             .sheet(isPresented: $showPortfolioFilter,
                    content: { PotfolioFilter().environmentObject(self.userData) })

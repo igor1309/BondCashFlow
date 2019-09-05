@@ -51,16 +51,16 @@ struct CashFlowGridItem: View {
 struct CashFlowGridItem_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            //            NavigationView {
-            //                VStack{
-            //                    CashFlowGridItem(itemState: .empty)
-            //                    CashFlowGridItem(itemState: .full)
-            //                    CashFlowGridItem(itemState: .gray)
-            //                    CashFlowGridItem(itemState: .none)
-            //                }
-            //                .padding()
-            //                .border(Color.systemTeal)
-            //            }
+            NavigationView {
+                VStack{
+                    CashFlowGridItem(itemState: .empty)
+                    CashFlowGridItem(itemState: .full)
+                    CashFlowGridItem(itemState: .gray)
+                    CashFlowGridItem(itemState: .none)
+                }
+                .padding()
+                .border(Color.systemTeal)
+            }
             
             Group {
                 CashFlowGridItem(itemState: .empty)
@@ -71,7 +71,7 @@ struct CashFlowGridItem_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
         }
         .preferredColorScheme(.dark)
-        //        .environment(\.colorScheme, .dark)
+        .environment(\.colorScheme, .dark)
     }
 }
 #endif

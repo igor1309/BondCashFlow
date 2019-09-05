@@ -10,7 +10,9 @@ import SwiftUI
 
 struct CashFlowView: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
+    @State private var cashFlows: [CalendarCashFlow] = []
     var body: some View {
         
         //  MARK: - TODO filter by selected portfolio
@@ -20,17 +22,17 @@ struct CashFlowView: View {
             HStack {
                 Spacer()
                 
-                Text("Base Date: " + userData.baseDate.toString())
+                Text("Start Date: \(settings.startDate.toString()) | Base Date: \(userData.baseDate.toString())")
                     .font(.caption)
                     .foregroundColor(Color.secondary)
                     .padding(.horizontal)
             }
             
-            CashFlowGrid()
+            CashFlowGrid(startDate: settings.startDate, cashFlows: cashFlows)
                 .padding(.horizontal)
                 .padding(.vertical, 4)
             
-            CashFlowList()
+            CashFlowList(cashFlows: cashFlows)
                 //  MARK: old edition:
                 // ScrollView(.vertical, showsIndicators: false) {
                 //     VStack(alignment: .leading, spacing: 0) {
@@ -42,6 +44,10 @@ struct CashFlowView: View {
                 // }
                 .padding(.horizontal)
         }
+        .onAppear(perform: {
+            self.cashFlows = self.userData.calculateCashFlows()
+        })
+        
     }
 }
 
@@ -49,12 +55,13 @@ struct CashFlowView: View {
 struct CashFlowView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
+            //            CashFlowView(cashFlows: [CalendarCashFlow(date: Date().addWeeks(6), portfolioName: "Optimus", emitent: "VTB", instrument: "GHS-457", amount: 12345, type: .coupon)])
             CashFlowView()
-                
                 .navigationBarTitle("Потоки")
             
         }
         .environmentObject(UserData())
+        .environmentObject(SettingsStore())
         .preferredColorScheme(.dark)
     }
 }

@@ -129,7 +129,7 @@ func loadPositionData() -> [Position] {
     return data
 }
 
-let calendarCashFlowData = loadCalendarCashFlowData()
+let calendarCashFlowData: [CalendarCashFlow] = loadCalendarCashFlowData()
 
 func loadCalendarCashFlowData() -> [CalendarCashFlow] {
     return [

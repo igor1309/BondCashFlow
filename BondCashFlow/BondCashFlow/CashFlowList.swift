@@ -15,18 +15,20 @@ struct CashFlowList: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
     
+    var cashFlows: [CalendarCashFlow]
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
                 //  MARK:- псевдохак чтобы ScrollView скроллился наверх сам
-                //                    Text("Base Date: " + userData.baseDate.toString())
-                //                    .font(.caption)
-                //                    .foregroundColor(Color.secondary)
-                //                    .padding(.vertical)
+                //  Text("Base Date: " + userData.baseDate.toString())
+                //  .font(.caption)
+                //  .foregroundColor(Color.secondary)
+                //  .padding(.vertical)
                 //                    
                 ForEach(0 ..< settings.weeksToShowInCalendar) { weekNo in
                     
-                    CashFlowRow2(weekNo: weekNo, flows: self.userData.cashFlows
+                    CashFlowRow2(weekNo: weekNo, flows: self.cashFlows
                         .filter({
                             (self.userData.baseDate.addWeeks(weekNo).firstDayOfWeekRU <= $0.date)
                                 && ($0.date < self.userData.baseDate.addWeeks(weekNo + 1).firstDayOfWeekRU)
@@ -36,10 +38,10 @@ struct CashFlowList: View {
                 }
                 
                 
-                //                ForEach(0 ..< 52) { weekNo in
-                //                    CashFlowRow(weekNo: weekNo)
-                //                        .environmentObject(self.userData)
-                //                }
+                // ForEach(0 ..< 52) { weekNo in
+                //     CashFlowRow(weekNo: weekNo)
+                //         .environmentObject(self.userData)
+                // }
             }
         }
         //            .padding(.top)
@@ -50,7 +52,7 @@ struct CashFlowList: View {
 struct CashFlowList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CashFlowList()
+            CashFlowList(cashFlows: [CalendarCashFlow(date: Date().addWeeks(6), portfolioName: "Optimus", emitent: "VTB", instrument: "GHS-457", amount: 12345, type: .coupon)])
                 
                 .navigationBarTitle("Cash Flow")
         }
