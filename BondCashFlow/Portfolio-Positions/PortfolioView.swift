@@ -63,28 +63,20 @@ struct PortfolioView: View {
         .navigationBarTitle("Позиции")
             
         .navigationBarItems(
-            leading: HStack {
+            leading:
                 LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
                     if self.userData.hasAtLeastTwoPortfolios {
                         self.modal = .filter
                         self.showModal = true
                     }
                 }
-                .disabled(!self.userData.hasAtLeastTwoPortfolios)
-                
-                LeadingButtonSFSymbol(systemName: "rectangle.stack") {
-                    self.modal = .allFlows
-                    self.showModal = true
-                }
-                .foregroundColor(.secondary)
-                
-            },
+                .disabled(!self.userData.hasAtLeastTwoPortfolios),
             
             trailing: HStack {
                 TrailingButtonSFSymbol(systemName: "plus.square.on.square") {
                     self.showActions = true
                 }
-                .foregroundColor(.secondary)
+//                .foregroundColor(.secondary)
                 
                 TrailingButtonSFSymbol(systemName: "plus") {
                     self.modal = .addPosition
@@ -100,10 +92,10 @@ struct PortfolioView: View {
                                          action: {
                                             self.modal = .addPosition
                                             self.showModal = true }),
-                                .default(Text("Добавить выпуск облигаций"),
-                                         action: {
-                                            self.modal = .addIssue
-                                            self.showModal = true }),
+//                                .default(Text("Добавить выпуск облигаций"),
+//                                         action: {
+//                                            self.modal = .addIssue
+//                                            self.showModal = true }),
                                 .default(Text("Создать новый портфель"),
                                          action: {
                                             self.modal = .addPortfolio

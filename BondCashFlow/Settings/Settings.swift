@@ -53,28 +53,35 @@ struct Settings: View {
     
     var body: some View {
         Form {
+            LocalDataSection()
+            
+            CBondsSection()
+                .environmentObject(self.userData)
+            
+            Spacer()
+            
             Section(header: Text("Тестирование".uppercased()),
                     footer: Text("Дата максимально давно и период в \(manyWeeks) недель")) {
-                
-                Picker("Период", selection: $manyWeeks) {
-                    Text("1 год").tag(52)
-                    Text("3 года").tag(156)
-                    Text("10 лет").tag(520)
-                }
-                
-                Button("Включить тестирование потоков") {
-                    self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
-                    self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
-                    self.settings.weeksToShowInCalendar = self.manyWeeks
-                    print("\nвключаю тестирование")
-                    print("\(self.userData.baseDate) - baseDate")
-                    print("\(self.manyWeeks) - manyWeeks")
-                    
-                    self.testButtonName = "тестирование включено"
-                    let generator = UINotificationFeedbackGenerator()
-                    generator.notificationOccurred(.success)
-                }
-                .disabled(self.testButtonName == "тестирование включено")
+                        
+                        Picker("Период", selection: $manyWeeks) {
+                            Text("1 год").tag(52)
+                            Text("3 года").tag(156)
+                            Text("10 лет").tag(520)
+                        }
+                        
+                        Button("Включить тестирование потоков") {
+                            self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
+                            self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
+                            self.settings.weeksToShowInCalendar = self.manyWeeks
+                            print("\nвключаю тестирование")
+                            print("\(self.userData.baseDate) - baseDate")
+                            print("\(self.manyWeeks) - manyWeeks")
+                            
+                            self.testButtonName = "тестирование включено"
+                            let generator = UINotificationFeedbackGenerator()
+                            generator.notificationOccurred(.success)
+                        }
+                        .disabled(self.testButtonName == "тестирование включено")
             }
             
             Section(header: Text("Сброс".uppercased())) {

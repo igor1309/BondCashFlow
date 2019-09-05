@@ -29,7 +29,6 @@ struct Emissions: View {
     
     var body: some View {
         
-        NavigationView {
             VStack(alignment: .leading) {
                 //                VStack(alignment: .leading, spacing: 3) {
                 HStack {
@@ -165,7 +164,6 @@ struct Emissions: View {
                                                 filter: self.$filter)
                         .environmentObject(self.userData)
                 })
-        }
     }
 }
 
