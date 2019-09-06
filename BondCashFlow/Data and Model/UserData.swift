@@ -12,46 +12,6 @@ import Foundation
 
 final class UserData: ObservableObject {
     
-    func loadTestPositions() {
-        let pNames = ["Optimus Prime", "Bumblebee", "Megatron"]
-                
-        let emissionIDsWithFlowsFromToday = flows.filter({ $0.date >= Date() }).map({ $0.emissionID })
-        let count = emissionIDsWithFlowsFromToday.count
-        
-        var testPositions: [Position] = []
-        
-        for name in pNames {
-            for _ in 1...Int.random(in: 2 ..< 8) {
-                let position = Position(portfolioName: name,
-                                        emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count-1)],
-                                        qty: Int.random(in: 1 ..< 101))
-                testPositions.append(position)
-            }
-        }
-        
-        print("testPositions:")
-        for position in testPositions {
-            print("\(position.portfolioName) - \(position.emissionID) - \(position.qty)")
-        }
-
-        backupPositions()
-        
-        portfolioNames = pNames
-        positions = testPositions
-    }
-    
-    func backupPositions() {
-        saveJSON(data: positions, filename: "positions_backup.json")
-    }
-    
-    func restorePositionsFromBackup() -> Bool {
-        guard let backupPositions: [Position] = loadFromDocDir("positions_backup.json") else {
-            return false
-        }
-        positions = backupPositions
-        return true
-    }
-    
     @Published var baseDate = Date().firstDayOfWeekRU.startOfDay // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
     
     var cashFlows: [CalendarCashFlow] { calculateCashFlows().filter { $0.date >= baseDate } .sorted { $0.date < $1.date } }
@@ -60,9 +20,9 @@ final class UserData: ObservableObject {
         favoriteEmissions.updateValue(true, forKey: emissionID)
     }
     //  MARK: TODO fix func
-//        func unfavEmission(emissionID: EmissionID) {
-//            favoriteEmissions.removeValue(forKey: EmissionID)
-//        }
+    //        func unfavEmission(emissionID: EmissionID) {
+    //            favoriteEmissions.removeValue(forKey: EmissionID)
+    //        }
     
     func reset() {
         emissionMetadata = nil
@@ -182,4 +142,45 @@ final class UserData: ObservableObject {
         return cashFlows
     }
     
+    func loadTestPositions() {
+        let pNames = ["Optimus Prime", "Bumblebee", "Megatron"]
+        
+        let emissionIDsWithFlowsFromToday = flows.filter({ $0.date >= Date() }).map({ $0.emissionID })
+        let count = emissionIDsWithFlowsFromToday.count
+        
+        var testPositions: [Position] = []
+        
+        for name in pNames {
+            for _ in 1...Int.random(in: 2 ..< 8) {
+                let position = Position(portfolioName: name,
+                                        emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count-1)],
+                                        qty: Int.random(in: 1 ..< 101))
+                testPositions.append(position)
+            }
+        }
+        
+        print("testPositions:")
+        for position in testPositions {
+            print("\(position.portfolioName) - \(position.emissionID) - \(position.qty)")
+        }
+        
+        if positions.count > 0 {
+            backupPositions()
+        }
+        
+        portfolioNames = pNames
+        positions = testPositions
+    }
+    
+    func backupPositions() {
+        saveJSON(data: positions, filename: "positions_backup.json")
+    }
+    
+    func restorePositionsFromBackup() -> Bool {
+        guard let backupPositions: [Position] = loadFromDocDir("positions_backup.json") else {
+            return false
+        }
+        positions = backupPositions
+        return true
+    }
 }

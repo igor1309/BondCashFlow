@@ -13,6 +13,7 @@ struct Settings: View {
     @EnvironmentObject var settings: SettingsStore
     
     @State private var isCleaning = false
+    @State private var isDoneCleaning = false
     @State private var showAlert = false
     @State private var isConfirmed = false
     
@@ -22,6 +23,7 @@ struct Settings: View {
     func deleteEverything() {
         if self.isConfirmed {
             self.isCleaning = true
+            self.isDoneCleaning = false
             
             print("about to delete all  data and settings")
             
@@ -54,6 +56,7 @@ struct Settings: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
                 withAnimation(.easeInOut) {
                     self.isCleaning = false
+                    self.isDoneCleaning = true
                 }
             }
         } else {
@@ -102,7 +105,12 @@ struct Settings: View {
             }
             
             Section(header: Text("Сброс".uppercased())) {
+                if isDoneCleaning {
+                    DisappearingText(text: "Сброс завершен", isShown: $isDoneCleaning)
+                }
+                
                 HStack {
+                    
                     if isCleaning {
                         RotatingActivityIndicator(text: "очистка…",
                                                   color: .systemGray2)

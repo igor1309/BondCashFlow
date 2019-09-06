@@ -46,9 +46,9 @@ struct UpdateLocalDataSection: View {
         withAnimation(.easeInOut) {
             self.isFinished = true
         }
+        
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
-
     }
     
     func handleCBondError(_ error: Error) {
@@ -64,22 +64,26 @@ struct UpdateLocalDataSection: View {
     var body: some View {
         Group {
             if isFinished {
-                Text(process)
-                    .fixedSize(horizontal: false, vertical: true)
+                DisappearingText(text: process, isShown: $isFinished)
                     .foregroundColor(.secondary)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                            withAnimation(.easeInOut) {
-                                self.isFinished = false
-                            }
-                        }
-                }
             }
+            //            if isFinished {
+            //                Text(process)
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .foregroundColor(.secondary)
+//                    .onAppear {
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+//                            withAnimation(.easeInOut) {
+//                                self.isFinished = false
+//                            }
+//                        }
+//                }
+//            }
             
             HStack {
                 if isLoading {
-                        RotatingActivityIndicator(text: "загрузка и обработка данных…",
-                                                  color: .systemOrange)
+                    RotatingActivityIndicator(text: "загрузка и обработка данных…",
+                                              color: .systemOrange)
                 }
                 
                 Button(action: {
