@@ -36,7 +36,12 @@ struct PositionDetail: View {
         if let positionIndex =
             userData.positions.firstIndex(where: { $0 == position }) {
             userData.positions.remove(at: positionIndex)
+            
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.warning)
         }
+        
+        self.presentation.wrappedValue.dismiss()
     }
     
     var body: some View {
@@ -93,7 +98,6 @@ struct PositionDetail: View {
                                     .destructive(Text("Удалить позицию"),
                                                  action: {
                                                     self.deletePosition()
-                                                    self.presentation.wrappedValue.dismiss()
                                     })
                     ])
             }

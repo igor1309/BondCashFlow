@@ -78,10 +78,8 @@ struct UpdateLocalDataSection: View {
             
             HStack {
                 if isLoading {
-                    HStack {
                         RotatingActivityIndicator(text: "загрузка и обработка данных…",
                                                   color: .systemOrange)
-                    }
                 }
                 
                 Button(action: {

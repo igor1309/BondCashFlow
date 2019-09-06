@@ -19,8 +19,10 @@ struct Settings: View {
     @State private var manyWeeks = 520
     @State private var testButtonName = "Включить тестирование потоков"
     
-    func deleteDataAndSettings() {
-        if isConfirmed {
+    func deleteEverything() {
+        if self.isConfirmed {
+            self.isCleaning = true
+            
             print("about to delete all  data and settings")
             
             //  reset UserData
@@ -48,6 +50,16 @@ struct Settings: View {
                     print("Could not clear temp folder: \(error)")
                 }
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                withAnimation(.easeInOut) {
+                    self.isCleaning = false
+                }
+            }
+        } else {
+            self.isConfirmed = true
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.warning)
         }
     }
     
@@ -76,7 +88,7 @@ struct Settings: View {
                             self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
                             self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
                             self.settings.weeksToShowInCalendar = self.manyWeeks
-
+                            
                             print("\nвключаю тестирование")
                             print("\(self.userData.baseDate) - baseDate")
                             print("\(self.manyWeeks) - manyWeeks")
@@ -90,31 +102,29 @@ struct Settings: View {
             }
             
             Section(header: Text("Сброс".uppercased())) {
-                if isCleaning {
-                    HStack {
+                HStack {
+                    if isCleaning {
                         RotatingActivityIndicator(text: "очистка…",
                                                   color: .systemGray2)
                     }
-                }
-                
-                Button(action: {
-                    self.showAlert = true
-                }){
-                    Text("Сбросить все настройки и данные")
-                }
-                .foregroundColor(.systemRed)
-                .actionSheet(isPresented: $showAlert) {
                     
-                    ActionSheet(title: Text("Удалить всё"),
-                                message: Text("Вы точно хотите удалить все данные и настройки без возможности восстановления?"),
-                                buttons: [
-                                    .cancel(Text("Отмена")),
-                                    .destructive(Text("Да, удалить всё!"), action: {
-                                        self.isConfirmed = true
-                                        let generator = UINotificationFeedbackGenerator()
-                                        generator.notificationOccurred(.warning)
-                                    })
-                    ])
+                    Button(action: {
+                        self.showAlert = true
+                    }){
+                        Text(isCleaning ? "" : "Сбросить все настройки и данные")
+                    }
+                    .foregroundColor(.systemRed)
+                    .actionSheet(isPresented: $showAlert) {
+                        
+                        ActionSheet(title: Text("Удалить всё"),
+                                    message: Text("Вы точно хотите удалить все данные и настройки без возможности восстановления?"),
+                                    buttons: [
+                                        .cancel(Text("Отмена")),
+                                        .destructive(Text("Да, удалить всё!"), action: {
+                                            self.deleteEverything()
+                                        })
+                        ])
+                    }
                 }
             }
         }
@@ -127,19 +137,12 @@ struct Settings: View {
                         buttons: [
                             .cancel(Text("Отмена")),
                             .destructive(Text("Да, удалить всё!".uppercased()), action: {
-                                if self.isConfirmed {
-                                    self.isCleaning = true
-                                    self.deleteDataAndSettings()
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                        withAnimation(.easeInOut) {
-                                            self.isCleaning = false
-                                        }
-                                    }
-                                }
+                                self.deleteEverything()
                             })
             ])
         }
     }
+    
 }
 
 struct Settings_Previews: PreviewProvider {
@@ -153,4 +156,3 @@ struct Settings_Previews: PreviewProvider {
         }
     }
 }
-

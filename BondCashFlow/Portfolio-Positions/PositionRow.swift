@@ -23,6 +23,9 @@ struct PositionRow: View {
     private func deletePosition(position: Position) {
         if let index = userData.positions.firstIndex(where: { $0.id == position.id}) {
             userData.positions.remove(at: index)
+
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
         }
     }
     
@@ -120,8 +123,6 @@ struct PositionRow: View {
                             .destructive(Text("Да, закрыть позицию"),
                                          action: {
                                             self.deletePosition(position: self.position)
-                                            let generator = UINotificationFeedbackGenerator()
-                                            generator.notificationOccurred(.success)
                             })
             ])
         }
@@ -131,7 +132,6 @@ struct PositionRow: View {
                 PositionDetail(position: self.position, emission: self.emission)
                     .environmentObject(self.userData)
         })
-        
     }
 }
 
