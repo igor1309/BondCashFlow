@@ -34,6 +34,15 @@ struct PortfolioView: View {
         case filter, addPortfolio, addPosition, addIssue, allFlows
     }
     
+    private func addPosition() {
+        modal = .addPosition
+        showModal = true
+    }
+    private func addPortfolio() {
+        modal = .addPortfolio
+        showModal = true
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             
@@ -64,23 +73,45 @@ struct PortfolioView: View {
             
         .navigationBarItems(
             leading:
-                LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
-                    if self.userData.hasAtLeastTwoPortfolios {
-                        self.modal = .filter
-                        self.showModal = true
+            LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                if self.userData.hasAtLeastTwoPortfolios {
+                    self.modal = .filter
+                    self.showModal = true
+                }
+            }
+            .disabled(!self.userData.hasAtLeastTwoPortfolios)
+            .contextMenu {
+                if !self.settings.isAllPortfoliosSelected {
+                    Button(action: {
+                        self.settings.isAllPortfoliosSelected = true
+                    }) {
+                        HStack {
+                            Image(systemName: "briefcase")
+                            Spacer()
+                            Text("все портфели")
+                        }
                     }
                 }
-                .disabled(!self.userData.hasAtLeastTwoPortfolios),
+            },
             
             trailing: HStack {
                 TrailingButtonSFSymbol(systemName: "plus.square.on.square") {
                     self.showActions = true
                 }
-//                .foregroundColor(.secondary)
                 
                 TrailingButtonSFSymbol(systemName: "plus") {
-                    self.modal = .addPosition
-                    self.showModal = true
+                    self.addPosition()
+                }
+                .contextMenu {
+                    Button(action: {
+                        self.addPosition()
+                    }) {
+                        HStack {
+                            Image(systemName: "briefcase")
+                            Spacer()
+                            Text("Новый портфель")
+                        }
+                    }
                 }
         })
             
@@ -90,16 +121,10 @@ struct PortfolioView: View {
                                 .cancel(Text("Отмена")),
                                 .default(Text("Добавить позицию в портфель"),
                                          action: {
-                                            self.modal = .addPosition
-                                            self.showModal = true }),
-//                                .default(Text("Добавить выпуск облигаций"),
-//                                         action: {
-//                                            self.modal = .addIssue
-//                                            self.showModal = true }),
+                                            self.addPosition() }),
                                 .default(Text("Создать новый портфель"),
                                          action: {
-                                            self.modal = .addPortfolio
-                                            self.showModal = true })
+                                            self.addPortfolio() })
                 ])
             })
             

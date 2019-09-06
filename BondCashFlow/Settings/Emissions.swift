@@ -23,7 +23,7 @@ struct Emissions: View {
     @State private var emitemtsCount: Int = loadEmissionData().map({ $0.emitentID }).removingDuplicates().count
     
     
-    init(proposedFilter: FilterType = .favorites) {
+    init(proposedFilter: FilterType = .withFutureFlows) {
         self._filterType = State(initialValue: proposedFilter)
     }
     

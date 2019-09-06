@@ -13,7 +13,7 @@ struct FlowRow3: View {
     var flow: CalendarCashFlow
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(flow.date.toString())
                 
@@ -21,13 +21,15 @@ struct FlowRow3: View {
                 
                 Text(flow.type.id)
                     .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .fontWeight(.thin)
+                    .foregroundColor(.systemOrange)
                 
-                Text(flow.amount.formattedGrouped) // (Double(qty) * flow).cuponSum.formattedGrouped
+                Text(flow.amount.formattedGrouped)
             }
             
             HStack {
                 Text(flow.portfolioName)
+                    .fontWeight(.light)
                     .foregroundColor(.systemOrange)
                 
                 Spacer()
