@@ -58,6 +58,8 @@ struct Settings: View {
             CBondsSection()
                 .environmentObject(self.userData)
             
+            BackupAndDummy()
+            
             Spacer()
             
             Section(header: Text("Тестирование".uppercased()),

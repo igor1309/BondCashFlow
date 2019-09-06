@@ -15,6 +15,7 @@
 		2A3F5741231FFD9E00BC3767 /* UserDetaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F5740231FFD9E00BC3767 /* UserDetaultWrapper.swift */; };
 		2A3F57432320012D00BC3767 /* createCashFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3F57422320012D00BC3767 /* createCashFlow.swift */; };
 		2A40574F231F051B00B5FA63 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A40574E231F051B00B5FA63 /* Buttons.swift */; };
+		2A49A0F22322B39A00949821 /* BackupAndDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A49A0F12322B39A00949821 /* BackupAndDummy.swift */; };
 		2A542D352321129B00E902B9 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D342321129B00E902B9 /* FilterType.swift */; };
 		2A542D372321148900E902B9 /* EmissionID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D362321148900E902B9 /* EmissionID.swift */; };
 		2A542D3E2321CE3700E902B9 /* CashFlowTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D3D2321CE3700E902B9 /* CashFlowTable.swift */; };
@@ -121,6 +122,7 @@
 		2A3F5740231FFD9E00BC3767 /* UserDetaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetaultWrapper.swift; sourceTree = "<group>"; };
 		2A3F57422320012D00BC3767 /* createCashFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createCashFlow.swift; sourceTree = "<group>"; };
 		2A40574E231F051B00B5FA63 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		2A49A0F12322B39A00949821 /* BackupAndDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupAndDummy.swift; sourceTree = "<group>"; };
 		2A542D342321129B00E902B9 /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
 		2A542D362321148900E902B9 /* EmissionID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmissionID.swift; sourceTree = "<group>"; };
 		2A542D3D2321CE3700E902B9 /* CashFlowTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashFlowTable.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				2A8B7F802319A1DF005756BB /* Settings.swift */,
+				2A49A0F12322B39A00949821 /* BackupAndDummy.swift */,
 				2ABA2A92231D9F3400FDB14F /* LocalDataSection.swift */,
 				2A3F5737231F2A9A00BC3767 /* LocalDataSubSections.swift */,
 				2ABA2A90231D9CC600FDB14F /* CBondsSection.swift */,
@@ -669,6 +672,7 @@
 				2A8B7F6C2319A1C7005756BB /* CBondMeta.swift in Sources */,
 				2A8B7F892319A1DF005756BB /* FlowRow.swift in Sources */,
 				2A8B7FAA2319A1F6005756BB /* Date+Extensions.swift in Sources */,
+				2A49A0F22322B39A00949821 /* BackupAndDummy.swift in Sources */,
 				2A8B7FBF2319A1FF005756BB /* ItemState.swift in Sources */,
 				2A8B7F6A2319A1C7005756BB /* CBondEmission.swift in Sources */,
 				2A8B7FD82319A206005756BB /* ccf.swift in Sources */,

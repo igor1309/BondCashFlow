@@ -12,6 +12,50 @@ import Foundation
 
 final class UserData: ObservableObject {
     
+    func loadTestPositions() {
+        //  MARK: WORK IN PROGRESS
+        
+        //// create portfolio names
+        let pNames = ["Optimus Prime", "Bumblebee", "Megatron"]
+        
+        /// create positions
+        /// filter flows with dates from now() and map to just emissionIDs
+        
+        let emissionIDsWithFlowsFromToday = flows.filter({ $0.date >= Date() }).map({ $0.emissionID })
+        let count = emissionIDsWithFlowsFromToday.count
+        print("\(count) - emissionIDsWithFlowsFromToday.count")
+        
+        var testPositions: [Position] = []
+        
+        for name in pNames {
+            for _ in 1...Int.random(in: 2 ..< 8) {
+                let position = Position(portfolioName: name, emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count-1)], qty: Int.random(in: 1 ..< 101))
+                testPositions.append(position)
+            }
+        }
+        
+        print("testPositions:")
+        for position in testPositions {
+            print("\(position.portfolioName) - \(position.emissionID) - \(position.qty)")
+        }
+        print(testPositions)
+//        portfolioNames = pNames
+//        positions = testPositions
+    }
+    
+    func backupPositions() {
+        saveJSON(data: positions, filename: "positions_backup.json")
+    }
+    
+    func restorePositionsFromBackup() -> Bool {
+        guard let backupPositions: [Position] = load("positions_backup.json") else {
+            return false
+        }
+        positions = backupPositions
+        return true
+    }
+    
+    //  MARK: TODO: добавить преобразование в начало дня!!!
     @Published var baseDate = Date().firstDayOfWeekRU // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
     
     var cashFlows: [CalendarCashFlow] { calculateCashFlows().filter { $0.date >= baseDate } .sorted { $0.date < $1.date } }

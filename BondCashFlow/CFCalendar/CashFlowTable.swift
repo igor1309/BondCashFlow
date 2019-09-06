@@ -38,9 +38,9 @@ struct CashFlowTable: View {
                             FlowRow3(flow: flow)
                 }
             }
-            .onAppear(perform: {
+            .onAppear {
                 self.cashFlows = self.userData.calculateCashFlows()
-            })
+            }
         }
             
         .navigationBarTitle(settings.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
