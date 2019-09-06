@@ -73,8 +73,8 @@ struct Settings: View {
                         
                         Button("Включить тестирование потоков") {
                             #if DEBUG
-                            self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU ?? .distantPast
-                            self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU ?? .distantPast
+                            self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
+                            self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
                             self.settings.weeksToShowInCalendar = self.manyWeeks
 
                             print("\nвключаю тестирование")

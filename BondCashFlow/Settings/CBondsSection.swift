@@ -17,27 +17,34 @@ struct CBondsSection: View {
         Section(header: Text("Запросить cbonds.ru".uppercased()),
                 footer: Text("Объем доступной информации cbonds.ru зависит от доступа (логин:пароль). Обновить можно все справочники или выбранные (Эмиссии или Потоки).")
         ){
-            Button("Параметры доступа") {
-                self.showModal = true
-            }
-            .contextMenu {
-                Button(action: {
-                    self.settings.loginTest()
-                }) {
-                    HStack {
-                        Image(systemName: "person.circle.fill")
-                        Spacer()
-                        Text("тестовый доступ")
-                    }
+            HStack {
+                Button("Параметры доступа") {
+                    self.showModal = true
                 }
-                Button(action: {
-                    self.settings.loginIgor()
-                }) {
-                    HStack {
-                        Image(systemName: "person.crop.circle.badge.checkmark")
-                        Spacer()
-                        Text("igor@rbiz.group")
-                    }
+                
+                Spacer()
+                
+                Image(systemName: "pencil.and.ellipsis.rectangle")
+                    .foregroundColor(.secondary)
+                    .contextMenu {
+                        Button(action: {
+                            self.settings.loginTest()
+                        }) {
+                            HStack {
+                                Image(systemName: "person.circle.fill")
+                                Spacer()
+                                Text("тестовый доступ")
+                            }
+                        }
+                        Button(action: {
+                            self.settings.loginIgor()
+                        }) {
+                            HStack {
+                                Image(systemName: "person.crop.circle.badge.checkmark")
+                                Spacer()
+                                Text("igor@rbiz.group")
+                            }
+                        }
                 }
             }
             
