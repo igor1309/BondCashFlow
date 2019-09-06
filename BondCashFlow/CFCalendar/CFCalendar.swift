@@ -14,25 +14,52 @@ struct CFCalendar: View {
     @State private var showPortfolioFilter = false
     
     var body: some View {
-        CashFlowView()
-//            .onAppear(perform: {
-//                self.userData.cashFlows = self.createCashFlow()
-//            })
+        
+        VStack(alignment: .leading, spacing: 0) {
             
-            .navigationBarTitle("Потоки")
+            HStack {
+                Spacer()
+                
+                Text("Start Date: \(settings.startDate.toString()) | Base Date: \(userData.baseDate.toString())")
+                    .font(.caption)
+                    .foregroundColor(Color.secondary)
+                    .padding(.horizontal)
+            }
             
-            .navigationBarItems(
-                leading:
-                Button(action: {
-                    self.showPortfolioFilter = true
-                }) {
-                    Image(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill")
-                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16))
+            CashFlowGrid(startDate: settings.startDate, cashFlows: userData.cashFlows)
+                .padding(.horizontal)
+                .padding(.vertical, 4)
+            
+            CashFlowList(cashFlows: userData.cashFlows)
+                .padding(.horizontal)
+        }
+            
+        .navigationBarTitle("Потоки")
+            
+        .navigationBarItems( leading:
+            LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                self.showPortfolioFilter = true
+            }
+            .disabled(!self.userData.hasAtLeastTwoPortfolios)
+            .contextMenu {
+                if !self.settings.isAllPortfoliosSelected {
+                    Button(action: {
+                        self.settings.isAllPortfoliosSelected = true
+                    }) {
+                        HStack {
+                            Image(systemName: "briefcase")
+                            Spacer()
+                            Text("все портфели")
+                        }
+                    }
                 }
-                .disabled(!self.userData.hasAtLeastTwoPortfolios))
+        })
             
             .sheet(isPresented: $showPortfolioFilter,
-                   content: { PotfolioFilter().environmentObject(self.userData) })
+                   content: { PotfolioFilter()
+                    .environmentObject(self.userData)
+                    .environmentObject(self.settings)
+            })
     }
 }
 
@@ -41,6 +68,8 @@ struct CFCalendar_Previews: PreviewProvider {
         NavigationView {
             CFCalendar()
                 .environmentObject(UserData())
+                .environmentObject(SettingsStore())
         }
+        .environment(\.colorScheme, .dark)
     }
 }

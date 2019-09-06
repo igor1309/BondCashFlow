@@ -12,7 +12,7 @@ final class SettingsStore: ObservableObject {
 
     @Published var weeksToShowInCalendar = 52
     
-    @Published var startDate = Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
+    @Published var startDate = Date().firstDayOfWeekRU // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
     
     //  для тестирования потоков
     @Published var isFutureFlowsOnly: Bool = true || UserDefaults.standard.bool(forKey: "isFutureFlowsOnly") {

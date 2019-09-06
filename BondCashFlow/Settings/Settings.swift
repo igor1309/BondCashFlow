@@ -70,9 +70,11 @@ struct Settings: View {
                         }
                         
                         Button("Включить тестирование потоков") {
-                            self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
-                            self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min() ?? .distantPast
+                            #if DEBUG
+                            self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU ?? .distantPast
+                            self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU ?? .distantPast
                             self.settings.weeksToShowInCalendar = self.manyWeeks
+
                             print("\nвключаю тестирование")
                             print("\(self.userData.baseDate) - baseDate")
                             print("\(self.manyWeeks) - manyWeeks")
@@ -80,6 +82,7 @@ struct Settings: View {
                             self.testButtonName = "тестирование включено"
                             let generator = UINotificationFeedbackGenerator()
                             generator.notificationOccurred(.success)
+                            #endif
                         }
                         .disabled(self.testButtonName == "тестирование включено")
             }

@@ -20,12 +20,6 @@ struct CashFlowList: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
-                //  MARK:- псевдохак чтобы ScrollView скроллился наверх сам
-                //  Text("Base Date: " + userData.baseDate.toString())
-                //  .font(.caption)
-                //  .foregroundColor(Color.secondary)
-                //  .padding(.vertical)
-                //                    
                 ForEach(0 ..< settings.weeksToShowInCalendar) { weekNo in
                     
                     CashFlowRow2(weekNo: weekNo, flows: self.cashFlows
@@ -36,15 +30,8 @@ struct CashFlowList: View {
                     )
                         .environmentObject(self.userData)
                 }
-                
-                
-                // ForEach(0 ..< 52) { weekNo in
-                //     CashFlowRow(weekNo: weekNo)
-                //         .environmentObject(self.userData)
-                // }
             }
         }
-        //            .padding(.top)
     }
 }
 

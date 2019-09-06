@@ -12,15 +12,17 @@ import Foundation
 
 final class UserData: ObservableObject {
     
-    //    @Published var cashFlows: [CalendarCashFlow] = []//calendarCashFlowData
+    @Published var baseDate = Date().firstDayOfWeekRU // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
+    
+    var cashFlows: [CalendarCashFlow] { calculateCashFlows().filter { $0.date >= baseDate } .sorted { $0.date < $1.date } }
     
     func favEmission(emissionID: EmissionID) {
         favoriteEmissions.updateValue(true, forKey: emissionID)
     }
     //  MARK: TODO fix func
-//    func unfavEmission(emissionID: EmissionID) {
-//        favoriteEmissions[EmissionID] = nil
-//    }
+    //    func unfavEmission(emissionID: EmissionID) {
+    //        favoriteEmissions[EmissionID] = nil
+    //    }
     
     func reset() {
         emissionMetadata = nil
@@ -85,8 +87,6 @@ final class UserData: ObservableObject {
             saveJSON(data: positions, filename: "positions.json")
         }
     }
-    
-    @Published var baseDate = Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
     
     func calculateCashFlows() -> [CalendarCashFlow] {
         

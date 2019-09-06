@@ -7,32 +7,27 @@
 
 import Foundation
 
+extension Calendar {
+    static let gregorian = Calendar(identifier: .gregorian)
+    static let iso8601 = Calendar(identifier: .iso8601)
+}
+
 public extension Date {
     
     var isWeekend: Bool {
-        // MARK:- ДОДЕЛАТЬ!!
-        return false
+        return Calendar.iso8601.isDateInWeekend(self)
     }
-    
     
     var nextWeekStartRU: Date {
         return self.firstDayOfWeekRU.addWeeks(1)
     }
-    
-    //    https://spin.atomicobject.com/2017/07/28/swift-extending-date/
+
+    //  https://stackoverflow.com/questions/33397101/how-to-get-mondays-date-of-the-current-week-in-swift/33398047#33398047
     var firstDayOfWeekRU: Date {
-        var beginningOfWeek = Date()
-        var interval = TimeInterval()
-        
-        //  в оригинале
-        //  _ = Calendar.current.dateInterval(of: .weekOfYear, start: &beginningOfWeek, interval: &interval, for: self)
-        //  return beginningOfWeek
-        //  поэтому возвращается воскресенье, а мне нужен понедельник
-        //  для этого два сдвига:
-        _ = Calendar.current.dateInterval(of: .weekOfYear, start: &beginningOfWeek, interval: &interval, for: self.addDays(-1))
-        return beginningOfWeek.addDays(1)
+        Calendar.iso8601.date(from: Calendar.iso8601.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self))!
     }
     
+    //    https://spin.atomicobject.com/2017/07/28/swift-extending-date/
     func addDays(_ numDays: Int) -> Date {
         var components = DateComponents()
         components.day = numDays
