@@ -8,22 +8,6 @@
 
 import SwiftUI
 
-struct PositionRowInDetail: View {
-    var title: String
-    var detail: String
-    
-    var body: some View {
-        HStack {
-            Text(title)
-            
-            Spacer()
-            
-            Text(detail)
-        }
-    }
-}
-
-
 struct PositionDetail: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
@@ -48,18 +32,21 @@ struct PositionDetail: View {
         NavigationView {
             Form {
                 
-                Section(footer: Text("Редактирование позиции (количество облигаций) будет сделано в следующей версии. В этой версии нужно сначала удалить позицию и потом завести новую с нужным количеством.").foregroundColor(.systemTeal)) {
+                Section(header: Text("Выпуск #\(String(position.emissionID))".uppercased())) {
                     Text(emission?.documentRus ?? "#n/a")
-                    
-                    PositionRowInDetail(title: "emissionID", detail: String(position.emissionID))
-                        .foregroundColor(.secondary)
-                    
-                    PositionRowInDetail(title: "Портфель", detail: position.portfolioName)
-                    
-                    //  MARK: TODO: make qty editable
-                    //  using QtyTextField(qty: T##Binding<Int>, error: T##String)
-                    PositionRowInDetail(title: "Количество", detail: position.qty.formattedGrouped)
-                        .foregroundColor(Color.systemOrange)
+                }
+                
+                Section(header: Text("Портфель".uppercased())) {
+                    Text(position.portfolioName)
+                }
+                
+                Section(header: Text("Количество".uppercased()),
+                        footer: Text("Редактирование позиции (количество облигаций) будет сделано в следующей версии. В этой версии нужно сначала удалить позицию и потом завести новую с нужным количеством.").foregroundColor(.systemTeal)) {
+                            
+                            //  MARK: TODO: make qty editable
+                            //  using QtyTextField(qty: T##Binding<Int>, error: T##String)
+                            Text(position.qty.formattedGrouped)
+                                .foregroundColor(Color.systemOrange)
                 }
                 
                 Section {
@@ -109,5 +96,6 @@ struct PositionDetail_Previews: PreviewProvider {
     static var previews: some View {
         PositionDetail(position: Position(portfolioName: "Bumblebee", emissionID: 11789, qty: 5555))
             .environmentObject(UserData())
+            .environment(\.colorScheme, .dark)
     }
 }

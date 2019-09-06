@@ -41,29 +41,25 @@ struct EmissionDetail: View {
     var body: some View {
         
         NavigationView {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 6) {
                 //  MARK: TODO возможно в этом блоке нужно дать
                 //  всю инфо по эмиссии что есть в базе
                 //  и макет слегка иной нежели в строке списка
                 EmissionSubRow(emission: emission, bigStar: true)
-                    .padding()
+                    .padding(.horizontal)
                     .onTapGesture {
                         self.isFavorite.toggle()
                         let generator = UINotificationFeedbackGenerator()
                         generator.notificationOccurred(.success)
                 }
                 
-                HStack {
-                    Spacer()
+                Button("Купить этот выпуск") {
+                    /// fav emission otherwise it would not show up in a list of emissions in AppPosition view
+                    self.userData.favEmission(emissionID: self.emission.id)
                     
-                    Button("Купить этот выпуск") {
-                        /// fav emission otherwise it would not show up in a list of emissions in AppPosition view
-                        self.userData.favEmission(emissionID: self.emission.id)
-
-                        self.showModal = true
-                    }
-                    .padding(.horizontal)
+                    self.showModal = true
                 }
+                .padding(.horizontal)
                 
                 List {
                     ForEach(flows, id: \.self) { flow in
