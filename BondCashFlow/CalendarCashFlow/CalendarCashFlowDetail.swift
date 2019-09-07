@@ -74,7 +74,7 @@ struct CalendarCashFlowDetailHeader: View {
                     Spacer()
                     
                     Text(total.formattedGrouped)
-                        .font(Font.system(size: 60))
+                        .font(Font.system(size: total < 100_000_000 ? 60 : 52))
                         .foregroundColor(.systemOrange)
                 }
                 
