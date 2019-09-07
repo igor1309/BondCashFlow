@@ -33,7 +33,7 @@ final class UserData: ObservableObject {
         favoriteEmissions = [:]
         positions = []
         //        cashFlows = []
-        baseDate = Date()
+        baseDate = Date().firstDayOfWeekRU.startOfDay
     }
     
     private let defaults = UserDefaults.standard
@@ -142,34 +142,39 @@ final class UserData: ObservableObject {
         return cashFlows
     }
     
-    func loadTestPositions() {
+    func loadTestPositions() -> Bool{
         let pNames = ["Optimus Prime", "Bumblebee", "Megatron"]
         
         let emissionIDsWithFlowsFromToday = flows.filter({ $0.date >= Date() }).map({ $0.emissionID })
         let count = emissionIDsWithFlowsFromToday.count
         
-        var testPositions: [Position] = []
-        
-        for name in pNames {
-            for _ in 1...Int.random(in: 2 ..< 8) {
-                let position = Position(portfolioName: name,
-                                        emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count-1)],
-                                        qty: Int.random(in: 1 ..< 101))
-                testPositions.append(position)
+        if count == 0 {
+            return false
+        } else {
+            var testPositions: [Position] = []
+            
+            for name in pNames {
+                for _ in 1...Int.random(in: 2 ..< 8) {
+                    let position = Position(portfolioName: name,
+                                            emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count-1)],
+                                            qty: Int.random(in: 1 ..< 1001))
+                    testPositions.append(position)
+                }
             }
+            
+            print("testPositions:")
+            for position in testPositions {
+                print("\(position.portfolioName) - \(position.emissionID) - \(position.qty)")
+            }
+            
+            if positions.count > 0 {
+                backupPositions()
+            }
+            
+            portfolioNames = pNames
+            positions = testPositions
+            return true
         }
-        
-        print("testPositions:")
-        for position in testPositions {
-            print("\(position.portfolioName) - \(position.emissionID) - \(position.qty)")
-        }
-        
-        if positions.count > 0 {
-            backupPositions()
-        }
-        
-        portfolioNames = pNames
-        positions = testPositions
     }
     
     func backupPositions() {

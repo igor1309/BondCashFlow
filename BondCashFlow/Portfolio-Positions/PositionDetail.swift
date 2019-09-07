@@ -8,13 +8,94 @@
 
 import SwiftUI
 
+struct PositionQtySection: View {
+    @EnvironmentObject var userData: UserData
+    var position: Position
+    @Binding var qty: Int
+    @State private var draftQty: Int
+    @State private var isEditing: Bool
+    
+    init(position: Position, qty: Binding<Int>) {
+        self.position = position
+        self._qty = qty
+        self._draftQty = State(initialValue: qty.wrappedValue)
+        self._isEditing = State(initialValue: false)
+    }
+    
+    func savePosition() {
+        if let index = userData.positions.firstIndex(where: { $0.id == position.id }) {
+            userData.positions[index].qty = draftQty
+            qty = draftQty
+        }
+    }
+    var body: some View {
+        Section(header: Text("Количество".uppercased() + (isEditing ? " qty: \(qty) draftQty: \(draftQty)" : "")),
+                footer: Text(isEditing ? "По окончании редактирования нужно обязательно нажать ВВОД." : "").foregroundColor(.systemTeal)) {
+                    
+                    //  MARK: TODO: make qty editable
+                    //  using QtyTextField(qty: T##Binding<Int>, error: T##String)
+                    if isEditing {
+                        HStack {
+                            TextField("", value: $draftQty, formatter: NumberFormatter(),
+                                      onEditingChanged: { isEdited in
+                                        print("TextField qty onEditingChanged isEdited: \(isEdited)")
+                            },
+                                      onCommit: {
+                                        print("draftQty: \(self.draftQty)")
+                            })
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                print("checkmark tapped")
+                                self.savePosition()
+                                self.isEditing = false
+                            }) {
+                                Image(systemName: "checkmark")
+                                    .padding(.leading)
+                                    .padding(.vertical, 8)
+                            }
+                            //                                    .border(Color.systemPink)
+                        }
+                    } else {
+                        HStack {
+                            Text(qty.formattedGrouped)
+                                .foregroundColor(Color.systemOrange)
+                                .onTapGesture {
+                                    self.isEditing = true
+                            }
+                            
+                            Spacer()
+                            
+                            Button("Редактировать") {
+                                self.isEditing = true
+                            }
+                        }
+                    }
+        }
+    }
+}
+
+
 struct PositionDetail: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
-    @State private var showAlert = false
+    @State private var showAlert: Bool
+    @State private var isEditing: Bool
+    @State private var qty: Int
+    @State private var draftQty: Int
     
     var position: Position
     var emission: Emission?
+    
+    init(position: Position, emission: Emission?) {
+        self._showAlert = State(initialValue: false)
+        self._isEditing = State(initialValue: false)
+        self._qty = State(initialValue: position.qty)
+        self._draftQty = State(initialValue: position.qty)
+        self.position = position
+        self.emission = emission
+    }
     
     func deletePosition() {
         if let positionIndex =
@@ -28,6 +109,13 @@ struct PositionDetail: View {
         self.presentation.wrappedValue.dismiss()
     }
     
+    func savePosition() {
+        if let index = userData.positions.firstIndex(where: { $0.id == position.id }) {
+            userData.positions[index] = position
+            qty = draftQty
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -36,17 +124,10 @@ struct PositionDetail: View {
                     Text(emission?.documentRus ?? "#n/a")
                 }
                 
+                PositionQtySection(position: position, qty: $qty)
+                
                 Section(header: Text("Портфель".uppercased())) {
                     Text(position.portfolioName)
-                }
-                
-                Section(header: Text("Количество".uppercased()),
-                        footer: Text("Редактирование позиции (количество облигаций) будет сделано в следующей версии. В этой версии нужно сначала удалить позицию и потом завести новую с нужным количеством.").foregroundColor(.systemTeal)) {
-                            
-                            //  MARK: TODO: make qty editable
-                            //  using QtyTextField(qty: T##Binding<Int>, error: T##String)
-                            Text(position.qty.formattedGrouped)
-                                .foregroundColor(Color.systemOrange)
                 }
                 
                 Section {
@@ -94,7 +175,7 @@ struct PositionDetail: View {
 
 struct PositionDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PositionDetail(position: Position(portfolioName: "Bumblebee", emissionID: 11789, qty: 5555))
+        PositionDetail(position: Position(portfolioName: "Bumblebee", emissionID: 11789, qty: 5555), emission: nil)
             .environmentObject(UserData())
             .environment(\.colorScheme, .dark)
     }

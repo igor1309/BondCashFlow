@@ -10,6 +10,7 @@ import SwiftUI
 
 struct FlowRow: View {
     var flow: Flow
+    var qty: Int = 1
     
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
@@ -22,7 +23,7 @@ struct FlowRow: View {
                     .foregroundColor(.secondary)
                     .font(.footnote)
 
-                Text(flow.cuponSum == -1 ? "#н/д" : flow.cuponSum.formattedGrouped)
+                Text(flow.cuponSum == -1 ? "#н/д" : (Double(qty) * flow.cuponSum).formattedGrouped)
                     .fontWeight(.light)
             }
             

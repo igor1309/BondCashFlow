@@ -67,18 +67,6 @@ struct UpdateLocalDataSection: View {
                 DisappearingText(text: process, isShown: $isFinished)
                     .foregroundColor(.secondary)
             }
-            //            if isFinished {
-            //                Text(process)
-//                    .fixedSize(horizontal: false, vertical: true)
-//                    .foregroundColor(.secondary)
-//                    .onAppear {
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-//                            withAnimation(.easeInOut) {
-//                                self.isFinished = false
-//                            }
-//                        }
-//                }
-//            }
             
             HStack {
                 if isLoading {
@@ -163,6 +151,13 @@ struct UpdateLocalDataSection: View {
 
 struct UpdateLocalDataSection_Previews: PreviewProvider {
     static var previews: some View {
-        UpdateLocalDataSection()
+        NavigationView {
+            Form {
+                UpdateLocalDataSection()
+                    .environmentObject(UserData())
+                    .environmentObject(SettingsStore())
+            }
+        .navigationBarTitle("Настройки")
+        }
     }
 }

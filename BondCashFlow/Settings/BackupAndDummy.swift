@@ -14,6 +14,7 @@ struct DisappearingText: View {
     
     var body: some View {
         Text(text)
+            .fixedSize(horizontal: false, vertical: true)
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     withAnimation(.easeInOut) {
@@ -30,6 +31,7 @@ struct BackupAndDummy: View {
     @State private var isRestorationSuccessful = false
     @State private var isNoBackup = false
     @State private var isTestPositionsLoaded = false
+    @State private var isErrorCreatingTestPositions = false
     @State private var showActionRestore = false
     @State private var showActionTest = false
     
@@ -48,12 +50,18 @@ struct BackupAndDummy: View {
     }
     
     func loadTestPositions() {
-        userData.loadTestPositions()
-        
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-        
-        isTestPositionsLoaded = true
+        if userData.loadTestPositions() {
+            
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
+            isTestPositionsLoaded = true
+        } else {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.error)
+            
+            isErrorCreatingTestPositions = true
+        }
     }
     
     var body: some View {
@@ -93,6 +101,10 @@ struct BackupAndDummy: View {
                     Group {
                         if isTestPositionsLoaded {
                             DisappearingText(text: "Позиции заменены на тестовые", isShown: $isTestPositionsLoaded)
+                        }
+                        if isErrorCreatingTestPositions {
+                            DisappearingText(text: "Не удалось создать тестовые позиции — обновите локальную базу.", isShown: $isErrorCreatingTestPositions)
+                                .foregroundColor(.systemRed)
                         }
                         
                         Button(action: {

@@ -8,40 +8,6 @@
 
 import SwiftUI
 
-//  MARK: TODO: redemption!!!!!!!
-struct FlowRow2: View {
-    var flow: Flow
-    var qty: Int
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(flow.date.toString())
-                
-                Spacer()
-                
-                Text((Double(qty) * flow.cuponSum).formattedGrouped) // (Double(qty) * flow).cuponSum.formattedGrouped
-            }
-            
-            Group {
-                HStack {
-                    Text("Купон №" + flow.couponNum.formattedGrouped)
-                    
-                    Spacer()
-                    
-                    Text("Сумма: " + flow.cuponSum.formattedGrouped)
-                    
-                }
-                
-                Text("Ставка купона: " + flow.cuponRate.formattedPercentageWithDecimals)
-            }
-            .font(.footnote)
-            .foregroundColor(.secondary)
-        }
-    }
-}
-
-
 struct FlowsList: View {
     var flows: [Flow]
     var qty: Int
@@ -49,7 +15,7 @@ struct FlowsList: View {
     var body: some View {
         List {
             ForEach(flows, id: \.self) { flow in
-                FlowRow2(flow: flow, qty: self.qty)
+                FlowRow(flow: flow, qty: self.qty)
             }
         }
     }

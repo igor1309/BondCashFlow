@@ -27,11 +27,11 @@ func reset() {
         password = "test"
         isAllPortfoliosSelected = true
         selectedPortfolio = ""
-        selectedFilter = ""
         lastCBondOperationUsed = "get_emissions"
-        lastCBondLimitUsed = 10
+        lastCBondLimitUsed = 1000
         lastCBondOffsetUsed = 0
         weeksToShowInCalendar = 52
+        startDate = Date().firstDayOfWeekRU.startOfDay
     }
     
     func loginTest() {
@@ -83,12 +83,6 @@ func reset() {
     @Published var selectedPortfolio: String = UserDefaults.standard.string(forKey: "selectedPortfolio") ?? "" {
         didSet {
             defaults.set(selectedPortfolio, forKey: "selectedPortfolio")
-        }
-    }
-    
-    @Published var selectedFilter: String = UserDefaults.standard.string(forKey: "selectedFilter") ?? "" {
-        didSet {
-            defaults.set(selectedFilter, forKey: "selectedFilter")
         }
     }
     

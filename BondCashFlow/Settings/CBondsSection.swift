@@ -66,6 +66,7 @@ struct CBondsSection_Previews: PreviewProvider {
             Form {
                 CBondsSection()
                     .environmentObject(UserData())
+                    .environmentObject(SettingsStore())
             }
         }
     }
