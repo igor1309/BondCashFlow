@@ -13,33 +13,11 @@ struct FlowRow3: View {
     var flow: CalendarCashFlow
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(flow.portfolioName)
-                .font(.caption)
-                .fontWeight(.light)
-                .foregroundColor(.systemOrange)
-            
-            HStack {
-                Text(flow.date.toString())
-                
-                Spacer()
-                
-                Text(flow.amount.formattedGrouped)
-                    .foregroundColor(.systemOrange)
-            }
-            
-            HStack(alignment: .firstTextBaseline) {
-                Text(flow.emitent + " " + flow.instrument)
-                
-                Spacer()
-                
-                Text(flow.type.id)
-                    .fontWeight(.thin)
-                    .foregroundColor(.systemOrange)
-            }
-            .font(.footnote)
-            .foregroundColor(.secondary)
-        }
+        Row(topline: flow.portfolioName,
+                     title: flow.date.toString(),
+                     detail: flow.amount.formattedGrouped,
+                     subtitle: flow.emitent + " " + flow.instrument,
+                     subdetail: flow.type.id)
     }
 }
 

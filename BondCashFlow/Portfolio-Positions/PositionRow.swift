@@ -49,88 +49,65 @@ struct PositionRow: View {
         
         let documentRus = emission?.documentRus ?? ""
         
-        let maturityDate = emission?.maturityDate.toString() ?? ""
+        let maturityDate = emission?.maturityDate.toString() ?? "#н/д"
         
-        return VStack(alignment: .leading, spacing: 4) {
-            Text(position.portfolioName)
-                .font(.caption)
-                .fontWeight(.light)
-                .foregroundColor(.systemOrange)
+        return VStack {
             
-            HStack(alignment: .firstTextBaseline) {
-                Text(documentRus)
-                
-                Spacer()
-                
-                Text(position.qty.formattedGrouped)
-                    .foregroundColor(.systemOrange)
+            Row(topline: position.portfolioName,
+                         title: documentRus,
+                         detail: position.qty.formattedGrouped,
+                         subtitle: "id: " + String(position.emissionID) + isin,
+                         subdetail: maturityDate)
+                .onTapGesture {
+                    self.showDetail = true
             }
-            
-            HStack(alignment: .firstTextBaseline) {
-                Text("id: " + String(position.emissionID))
-                    .fontWeight(.light)
-                
-                Spacer()
-                
-                Text(isin)
-                    .fontWeight(.light)
-                
-                Spacer()
-                
-                Text(maturityDate)
-            }
-            .font(.footnote)
-            .foregroundColor(.secondary)
-        }
-        .onTapGesture {
-            self.showDetail = true
-        }
-        .contextMenu {
-            Button(action: {
-                self.showConfirmation = true
-            }) {
-                HStack {
-                    Image(systemName: "trash")
-                    Spacer()
-                    Text("Закрыть позицию")
+            .contextMenu {
+                Button(action: {
+                    self.showConfirmation = true
+                }) {
+                    HStack {
+                        Image(systemName: "trash")
+                        Spacer()
+                        Text("Закрыть позицию")
+                    }
+                }
+                Button(action: {
+                    self.doubleQty()
+                }) {
+                    HStack {
+                        Image(systemName: "2.circle")
+                        Spacer()
+                        Text("Удвоить позицию")
+                    }
+                }
+                Button(action: {
+                    self.halfQty()
+                }) {
+                    HStack {
+                        Image(systemName: "square.and.line.vertical.and.square.fill")
+                        Spacer()
+                        Text("Уполовинить позицию")
+                    }
                 }
             }
-            Button(action: {
-                self.doubleQty()
-            }) {
-                HStack {
-                    Image(systemName: "2.circle")
-                    Spacer()
-                    Text("Удвоить позицию")
-                }
+            .actionSheet(isPresented: self.$showConfirmation) {
+                ActionSheet(title: Text("Закрыть?"),
+                            message: Text("Отменить закрытие позиции будет невозможно."),
+                            buttons: [
+                                .cancel(Text("Отмена")),
+                                .destructive(Text("Да, закрыть позицию"),
+                                             action: {
+                                                self.deletePosition(position: self.position)
+                                })
+                ])
             }
-            Button(action: {
-                self.halfQty()
-            }) {
-                HStack {
-                    Image(systemName: "square.and.line.vertical.and.square.fill")
-                    Spacer()
-                    Text("Уполовинить позицию")
-                }
-            }
+                
+            .sheet(isPresented: $showDetail,
+                   content: {
+                    PositionDetail(position: self.position, emission: self.emission)
+                        .environmentObject(self.userData)
+            })
         }
-        .actionSheet(isPresented: self.$showConfirmation) {
-            ActionSheet(title: Text("Закрыть?"),
-                        message: Text("Отменить закрытие позиции будет невозможно."),
-                        buttons: [
-                            .cancel(Text("Отмена")),
-                            .destructive(Text("Да, закрыть позицию"),
-                                         action: {
-                                            self.deletePosition(position: self.position)
-                            })
-            ])
-        }
-            
-        .sheet(isPresented: $showDetail,
-               content: {
-                PositionDetail(position: self.position, emission: self.emission)
-                    .environmentObject(self.userData)
-        })
     }
 }
 

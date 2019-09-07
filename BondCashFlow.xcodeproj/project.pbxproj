@@ -21,6 +21,7 @@
 		2A542D3E2321CE3700E902B9 /* CashFlowTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D3D2321CE3700E902B9 /* CashFlowTable.swift */; };
 		2A542D402321CFD000E902B9 /* Emissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A542D3F2321CFD000E902B9 /* Emissions.swift */; };
 		2A54F6D2232430EF0066D991 /* TotalReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54F6D1232430EF0066D991 /* TotalReset.swift */; };
+		2A54F6D4232454BC0066D991 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54F6D3232454BC0066D991 /* Row.swift */; };
 		2A783053231C43CC0047BDB6 /* PortfolioList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A783052231C43CC0047BDB6 /* PortfolioList.swift */; };
 		2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2B2319A100005756BB /* AppDelegate.swift */; };
 		2A8B7F2E2319A100005756BB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F2D2319A100005756BB /* SceneDelegate.swift */; };
@@ -129,6 +130,7 @@
 		2A542D3D2321CE3700E902B9 /* CashFlowTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashFlowTable.swift; sourceTree = "<group>"; };
 		2A542D3F2321CFD000E902B9 /* Emissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emissions.swift; sourceTree = "<group>"; };
 		2A54F6D1232430EF0066D991 /* TotalReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalReset.swift; sourceTree = "<group>"; };
+		2A54F6D3232454BC0066D991 /* Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
 		2A783052231C43CC0047BDB6 /* PortfolioList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioList.swift; sourceTree = "<group>"; };
 		2A8B7F282319A100005756BB /* BondCashFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BondCashFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A8B7F2B2319A100005756BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 				2A783052231C43CC0047BDB6 /* PortfolioList.swift */,
 				2AA4821C231D409000E7823F /* RotatingActivityIndicator.swift */,
 				2A40574E231F051B00B5FA63 /* Buttons.swift */,
+				2A54F6D3232454BC0066D991 /* Row.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				2A8B7F2E2319A100005756BB /* SceneDelegate.swift in Sources */,
 				2A8B7F302319A100005756BB /* ContentView.swift in Sources */,
 				2A8B7F8A2319A1DF005756BB /* PositionRow.swift in Sources */,
+				2A54F6D4232454BC0066D991 /* Row.swift in Sources */,
 				2A542D372321148900E902B9 /* EmissionID.swift in Sources */,
 				2A8B7FCB2319A1FF005756BB /* Grid.swift in Sources */,
 				2ABA2A8F231D9BD400FDB14F /* AdditionalPickers.swift in Sources */,

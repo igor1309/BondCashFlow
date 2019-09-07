@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct Row: View {
+struct TimelineRow: View {
     @State var hasData = false
     
     var body: some View {
@@ -41,7 +41,7 @@ struct Timeline: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
                 ForEach(0 ..< 25) { item in
-                    Row(hasData: item % 2 == 1)
+                    TimelineRow(hasData: item % 2 == 1)
                 }
             }
         }

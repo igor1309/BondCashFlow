@@ -13,49 +13,15 @@ struct FlowRow: View {
     var qty: Int = 1
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Купон №" + flow.couponNum.formattedGrouped)
-                
-                Spacer()
-                
-                Text("Сумма:")
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
-
-                Text(flow.cuponSum == -1 ? "#н/д" : (Double(qty) * flow.cuponSum).formattedGrouped)
-                    .fontWeight(.light)
-            }
-            
-            HStack(alignment: .firstTextBaseline) {
-                Text(flow.date.toString())
-                    .foregroundColor(.systemOrange)
-                    .fontWeight(.light)
-                
-                Text("(date)")
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
-                
-                Spacer()
-                
-                Text("Ставка купона:")
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
-
-                Text(flow.cuponRate == -1 ? "#н/д" : flow.cuponRate.formattedPercentageWithDecimals)
-                    .foregroundColor(.systemOrange)
-            }
-            
-            Group {
-                if flow.daysBeetwenCoupons != -1 {
-                    Text("Дней между купонами: " + (flow.daysBeetwenCoupons == 0 ? "#н/д" : flow.daysBeetwenCoupons.formattedGrouped))
-                }
-                
-                Text("cuponRateDate: " + (flow.cuponRateDate == .distantPast ? "#н/д" : flow.cuponRateDate.toString()))
-            }
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-        }
+        Row(topline: "",
+            title: "Купон #" + flow.couponNum.formattedGrouped,
+            detail: flow.cuponSum == -1 ? "#н/д" : (Double(qty) * flow.cuponSum).formattedGrouped,
+            detailExtra: "Сумма: ",
+            title2: flow.date.toString(),
+            detail2: flow.cuponRate == -1 ? "#н/д" : flow.cuponRate.formattedPercentageWithDecimals,
+            subtitle: flow.daysBeetwenCoupons == -1 ? "#н/д" : "Дней между купонами: " + flow.daysBeetwenCoupons.formattedGrouped,
+            subdetail: (flow.cuponRateDate == .distantPast ? "#н/д" : flow.cuponRateDate.toString()),
+            extraline: "cuponRateDate: " + (flow.cuponRateDate == .distantPast ? "#н/д" : flow.cuponRateDate.toString()))
     }
 }
 
