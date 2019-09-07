@@ -129,5 +129,6 @@ struct PositionRow_Previews: PreviewProvider {
         }
         .environmentObject(UserData())
         .previewLayout(.sizeThatFits)
+        .environment(\.colorScheme, .dark)
     }
 }

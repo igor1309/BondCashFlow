@@ -13,8 +13,7 @@ struct FlowRow: View {
     var qty: Int = 1
     
     var body: some View {
-        Row(topline: "",
-            title: "Купон #" + flow.couponNum.formattedGrouped,
+        Row(title: "Купон #" + flow.couponNum.formattedGrouped,
             detail: flow.cuponSum == -1 ? "#н/д" : (Double(qty) * flow.cuponSum).formattedGrouped,
             detailExtra: "Сумма: ",
             title2: flow.date.toString(),

@@ -8,8 +8,13 @@
 
 import SwiftUI
 
+/// Universal `reusable Row` component (already used in Positions and Flows lists).
+/// Consists of `3 to 5 styled rows`.
+/// Top and bottom lines (both optional) consist of one element.
+/// Three rows in center (the middle one also optiona) consist of two elements (title-detail).
+/// Main row (title-detail) has optional element `detailExtra` to clarify detail meaning.
 struct Row: View {
-    var topline: String
+    var topline: String = ""
     var title: String
     var detail: String
     var detailExtra: String = ""
@@ -82,7 +87,7 @@ struct Row_Previews: PreviewProvider {
         NavigationView {
             List {
                 Row(topline: "Megatron", title: "Альфа-Банк, ПО-3459, Jun 2020", detail: 123456.formattedGrouped, subtitle: "id: 6354 ISIN: KHF85955GHJ", subdetail: "Купон", extraline: "купонная ставка опредяляется эмитентом, исходя из…")
-                Row(topline: "", title: "Альфа-Банк, ПО-3459, Jun 2020", detail: 123456.formattedGrouped, detailExtra: "Сумма: ", title2: "Купонная ставка", detail2: "12%", subtitle: "id: 6354 ISIN: KHF85955GHJ", subdetail: "Купон", extraline: "купонная ставка опредяляется эмитентом, исходя из…")
+                Row(topline: "", title: "Альфа-Банк, ПО-3459, Jun 2020", detail: 123456.formattedGrouped, detailExtra: "Сумма: ", title2: "Купонная ставка", detail2: "12%", subtitle: "id: 6354 ISIN: KHF85955GHJ", subdetail: "Купон", extraline: "купонная ставка опредяляется эмитентом, исходя из - и так далее")
                 Row(topline: "Megatron", title: "Альфа-Банк, ПО-3459, Jun 2020", detail: 123456.formattedGrouped, subtitle: "id: 6354 ISIN: KHF85955GHJ", subdetail: "Купон")
                 Row(topline: "Megatron", title: "Альфа-Банк, ПО-3459, Jun 2020", detail: 123456.formattedGrouped, subtitle: "id: 6354 ISIN: KHF85955GHJ", subdetail: "Купон", extraline: "купонная ставка опредяляется эмитентом, исходя из…")
                 Row(topline: "Megatron", title: "Альфа-Банк, ПО-3459, Jun 2020", detail: 123456.formattedGrouped, subtitle: "id: 6354 ISIN: KHF85955GHJ", subdetail: "Купон")
