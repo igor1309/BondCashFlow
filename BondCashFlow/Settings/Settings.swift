@@ -12,59 +12,9 @@ struct Settings: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
     
-    @State private var isCleaning = false
-    @State private var isDoneCleaning = false
-    @State private var showAlert = false
-    @State private var isConfirmed = false
-    
-    @State private var manyWeeks = 520
+    @State private var manyWeeks = 156
+    @State private var testPeriodButtonName = "Увеличить период для потоков"
     @State private var testButtonName = "Включить тестирование потоков"
-    
-    func deleteEverything() {
-        if self.isConfirmed {
-            self.isCleaning = true
-            self.isDoneCleaning = false
-            
-            print("about to delete all  data and settings")
-            
-            //  reset UserData
-            userData.reset()
-            
-            //  reset Settings
-            settings.reset()
-            
-            //  clean UserDefaults
-            let domain = Bundle.main.bundleIdentifier!
-            UserDefaults.standard.removePersistentDomain(forName: domain)
-            UserDefaults.standard.synchronize()
-            print("UserDefaults cleaned")
-            
-            //  clean Document Directory
-            let fileManager = FileManager.default
-            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                do {
-                    let filePaths = try fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil, options: [])
-                    for filePath in filePaths {
-                        try fileManager.removeItem(at: filePath)
-                    }
-                    print("Document Directory cleaned")
-                } catch {
-                    print("Could not clear temp folder: \(error)")
-                }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                withAnimation(.easeInOut) {
-                    self.isCleaning = false
-                    self.isDoneCleaning = true
-                }
-            }
-        } else {
-            self.isConfirmed = true
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.warning)
-        }
-    }
     
     var body: some View {
         Form {
@@ -73,12 +23,8 @@ struct Settings: View {
             CBondsSection()
                 .environmentObject(self.userData)
             
-            BackupAndDummy()
-            
-            Spacer()
-            
-            Section(header: Text("Тестирование".uppercased()),
-                    footer: Text("Дата максимально давно и период в \(manyWeeks) недель")) {
+            Section(header: Text("Период для потоков".uppercased()),
+                    footer: Text("Изменить период расчета потоков до \(manyWeeks) недель (стандартный — 52).")) {
                         
                         Picker("Период", selection: $manyWeeks) {
                             Text("1 год").tag(52)
@@ -86,69 +32,54 @@ struct Settings: View {
                             Text("10 лет").tag(520)
                         }
                         
-                        Button("Включить тестирование потоков") {
+                        Button(testPeriodButtonName) {
                             #if DEBUG
-                            self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
-                            self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
                             self.settings.weeksToShowInCalendar = self.manyWeeks
                             
-                            print("\nвключаю тестирование")
-                            print("\(self.userData.baseDate) - baseDate")
-                            print("\(self.manyWeeks) - manyWeeks")
+                            print("\nвключаю увеличение периода расчета потоков")
                             
-                            self.testButtonName = "тестирование включено"
+                            self.testPeriodButtonName = "Период увеличен до \(self.manyWeeks) недель"
                             let generator = UINotificationFeedbackGenerator()
-                            generator.notificationOccurred(.success)
+                            generator.notificationOccurred(.warning)
                             #endif
                         }
-                        .disabled(self.testButtonName == "тестирование включено")
+                        .disabled(self.testPeriodButtonName == "Период увеличен до \(self.manyWeeks) недель")
             }
             
-            Section(header: Text("Сброс".uppercased())) {
-                if isDoneCleaning {
-                    DisappearingText(text: "Сброс завершен", isShown: $isDoneCleaning)
-                }
-                
-                HStack {
-                    
-                    if isCleaning {
-                        RotatingActivityIndicator(text: "очистка…",
-                                                  color: .systemGray2)
-                    }
-                    
-                    Button(action: {
-                        self.showAlert = true
-                    }){
-                        Text(isCleaning ? "" : "Сбросить все настройки и данные")
-                    }
+            BackupAndDummy()
+            
+            TotalReset()
+            
+            Section(header:
+                Text("DEV ONLY")
+                    .font(.headline)
                     .foregroundColor(.systemRed)
-                    .actionSheet(isPresented: $showAlert) {
-                        
-                        ActionSheet(title: Text("Удалить всё"),
-                                    message: Text("Вы точно хотите удалить все данные и настройки без возможности восстановления?"),
-                                    buttons: [
-                                        .cancel(Text("Отмена")),
-                                        .destructive(Text("Да, удалить всё!"), action: {
-                                            self.deleteEverything()
-                                        })
-                        ])
-                    }
+                    .fontWeight(.black),
+                    footer:
+            Text("Дата максимально давно и период в \(manyWeeks) недель (определён в разделе ПЕРИОД ДЛЯ ПОТОКОВ).")) {
+                
+                Button(testButtonName) {
+                    #if DEBUG
+                    self.userData.baseDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
+                    self.settings.startDate = self.userData.calculateCashFlows().map({ $0.date }).min()?.firstDayOfWeekRU.startOfDay ?? .distantPast
+                    self.settings.weeksToShowInCalendar = self.manyWeeks
+                    
+                    print("\nвключаю тестирование")
+                    print("\(self.userData.baseDate) - baseDate")
+                    print("\(self.manyWeeks) - manyWeeks")
+                    
+                    self.testButtonName = "Тестирование включено"
+                    let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.warning)
+                    #endif
                 }
+                .disabled(self.testButtonName == "Тестирование включено")
+                .foregroundColor(.systemRed)
             }
         }
         .navigationBarTitle("Настройки")
-            
-        .actionSheet(isPresented: $isConfirmed) {
-            
-            ActionSheet(title: Text("Удалить всё".uppercased()),
-                        message: Text("Восстановление невозможно.\nУдалить?".uppercased()),
-                        buttons: [
-                            .cancel(Text("Отмена")),
-                            .destructive(Text("Да, удалить всё!".uppercased()), action: {
-                                self.deleteEverything()
-                            })
-            ])
-        }
+        
+        
     }
     
 }
@@ -158,9 +89,9 @@ struct Settings_Previews: PreviewProvider {
         NavigationView {
             Settings()
                 .navigationBarTitle("Настройки")
-                .environmentObject(UserData())
-                .environmentObject(SettingsStore())
-                .environment(\.colorScheme, .dark)
         }
+        .environmentObject(UserData())
+        .environmentObject(SettingsStore())
+        .environment(\.colorScheme, .dark)
     }
 }

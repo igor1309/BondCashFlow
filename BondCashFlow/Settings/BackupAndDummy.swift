@@ -68,6 +68,35 @@ struct BackupAndDummy: View {
         Section(header: Text("Тест".uppercased()),
                 footer: Text("Тестовые позиции заменят текущие позиции. Тестовые позиции генерируются псевдо-случайным образом. Текущие позиции будут сохранены в резервной копии, из которой их потом можно будет восстановить.")) {
                     Group {
+                        if isTestPositionsLoaded {
+                            DisappearingText(text: "Позиции заменены на тестовые", isShown: $isTestPositionsLoaded)
+                        }
+                        if isErrorCreatingTestPositions {
+                            DisappearingText(text: "Не удалось создать тестовые позиции — обновите локальную базу.", isShown: $isErrorCreatingTestPositions)
+                                .foregroundColor(.systemRed)
+                        }
+                        
+                        Button(action: {
+                            self.showActionTest = true
+                        }){
+                            HStack {
+                                Text("Сгенерировать тестовые позиции")
+                                Image(systemName: "bandage")
+                            }
+                        }
+                        .actionSheet(isPresented: $showActionTest) {
+                            ActionSheet(title: Text("Тестовые позиции"),
+                                        message: Text("Заменить текущие позиции на тестовые?\nЭту операцию отменить невозможно."),
+                                        buttons: [
+                                            .cancel(Text("Отмена")),
+                                            .destructive(Text("Да, заменить на тестовые")) {
+                                                self.loadTestPositions()
+                                            }
+                            ])
+                        }
+                    }
+                    
+                    Group {
                         
                         if isRestorationSuccessful {
                             DisappearingText(text: "Позиции восстановлены", isShown: $isRestorationSuccessful)
@@ -93,35 +122,6 @@ struct BackupAndDummy: View {
                                             .cancel(Text("Отмена")),
                                             .destructive(Text("Да, восстановить")) {
                                                 self.restorePositions()
-                                            }
-                            ])
-                        }
-                        
-                    }
-                    Group {
-                        if isTestPositionsLoaded {
-                            DisappearingText(text: "Позиции заменены на тестовые", isShown: $isTestPositionsLoaded)
-                        }
-                        if isErrorCreatingTestPositions {
-                            DisappearingText(text: "Не удалось создать тестовые позиции — обновите локальную базу.", isShown: $isErrorCreatingTestPositions)
-                                .foregroundColor(.systemRed)
-                        }
-                        
-                        Button(action: {
-                            self.showActionTest = true
-                        }){
-                            HStack {
-                                Text("Тестовые позиции")
-                                Image(systemName: "bandage")
-                            }
-                        }
-                        .actionSheet(isPresented: $showActionTest) {
-                            ActionSheet(title: Text("Тестовые позиции"),
-                                        message: Text("Заменить текущие позиции на тестовые?\nЭту операцию отменить невозможно."),
-                                        buttons: [
-                                            .cancel(Text("Отмена")),
-                                            .destructive(Text("Да, заменить на тестовые")) {
-                                                self.loadTestPositions()
                                             }
                             ])
                         }
