@@ -14,12 +14,15 @@ struct EmissionSubRowIDISINEmiitent: View {
     var body: some View {
         HStack(alignment: .firstTextBaseline) {
             Text("#" + String(emission.id))
+                .fontWeight(.light)
             
             Text(emission.isinCode.isEmpty ? "" : emission.isinCode)
+            .fontWeight(.light)
             
             Spacer()
             
             Text(emission.emitentNameRus)
+                .fontWeight(.light)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .font(.caption)
@@ -34,7 +37,7 @@ struct EmissionSubRow: View {
     var bigStar: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
+        VStack(alignment: .leading, spacing: 6) {
             
             EmissionSubRowIDISINEmiitent(emission: emission)
             
@@ -42,19 +45,20 @@ struct EmissionSubRow: View {
                 .fixedSize(horizontal: false, vertical: true)
             
             HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Купонов в год: " + emission.cupon_period.formattedGrouped)
+                    
+                    Text(emission.cupon_rus.isEmpty ? "-" : "Купоны: " + emission.cupon_rus)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .font(.caption)
+                
+                Spacer()
+                
                 Image(systemName: userData.favoriteEmissions[emission.id] ?? false ? "star.fill" : "star")
                     .foregroundColor(userData.favoriteEmissions[emission.id] ?? false ? .systemOrange : .systemGray)
                     .imageScale(bigStar ? .large : .medium)
                     .padding(.top, 10)
-                
-                VStack(alignment: .leading) {
-                    
-                    Text("cupon_period " + emission.cupon_period.formattedGrouped)
-                    
-                    Text(emission.cupon_rus.isEmpty ? "-" : "cupon_rus " + emission.cupon_rus)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .font(.caption)
             }
             .foregroundColor(.secondary)
         }

@@ -49,7 +49,7 @@ struct PotfolioFilter: View {
                 //  MARK: - add actions
                 self.presentation.wrappedValue.dismiss()
             }) {
-                Text("Закрыть")
+                Text("Применить")
                     .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
                 
             })
@@ -66,5 +66,6 @@ struct PotfolioFilter_Previews: PreviewProvider {
     static var previews: some View {
         PotfolioFilter()
             .environmentObject(UserData())
+            .environmentObject(SettingsStore())
     }
 }
