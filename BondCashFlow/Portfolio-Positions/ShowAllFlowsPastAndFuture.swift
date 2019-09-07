@@ -14,12 +14,18 @@ struct FlowRow3: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
+            Text(flow.portfolioName)
+                .font(.caption)
+                .fontWeight(.light)
+                .foregroundColor(.systemOrange)
+            
             HStack {
                 Text(flow.date.toString())
                 
                 Spacer()
                 
                 Text(flow.amount.formattedGrouped)
+                    .foregroundColor(.systemOrange)
             }
             
             HStack(alignment: .firstTextBaseline) {
@@ -33,11 +39,6 @@ struct FlowRow3: View {
             }
             .font(.footnote)
             .foregroundColor(.secondary)
-
-            Text(flow.portfolioName)
-                .font(.footnote)
-                .fontWeight(.light)
-                .foregroundColor(.systemOrange)
         }
     }
 }

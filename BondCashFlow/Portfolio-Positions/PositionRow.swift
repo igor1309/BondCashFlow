@@ -23,7 +23,7 @@ struct PositionRow: View {
     private func deletePosition(position: Position) {
         if let index = userData.positions.firstIndex(where: { $0.id == position.id}) {
             userData.positions.remove(at: index)
-
+            
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
         }
@@ -52,6 +52,10 @@ struct PositionRow: View {
         let maturityDate = emission?.maturityDate.toString() ?? ""
         
         return VStack(alignment: .leading, spacing: 4) {
+            Text(position.portfolioName)
+                .font(.caption)
+                .fontWeight(.light)
+                .foregroundColor(.systemOrange)
             
             HStack(alignment: .firstTextBaseline) {
                 Text(documentRus)
@@ -62,7 +66,7 @@ struct PositionRow: View {
                     .foregroundColor(.systemOrange)
             }
             
-            HStack {
+            HStack(alignment: .firstTextBaseline) {
                 Text("id: " + String(position.emissionID))
                     .fontWeight(.light)
                 
@@ -77,11 +81,6 @@ struct PositionRow: View {
             }
             .font(.footnote)
             .foregroundColor(.secondary)
-            
-            Text(position.portfolioName)
-                .font(.caption)
-                .fontWeight(.light)
-                .foregroundColor(.systemOrange)
         }
         .onTapGesture {
             self.showDetail = true
