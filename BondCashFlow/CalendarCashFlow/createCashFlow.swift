@@ -41,13 +41,13 @@ extension CFCalendar {
                     
                     /// append  non-zero `coupon ` flow
                     if flow.cuponSum > 0 {
-                        let cashFlowCoupon = CalendarCashFlow(date: flow.date, portfolioName: position.portfolioName, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.cuponSum), type: .coupon)
+                        let cashFlowCoupon = CalendarCashFlow(date: flow.date, portfolioID: position.portfolioID, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.cuponSum), type: .coupon)
                         cashFlows.append(cashFlowCoupon)
                     }
                     
                     /// append non-zero `face` (principal) flow
                     if flow.redemtion > 0 {
-                        let cashFlowPrincipal = CalendarCashFlow(date: flow.date, portfolioName: position.portfolioName, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.redemtion), type: .face)
+                        let cashFlowPrincipal = CalendarCashFlow(date: flow.date, portfolioID: position.portfolioID, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.redemtion), type: .face)
                         cashFlows.append(cashFlowPrincipal)
                     }
                 }

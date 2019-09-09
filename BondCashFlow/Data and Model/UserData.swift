@@ -12,6 +12,33 @@ import Foundation
 
 final class UserData: ObservableObject {
     
+    func deletePortfolio(portfolio: Portfolio) {
+        guard let index = portfolios.firstIndex(of: portfolio) else {
+            return
+        }
+        portfolios.remove(at: index)
+        
+        for idx in positions.indices {
+            if positions[idx].portfolioID == portfolio.id {
+                positions.remove(at: idx)
+            }
+        }
+    }
+    
+    @Published var portfolios: [Portfolio] = portfolioData {
+        didSet {
+            saveJSON(data: portfolios, filename: "portfolios.json")
+        }
+    }
+    
+    var portfolioNames: [String] { portfolios.map { $0.name } }
+    
+    @Published var positions: [Position] = positionData {
+        didSet {
+            saveJSON(data: positions, filename: "positions.json")
+        }
+    }
+    
     @Published var baseDate = Date().firstDayOfWeekRU.startOfDay // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
     
     var cashFlows: [CalendarCashFlow] { calculateCashFlows().filter { $0.date >= baseDate } .sorted { $0.date < $1.date } }
@@ -29,8 +56,8 @@ final class UserData: ObservableObject {
         flowMetadata = nil
         emissions = []
         flows = []
-        portfolioNames = []
         favoriteEmissions = [:]
+        portfolios = []
         positions = []
         //        cashFlows = []
         baseDate = Date().firstDayOfWeekRU.startOfDay
@@ -39,7 +66,7 @@ final class UserData: ObservableObject {
     private let defaults = UserDefaults.standard
     
     var hasAtLeastTwoPortfolios: Bool {
-        positions.map({ $0.portfolioName }).removingDuplicates().count > 1
+        positions.map({ $0.id }).removingDuplicates().count > 1
     }
     
     var emitents: [String] {
@@ -70,32 +97,22 @@ final class UserData: ObservableObject {
         }
     }
     
-    @Published var portfolioNames: [String] = portfolioNamesData {
-        didSet {
-            saveJSON(data: portfolioNames, filename: "portfolioNames.json")
-        }
-    }
-    
     @Published var favoriteEmissions: [EmissionID: Bool] = favoriteEmissionsData {
         didSet {
             saveJSON(data: favoriteEmissions, filename: "favoriteEmissions.json")
         }
     }
-    
-    @Published var positions: [Position] = positionData {
-        didSet {
-            saveJSON(data: positions, filename: "positions.json")
-        }
-    }
-    
+}
+
+extension UserData {
     func calculateCashFlows() -> [CalendarCashFlow] {
         
         print("\n\(flows.count) - total # of flows in database")
         /// get a slice of `emissions` for those in `positions` only
         let flowsForEmissionsInPortfolio = flows.filter {
             positions.map({ $0.emissionID }).contains($0.emissionID)
-            
         }
+        
         print("\(flowsForEmissionsInPortfolio.count) - flows of interest (flowsForEmissionsInPortfolio)")
         
         /// `testing`if there any records with coupon ad redemption simultaneously
@@ -121,13 +138,13 @@ final class UserData: ObservableObject {
                     
                     /// append  non-zero `coupon ` flow
                     if flow.cuponSum > 0 {
-                        let cashFlowCoupon = CalendarCashFlow(date: flow.date, portfolioName: position.portfolioName, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.cuponSum), type: .coupon)
+                        let cashFlowCoupon = CalendarCashFlow(date: flow.date, portfolioID: position.id, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.cuponSum), type: .coupon)
                         cashFlows.append(cashFlowCoupon)
                     }
                     
                     /// append non-zero `face` (principal) flow
                     if flow.redemtion > 0 {
-                        let cashFlowPrincipal = CalendarCashFlow(date: flow.date, portfolioName: position.portfolioName, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.redemtion), type: .face)
+                        let cashFlowPrincipal = CalendarCashFlow(date: flow.date, portfolioID: position.id, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.redemtion), type: .face)
                         cashFlows.append(cashFlowPrincipal)
                     }
                 }
@@ -143,8 +160,12 @@ final class UserData: ObservableObject {
     }
     
     func loadTestPositions() -> Bool{
-        let pNames = ["Optimus Prime", "Bumblebee", "Megatron"]
-        
+        let testPortfolios = [
+            Portfolio(name: "Optimus Prime", broker: "Winterfell Direct", comment: "Winter is coming…"),
+            Portfolio(name: "Bumblebee", broker: "Daenerys IB", comment: "the First of Her Name, the Unburnt…"),
+            Portfolio(name: "Megatron", broker: "Casterly Rock", comment: "A Lannister always pays his debts.")
+        ]
+                
         let emissionIDsWithFlowsFromToday = flows.filter({ $0.date >= Date() }).map({ $0.emissionID })
         let count = emissionIDsWithFlowsFromToday.count
         
@@ -153,25 +174,20 @@ final class UserData: ObservableObject {
         } else {
             var testPositions: [Position] = []
             
-            for name in pNames {
+            for testPortfolio in testPortfolios {
                 for _ in 1...Int.random(in: 2 ..< 8) {
-                    let position = Position(portfolioName: name,
+                    let position = Position(portfolioID: testPortfolio.id,
                                             emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count-1)],
                                             qty: Int.random(in: 1 ..< 1001))
                     testPositions.append(position)
                 }
             }
             
-            print("testPositions:")
-            for position in testPositions {
-                print("\(position.portfolioName) - \(position.emissionID) - \(position.qty)")
-            }
-            
             if positions.count > 0 {
                 backupPositions()
             }
             
-            portfolioNames = pNames
+            portfolios = testPortfolios
             positions = testPositions
             return true
         }
@@ -187,5 +203,59 @@ final class UserData: ObservableObject {
         }
         positions = backupPositions
         return true
+    }
+}
+
+extension UserData {
+    /// названия выпусков для позиций  в портфеле
+    func getEmissionNamesForPortfilo(_ portfolio: Portfolio) -> [String] {
+        let positionsForPortfolio = positions.filter { $0.portfolioID == portfolio.id }
+        
+        return positionsForPortfolio
+            .map { position in
+                (self.emissions.first(where: { $0.id == position.emissionID })?.documentRus ?? "") }
+    }
+    
+    /// потоки по позиция в портфеле
+    func getFlowsForPortfolio(_ portfolio: Portfolio) -> [Flow] {
+        let positionsForPortfolio = positions.filter { $0.portfolioID == portfolio.id }
+        
+        let emissionsForPortfolio = positionsForPortfolio.map { $0.emissionID }
+        
+        return flows.filter { emissionsForPortfolio.contains($0.emissionID) }
+    }
+    
+    /// будущие потоки по позициям в портфеле
+    func getFutureFlowsForPortfolio(_ portfolio: Portfolio) -> [Flow] {
+        let positionsForPortfolio = positions.filter { $0.portfolioID == portfolio.id }
+        
+        let emissionsForPortfolio = positionsForPortfolio.map { $0.emissionID }
+        
+        return flows.filter { emissionsForPortfolio.contains($0.emissionID) && $0.date >= Date()}
+    }
+    
+    /// дата ближайшего потока для портфеля
+    func nearestFlowDateForPortfolio(_ portfolio: Portfolio) -> Date  {
+        getFutureFlowsForPortfolio(portfolio).map { $0.date }.min() ?? .distantPast
+    }
+    
+    /// размер ближайшего потока для портфеля
+    func nearestFlowForPortfolio(_ portfolio: Portfolio) -> Int {
+        /// позиции по этому портфелю
+        let positionsForPortfolio = positions.filter { $0.portfolioID == portfolio.id }
+        
+        /// дата блихайших потоков для выпусков в портфеле
+        let nearestFlowDate = nearestFlowDateForPortfolio(portfolio)
+        
+        /// потоки для эмиссий в этом портфеле с самой близкой датой
+        let nearestFlowsForPortfolio = flows.filter { $0.date == nearestFlowDate }
+        
+        /// значение потока = сумма по всем отобранным позициям и потокам = (купон + номинал) * количество в позиции
+        let flowAmount = nearestFlowsForPortfolio.reduce(0, { sum, flow in
+            sum + Int(flow.cuponSum + flow.redemtion) *
+                (positionsForPortfolio.first(where: { position in
+                    position.emissionID == flow.emissionID })?.qty ?? 0) })
+        
+        return flowAmount
     }
 }

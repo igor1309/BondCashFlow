@@ -86,7 +86,7 @@ struct CashFlowGridColumn_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             CashFlowGridColumn(activeWeek: .constant(5),
-                               cashFlows: [CalendarCashFlow(date: Date().addDays(0), portfolioName: "Optimus", emitent: "VTB", instrument: "GHS-457", amount: 12345, type: .coupon)],
+                               cashFlows: [CalendarCashFlow(date: Date().addDays(0), portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(), emitent: "VTB", instrument: "GHS-457", amount: 12345, type: .coupon)],
                                weekNo: 5,
                                weekStartDate: Date().firstDayOfWeekRU)
         }

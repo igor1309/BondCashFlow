@@ -99,6 +99,16 @@ struct AddPortfolioButton: View {
     }
 }
 
+struct AddPosition: View {
+    var proposedEmissionID: EmissionID
+    var body: some View {
+        Text("AddPosition TBD")
+    }
+}
+
+
+
+/*
 
 struct AddPosition: View {
     @EnvironmentObject var userData: UserData
@@ -127,7 +137,7 @@ struct AddPosition: View {
         //             а не только при попытке сохраниться
         
         ///  MARK: position should be `unique` (portfolioName & emissionID)
-        let position = userData.positions.first(where: { $0.portfolioName == self.portfolioName && $0.emissionID == self.emissionID })
+        let position = userData.positions.first(where: { $0.portfolioID == self.portfolio.id && $0.emissionID == self.emissionID })
         if position != nil {
             self.emissionIDError = "Такая позиция уже есть в портфеле (\(position!.qty.formattedGrouped) шт)."
             return false
@@ -168,7 +178,7 @@ struct AddPosition: View {
     }
     
     private func addPosition() {
-        let position = Position(portfolioName: portfolioName, emissionID: emissionID, qty: qty)
+        let position = Position(portfolioID: portfolio.id, emissionID: emissionID, qty: qty)
         userData.positions.append(position)
     }
     
@@ -259,7 +269,7 @@ struct AddPosition: View {
                     //  MARK: finish this
                     if self.isPositionValid {
                         /// create and add position
-                        let position = Position(portfolioName: self.portfolioName, emissionID: self.emissionID, qty: self.qty)
+                        let position = Position(portfolioID: self.portfolio.id, emissionID: self.emissionID, qty: self.qty)
                         self.userData.positions.append(position)
                         
                         /// mark emission as favotite
@@ -300,3 +310,7 @@ struct AddPosition_Previews: PreviewProvider {
             .environmentObject(SettingsStore())
     }
 }
+
+ 
+ 
+ */

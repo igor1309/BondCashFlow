@@ -33,7 +33,7 @@ struct EmissionList: View {
         NavigationView {
             VStack(alignment: .leading) {
                 //                VStack(alignment: .leading, spacing: 3) {
-                HStack {
+                HStack(alignment: .top) {
                     // Text(filterType == .all ? filterType.rawValue : "Фильтр: " + filterType.rawValue)
                     Text(filterType.rawValue)
                         .foregroundColor(.secondary)
@@ -42,7 +42,7 @@ struct EmissionList: View {
                     
                     Spacer()
                     
-                    HStack {
+                    HStack(alignment: .top) {
                         //  MARK: TODO доделать
                         Text("Выпусков …")
                         Text("Эмитентов …")

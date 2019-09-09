@@ -80,6 +80,18 @@ func reset() {
         }
     }
     
+    @Published var selectedPortfolioView: String = UserDefaults.standard.string(forKey: "selectedPortfolioView") ?? "" {
+        didSet {
+            defaults.set(selectedPortfolioView, forKey: "selectedPortfolioView")
+        }
+    }
+    
+    @Published var selectedPortfolioID: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "selectedPortfolioID") ?? "9009E038-AF68-4E55-A15E-F6C5059B79BD") {
+        didSet {
+            defaults.set(selectedPortfolioID, forKey: "selectedPortfolioID")
+        }
+    }
+    
     @Published var selectedPortfolio: String = UserDefaults.standard.string(forKey: "selectedPortfolio") ?? "" {
         didSet {
             defaults.set(selectedPortfolio, forKey: "selectedPortfolio")

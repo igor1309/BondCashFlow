@@ -19,6 +19,7 @@ struct Emission: Codable, Hashable {
     let emissionEmitentID: Int // Эмитент (id) long | совпадает с emitentID
     let emitentFullNameRus: String // Полное название эмитента (rus) Varchar
     let documentRus: String // Название эмиссии (rus) Varchar
+    let nominalPrice: Double // Номинал / минимальный торговый лот Double
     
     init(from cbond: CBondEmission) {
         self.id = Int(cbond.id) ?? -1
@@ -40,6 +41,7 @@ struct Emission: Codable, Hashable {
         self.emissionEmitentID = Int(cbond.emissionEmitentID ?? "-1") ?? -1
         self.emitentFullNameRus = cbond.emitentFullNameRus ?? ""
         self.documentRus = cbond.documentRus ?? ""
+        self.nominalPrice = Double(cbond.nominalPrice ?? "-1") ?? -1
     }
     
     init() {
@@ -53,5 +55,6 @@ struct Emission: Codable, Hashable {
         self.emissionEmitentID = 54321
         self.emitentFullNameRus = "Полное название тестового эмитента"
         self.documentRus = "ЭЭ-01АА"
+        self.nominalPrice = 1000
     }
 }

@@ -48,6 +48,16 @@ func loadFavoriteEmissionsData() -> [Int: Bool] {
     return data
 }
 
+let portfolioData = loadPortfolioData()
+
+func loadPortfolioData() -> [Portfolio] {
+    guard let data: [Portfolio] = loadFromDocDir("portfolios.json") else {
+        return []
+    }
+    
+    return data
+}
+
 let positionData = loadPositionData()
 
 func loadPositionData() -> [Position] {

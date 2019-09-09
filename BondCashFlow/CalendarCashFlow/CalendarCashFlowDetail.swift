@@ -24,13 +24,13 @@ struct CalendarCashFlowDetail: View {
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     
-                    ForEach(flows.map({ $0.portfolioName }).removingDuplicates(), id:\.self) { portfolioName in
+                    ForEach(flows.map({ $0.portfolioID }).removingDuplicates(), id:\.self) { portfolioID in
                         
                         VStack(alignment: .leading, spacing: 12) {
                             
-                            CalendarCashFlowDetailPortfolioName(name: portfolioName)
+                            CalendarCashFlowDetailPortfolioName(name: self.userData.portfolios.first(where: { $0.id == portfolioID })?.name ?? "#н/д")
                             
-                            ForEach(self.flows.filter({ $0.portfolioName == portfolioName })) { flow in
+                            ForEach(self.flows.filter({ $0.portfolioID == portfolioID })) { flow in
                                 CalendarCFRow(title: flow.emitent,
                                               subtitle: flow.instrument,
                                               detail: flow.amount.formattedGrouped,
@@ -38,9 +38,9 @@ struct CalendarCashFlowDetail: View {
                             }
                             
                             CalendarCashFlowDetailPortfolioTotal(
-                                face: self.flows.filter({ $0.portfolioName == portfolioName && $0.type == .face }).reduce(0, { $0 + $1.amount }),
-                                coupon: self.flows.filter({ $0.portfolioName == portfolioName && $0.type == .coupon }).reduce(0, { $0 + $1.amount }),
-                                amount: self.flows.filter({ $0.portfolioName == portfolioName }).reduce(0, { $0 + $1.amount }
+                                face: self.flows.filter({ $0.portfolioID == portfolioID && $0.type == .face }).reduce(0, { $0 + $1.amount }),
+                                coupon: self.flows.filter({ $0.portfolioID == portfolioID && $0.type == .coupon }).reduce(0, { $0 + $1.amount }),
+                                amount: self.flows.filter({ $0.portfolioID == portfolioID }).reduce(0, { $0 + $1.amount }
                                 )
                             )
                         }
@@ -130,12 +130,12 @@ struct CalendarCashFlowDetail_Previews: PreviewProvider {
         Group {
             CalendarCashFlowDetail(flows: ccf2)
                 .environment(\.colorScheme, .dark)
-            
+
             CalendarCashFlowDetail(flows: ccf2)
                 .environment(\.sizeCategory, .extraLarge)
-            
+
             CalendarCashFlowDetailHeader(date: Date().addWeeks(2), total: 98765432)
-            
+
             CalendarCashFlowDetailPortfolioName(name: "Optimus Prime")
             
             CalendarCashFlowDetailPortfolioTotal(face: 1_000_000, coupon: 200_000, amount: 1_200_000)

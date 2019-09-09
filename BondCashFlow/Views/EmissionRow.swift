@@ -52,6 +52,7 @@ struct EmissionSubRow: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 .font(.caption)
+                .layoutPriority(9)
                 
                 Spacer()
                 

@@ -52,6 +52,7 @@ struct EmissionDetail: View {
                         let generator = UINotificationFeedbackGenerator()
                         generator.notificationOccurred(.success)
                 }
+                .padding(.top)
                 
                 Button("Купить этот выпуск") {
                     /// fav emission otherwise it would not show up in a list of emissions in AppPosition view

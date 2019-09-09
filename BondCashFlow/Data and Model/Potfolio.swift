@@ -12,15 +12,27 @@ struct Portfolio: Identifiable, Codable, Hashable {
     var id = UUID()
     
     var name: String
-    var positions: [Position]
+    var broker: String
+    var note: String
     
     init() {
-        self.name = "Portfolio"
-        self.positions = []
+        self.name = "Новый портфель"
+        self.broker = "Какой-то брокер"
+        self.note = "Комментарий"
     }
-    
-    init(name: String, positions: [Position]) {
+    init(name: String, broker: String, comment: String) {
         self.name = name
-        self.positions = positions
+        self.broker = broker
+        self.note = comment
     }
+}
+
+extension Portfolio {
+    
+    //  MARK: TODO
+    var value: Int { 0 }
+    var faceValue: Int { 1_000_000 }
+    var nearestFlow: Int { 100_000 }
+    var nearestFlowDate: Date { Date().addWeeks(6) }
+    var emissionsList: String { "List of Emission to be done soon (TBD)" }
 }

@@ -127,7 +127,7 @@ struct PositionDetail: View {
                 PositionQtySection(position: position, qty: $qty)
                 
                 Section(header: Text("Портфель".uppercased())) {
-                    Text(position.portfolioName)
+                    Text(userData.portfolios.first(where: { $0.id == position.portfolioID })!.name)
                 }
                 
                 Section {
@@ -175,7 +175,7 @@ struct PositionDetail: View {
 
 struct PositionDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PositionDetail(position: Position(portfolioName: "Bumblebee", emissionID: 11789, qty: 5555), emission: nil)
+        PositionDetail(position: Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(), emissionID: 11789, qty: 5555), emission: nil)
             .environmentObject(UserData())
             .environment(\.colorScheme, .dark)
     }

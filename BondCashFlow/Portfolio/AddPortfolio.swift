@@ -36,8 +36,9 @@ struct AddPortfolio: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(footer: Text(nameErrorNote).foregroundColor(.systemRed)) {
-                    TextField("Название", text: $draftName)
+                Section(header: Text("Портфель".uppercased()),
+                        footer: Text(nameErrorNote).foregroundColor(.systemRed)) {
+                    TextField("Название портфеля", text: $draftName)
                 }
             }
                 
@@ -52,7 +53,7 @@ struct AddPortfolio: View {
                 trailing: Button(action: {
                     //  MARK: - add actions and validations
                     if self.draftNameIsValid {
-                        self.userData.portfolioNames.append(self.draftName)
+//                        self.userData.portfolioNames.append(self.draftName)
                         self.portfolioName = self.draftName
                         self.presentation.wrappedValue.dismiss()
                     }

@@ -45,7 +45,7 @@ struct PortfolioView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            
+
             Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
                 .foregroundColor(.secondary)
                 .font(.caption)
@@ -56,12 +56,12 @@ struct PortfolioView: View {
                     if settings.isAllPortfoliosSelected {
                         return true
                     } else {
-                        return $0.portfolioName == settings.selectedPortfolio
+                        return $0.portfolioID == settings.selectedPortfolioID
                     }
                 })
                 .sorted(by: {
                     if settings.isAllPortfoliosSelected {
-                        return ($0.portfolioName, $0.emissionID) < ($1.portfolioName, $1.emissionID)
+                        return ($0.emissionID) < ($1.emissionID)
                     } else {
                         return $0.emissionID < $1.emissionID
                     }
@@ -137,11 +137,11 @@ struct PortfolioView: View {
                         .environmentObject(self.userData)
                 }
                 
-                if self.modal == .addPosition {
-                    AddPosition(proposedPortfolioName: self.settings.selectedPortfolio)
-                        .environmentObject(self.userData)
-                        .environmentObject(self.settings)
-                }
+//                if self.modal == .addPosition {
+//                    AddPosition(proposedPortfolioName: userData.portfolios.first(where: { $0.id == self.settings.selectedPortfolioID }).name)
+//                        .environmentObject(self.userData)
+//                        .environmentObject(self.settings)
+//                }
                 
                 if self.modal == .addIssue {
                     AddIssue()
@@ -170,5 +170,6 @@ struct Portfolio_Previews: PreviewProvider {
         }
         .environmentObject(UserData())
         .environmentObject(SettingsStore())
+        .environment(\.colorScheme, .dark)
     }
 }

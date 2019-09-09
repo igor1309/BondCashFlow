@@ -9,6 +9,8 @@
 import SwiftUI
 
 extension Color {
+    public static var tertiary = Color(UIColor.systemGray3)
+    
     public static var lightGray = Color(UIColor.lightGray)
     public static var darkGray = Color(UIColor.darkGray)
     

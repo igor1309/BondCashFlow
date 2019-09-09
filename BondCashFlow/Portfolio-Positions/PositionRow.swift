@@ -53,11 +53,11 @@ struct PositionRow: View {
         
         return VStack {
             
-            Row(topline: position.portfolioName,
-                         title: documentRus,
-                         detail: position.qty.formattedGrouped,
-                         subtitle: "id: " + String(position.emissionID) + isin,
-                         subdetail: maturityDate)
+            Row(topline: userData.portfolios.first(where: { $0.id == position.portfolioID })!.name,
+                title: documentRus,
+                detail: position.qty.formattedGrouped,
+                subtitle: "id: " + String(position.emissionID) + isin,
+                subdetail: maturityDate)
                 .onTapGesture {
                     self.showDetail = true
             }
@@ -114,18 +114,22 @@ struct PositionRow: View {
 struct PositionRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            PositionRow(position: Position(portfolioName: "Optimus Prime",
-                                           emissionID: 460,
-                                           qty: 5555))
-            PositionRow(position: Position(portfolioName: "Optimus Prime",
-                                           emissionID: 2928,
-                                           qty: 5555))
-            PositionRow(position: Position(portfolioName: "Optimus Prime",
-                                           emissionID: 5165,
-                                           qty: 5555))
-            PositionRow(position: Position(portfolioName: "Optimus Prime",
-                                           emissionID: 2717,
-                                           qty: 5555))
+            PositionRow(position:
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                         emissionID: 460,
+                         qty: 5555))
+            PositionRow(position:
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                         emissionID: 2928,
+                         qty: 5555))
+            PositionRow(position:
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                         emissionID: 5165,
+                         qty: 5555))
+            PositionRow(position:
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                         emissionID: 2717,
+                         qty: 5555))
         }
         .environmentObject(UserData())
         .previewLayout(.sizeThatFits)

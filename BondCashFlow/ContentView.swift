@@ -15,12 +15,12 @@ struct ContentView: View {
         TabView(selection: $settings.lastTabUsed){
             
             NavigationView {
-                PortfolioView()
+                MainPortfolioView()
             }
             .tabItem {
                 VStack {
                     Image(systemName: "briefcase")
-                    Text("Позиции")
+                    Text("Портфели")
                 }
             }
             .tag(0)
@@ -37,23 +37,23 @@ struct ContentView: View {
             .tag(1)
             
             NavigationView {
-                CFCalendar()
-            }
-            .tabItem {
-                VStack {
-                    Image(systemName: "calendar")
-                    Text("Календарь")
-                }
-            }
-            .tag(2)
-            
-            NavigationView {
                 Emissions()
             }
             .tabItem {
                 VStack {
                     Image(systemName: "tray.2.fill")
                     Text("Выпуски")
+                }
+            }
+            .tag(2)
+            
+            NavigationView {
+                CFCalendar()
+            }
+            .tabItem {
+                VStack {
+                    Image(systemName: "calendar")
+                    Text("Календарь")
                 }
             }
             .tag(3)

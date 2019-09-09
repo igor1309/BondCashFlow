@@ -10,10 +10,11 @@ import SwiftUI
 
 //  MARK: TODO: redemption!!!!!!!
 struct FlowRow3: View {
+    @EnvironmentObject var userData: UserData
     var flow: CalendarCashFlow
     
     var body: some View {
-        Row(topline: flow.portfolioName,
+        Row(topline: userData.portfolios.first(where: { $0.id == flow.portfolioID })?.name ?? "#н/д",
                      title: flow.date.toString(),
                      detail: flow.amount.formattedGrouped,
                      subtitle: flow.emitent + " " + flow.instrument,

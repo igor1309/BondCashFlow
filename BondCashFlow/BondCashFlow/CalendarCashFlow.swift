@@ -12,7 +12,7 @@ struct CalendarCashFlow: Identifiable, Codable, Hashable {
     var id = UUID()
     
     var date: Date
-    var portfolioName: String
+    var portfolioID: UUID
     var emitent: String
     var instrument: String
     var amount: Int
