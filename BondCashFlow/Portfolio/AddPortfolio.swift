@@ -47,7 +47,6 @@ struct AddPortfolio: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     
-    @Binding var portfolioName: String
     @State private var draft: Portfolio = Portfolio()
     
     private var nameErrorNote: String {
@@ -95,7 +94,7 @@ struct AddPortfolio: View {
 
 struct AddPortfolio_Previews: PreviewProvider {
     static var previews: some View {
-        AddPortfolio(portfolioName: .constant(""))
+        AddPortfolio()
             .environmentObject(UserData())
     }
 }

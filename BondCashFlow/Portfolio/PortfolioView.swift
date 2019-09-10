@@ -95,16 +95,23 @@ struct PortfolioView: View {
                 if self.modal == .addPortfolio {
                     //  MARK: TODO решить нужно ли отдельно создавать портфель
                     //  и что делать с этим блоком
-                    AddPortfolio(portfolioName: .constant(""))
+                    AddPortfolio()
                         .environmentObject(self.userData)
                 }
                 
-                //if self.modal == .addPosition {
-                //    AddPosition(proposedPortfolioName: userData.portfolios.first(where: { $0.id == self.settings.selectedPortfolioID }).name)
-                //        .environmentObject(self.userData)
-                //        .environmentObject(self.settings)
-                //}
-                
+                if self.modal == .addPosition {
+                    NavigationView {
+                        CreatePosition()
+                            .environmentObject(self.userData)
+                            .environmentObject(self.settings)
+                    }
+                }
+                //                if self.modal == .addPosition {
+                //                    AddPosition(proposedPortfolioName: userData.portfolios.first(where: { $0.id == self.settings.selectedPortfolioID }).name)
+                //                        .environmentObject(self.userData)
+                //                        .environmentObject(self.settings)
+                //                }
+                //
                 if self.modal == .addIssue {
                     AddIssue()
                         .environmentObject(self.userData)
