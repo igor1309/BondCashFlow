@@ -1,5 +1,5 @@
 //
-//  MainPortfolioView.swift
+//  PortfolioView.swift
 //  BondCashFlow
 //
 //  Created by Igor Malyarov on 09.09.2019.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MainPortfolioView: View {
+struct PortfolioView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
@@ -18,7 +18,7 @@ struct MainPortfolioView: View {
     @State private var modal: Modal = .filter
     
     private enum Modal {
-        case filter, addPortfolio, addPosition, addIssue, allFlows
+        case filter, addPortfolio, addPosition, addIssue, allFlows, positionsByEmission
     }
     
     private func addPosition() {
@@ -33,49 +33,19 @@ struct MainPortfolioView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             
-            Picker(selection: $settings.selectedPortfolioView, label: Text("")) {
-                Text("портфели").tag("портфели")
-                Text("по выпускам").tag("по выпускам")
-                Text("позиции").tag("позиции")
-            }
-                //                .border(Color.systemPink)
-                .pickerStyle(SegmentedPickerStyle())
-                .padding(.horizontal)
-            //            .border(Color.systemPink)
-            
-            if settings.selectedPortfolioView == "портфели" {
-                PortfolioList()
-            }
-            
-            if settings.selectedPortfolioView == "по выпускам" {
-                GlobalPositionList()
-            }
-            
-            if settings.selectedPortfolioView == "позиции" {
-                PositionListView()
-            }
+            PortfolioList()
         }
             
         .navigationBarItems(
-            leading:
-            LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
-                if self.userData.hasAtLeastTwoPortfolios {
-                    self.modal = .filter
+            leading: HStack {
+                LeadingButtonSFSymbol(systemName: "doc.text") {
+                    self.modal = .positionsByEmission
                     self.showModal = true
                 }
-            }
-            .disabled(!self.userData.hasAtLeastTwoPortfolios)
-            .contextMenu {
-                if !self.settings.isAllPortfoliosSelected {
-                    Button(action: {
-                        self.settings.isAllPortfoliosSelected = true
-                    }) {
-                        HStack {
-                            Image(systemName: "briefcase")
-                            Spacer()
-                            Text("все портфели")
-                        }
-                    }
+                
+                LeadingButtonSFSymbol(systemName: "flowchart") {
+                    self.modal = .allFlows
+                    self.showModal = true
                 }
             },
             
@@ -115,6 +85,13 @@ struct MainPortfolioView: View {
             
             .sheet(isPresented: $showModal, content: {
                 
+                if self.modal == .positionsByEmission {
+                    NavigationView {
+                        PositionsByEmissionList()
+                            .environmentObject(self.userData)
+                    }
+                }
+                
                 if self.modal == .addPortfolio {
                     //  MARK: TODO решить нужно ли отдельно создавать портфель
                     //  и что делать с этим блоком
@@ -122,11 +99,11 @@ struct MainPortfolioView: View {
                         .environmentObject(self.userData)
                 }
                 
-                //                if self.modal == .addPosition {
-                //                    AddPosition(proposedPortfolioName: userData.portfolios.first(where: { $0.id == self.settings.selectedPortfolioID }).name)
-                //                        .environmentObject(self.userData)
-                //                        .environmentObject(self.settings)
-                //                }
+                //if self.modal == .addPosition {
+                //    AddPosition(proposedPortfolioName: userData.portfolios.first(where: { $0.id == self.settings.selectedPortfolioID }).name)
+                //        .environmentObject(self.userData)
+                //        .environmentObject(self.settings)
+                //}
                 
                 if self.modal == .addIssue {
                     AddIssue()
@@ -134,9 +111,11 @@ struct MainPortfolioView: View {
                 }
                 
                 if self.modal == .allFlows {
-                    ShowAllFlowsPastAndFuture()
-                        .environmentObject(self.userData)
-                        .environmentObject(self.settings)
+                    NavigationView {
+                        ShowAllFlowsPastAndFuture()
+                            .environmentObject(self.userData)
+                            .environmentObject(self.settings)
+                    }
                 }
                 
                 if self.modal == .filter {
@@ -145,14 +124,13 @@ struct MainPortfolioView: View {
                         .environmentObject(self.settings)
                 }
             })
-        
     }
 }
 
-struct MainPortfolioView_Previews: PreviewProvider {
+struct PortfolioView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MainPortfolioView()
+            PortfolioView()
         }
             
         .environmentObject(UserData())

@@ -15,7 +15,7 @@ struct ContentView: View {
         TabView(selection: $settings.lastTabUsed){
             
             NavigationView {
-                MainPortfolioView()
+                PortfolioView()
             }
             .tabItem {
                 VStack {
@@ -26,12 +26,12 @@ struct ContentView: View {
             .tag(0)
             
             NavigationView {
-                CashFlowTable()
+                PositionListView()
             }
             .tabItem {
                 VStack {
-                    Image(systemName: "flowchart")
-                    Text("Потоки")
+                    Image(systemName: "rectangle.3.offgrid")
+                    Text("Позиции")
                 }
             }
             .tag(1)

@@ -78,10 +78,7 @@ struct Settings: View {
             }
         }
         .navigationBarTitle("Настройки")
-        
-        
     }
-    
 }
 
 struct Settings_Previews: PreviewProvider {

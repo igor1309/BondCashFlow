@@ -26,9 +26,16 @@ struct PositionListView: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
     
+    @State private var showModal = false
+    @State private var modal: Modal = .filter
+    
+    private enum Modal {
+        case filter, addPortfolio, addPosition, addIssue, allFlows, positionsByEmission
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-
+            
             Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
                 .foregroundColor(.secondary)
                 .font(.caption)
@@ -54,6 +61,28 @@ struct PositionListView: View {
             
         .navigationBarTitle("Позиции")
             
+        .navigationBarItems(
+            leading:
+            LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                if self.userData.hasAtLeastTwoPortfolios {
+                    self.modal = .filter
+                    self.showModal = true
+                }
+            }
+            .disabled(!self.userData.hasAtLeastTwoPortfolios)
+            .contextMenu {
+                if !self.settings.isAllPortfoliosSelected {
+                    Button(action: {
+                        self.settings.isAllPortfoliosSelected = true
+                    }) {
+                        HStack {
+                            Image(systemName: "briefcase")
+                            Spacer()
+                            Text("все портфели")
+                        }
+                    }
+                }
+        })
     }
 }
 

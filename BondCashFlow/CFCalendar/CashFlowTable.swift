@@ -15,42 +15,51 @@ struct CashFlowTable: View {
     @State private var cashFlows: [CalendarCashFlow] = []
     
     var body: some View {
-        VStack {
-            Toggle(isOn: $settings.isFutureFlowsOnly) {
-                Text("Только будущие потоки")
+        //        VStack {
+        //            Toggle(isOn: $settings.isFutureFlowsOnly) {
+        //                Text("Только будущие потоки")
+        //            }
+        //            .padding(.horizontal)
+        //            .foregroundColor(.systemOrange)
+        //
+        List {
+            ForEach(cashFlows
+                .filter {
+                    if self.settings.isFutureFlowsOnly {
+                        return $0.date >= self.settings.startDate
+                    } else {
+                        return true
+                    }
             }
-            .padding(.horizontal)
-            .foregroundColor(.systemOrange)
-            
-            List {
-                ForEach(cashFlows
-                    .filter {
-                        if self.settings.isFutureFlowsOnly {
-                            return $0.date >= self.settings.startDate
-                        } else {
-                            return true
-                        }
-                }
-                .sorted(by: {
-                    ($0.date, $0.emitent, $0.instrument)
-                        < ($1.date, $1.emitent, $1.instrument) }), id: \.self) { flow in
-                            
-                            FlowRow3(flow: flow)
-                }
-            }
-            .onAppear {
-                self.cashFlows = self.userData.calculateCashFlows()
+            .sorted(by: {
+                ($0.date, $0.emitent, $0.instrument)
+                    < ($1.date, $1.emitent, $1.instrument) }), id: \.self) { flow in
+                        
+                        FlowRow3(flow: flow)
             }
         }
+        .onAppear {
+            self.cashFlows = self.userData.calculateCashFlows()
+        }
+            //        }
             
-        .navigationBarTitle(settings.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
+            .navigationBarTitle(settings.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
+            
+            .navigationBarItems(trailing: Toggle(isOn: $settings.isFutureFlowsOnly) {
+                Text("Только будущие".uppercased())
+                    .font(.caption)
+            }
+            .padding(.horizontal)
+            .foregroundColor(.systemOrange))
     }
 }
 
 struct CashFlowTable_Previews: PreviewProvider {
     static var previews: some View {
-        CashFlowTable()
-            .environmentObject(UserData())
-            .environmentObject(SettingsStore())
+        NavigationView {
+            CashFlowTable()
+                .environmentObject(UserData())
+                .environmentObject(SettingsStore())
+        }
     }
 }
