@@ -14,6 +14,7 @@ struct SmartEmissionPicker: View {
     @EnvironmentObject var userData: UserData
     @Binding var emissionID: EmissionID
     var error: String
+    @State private var selectedEmissionListType = "избранные"
     
     var body: some View {
         let hasFavoriteEmissions = !userData.favoriteEmissions.isEmpty
@@ -25,13 +26,21 @@ struct SmartEmissionPicker: View {
         return Section(header: Text("Выпуск".uppercased()),
                        footer: Text(error).foregroundColor(.systemRed)){
                         
-                        Picker(hasFavoriteEmissions ? "★" : "◎", selection: $emissionID) {
+                        Picker((hasFavoriteEmissions && selectedEmissionListType == "избранные") ? "★" : "◎", selection: $emissionID) {
                             ForEach(emissionsWithFlows.filter({
-                                hasFavoriteEmissions ? (userData.favoriteEmissions[$0.id] ?? false) : true
+                                (hasFavoriteEmissions && self.selectedEmissionListType == "избранные") ? (userData.favoriteEmissions[$0.id] ?? false) : true
                             })
                                 .sorted(by: { $0.documentRus < $1.documentRus }), id: \.self) { emission in
                                     Text(emission.documentRus).tag(emission.id)
                             }
+                        }
+                        
+                        if hasFavoriteEmissions {
+                            Picker(selection: $selectedEmissionListType, label: Text("")) {
+                                Text("избранные").tag("избранные")
+                                Text("с потоками").tag("с потоками")
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
                         }
         }
     }
@@ -201,10 +210,17 @@ struct CreatePosition: View {
 
 struct CreatePosition_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            CreatePosition()
-                .environmentObject(UserData())
-                .environmentObject(SettingsStore())
+        Group {
+            Form {
+                SmartEmissionPicker(emissionID: .constant(7455), error: "")
+            }
+            
+            NavigationView {
+                CreatePosition()
+            }
         }
+        .environmentObject(SettingsStore())
+        .environmentObject(UserData())
+        .environment(\.colorScheme, .dark)
     }
 }
