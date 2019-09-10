@@ -12,11 +12,6 @@ struct PortfolioDetail: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
     @Binding var portfolio: Portfolio
-    @State var showConfirmation = false
-    
-    func deletePortfolio() {
-        print("about to delete portfolio and transactions…")
-    }
     
     var body: some View {
         NavigationView {
@@ -36,31 +31,13 @@ struct PortfolioDetail: View {
                 Section(header: Text("TBD: список эмиссий".uppercased())) {
                     Text("TBD: список эмиссий")
                 }
-                
-                Section {
-                    Button("Удалить портфель") {
-                        self.showConfirmation = true
-                    }
-                    .foregroundColor(.systemRed)
-                }
-                    
-                .navigationBarTitle("Портфель")
-                    
-                .navigationBarItems(trailing: TrailingButton(name: "Закрыть") {
-                    self.presentation.wrappedValue.dismiss()
-                })
-                    
-                    .actionSheet(isPresented: $showConfirmation) {
-                        ActionSheet(title: Text("Удалить портфель?"),
-                                    message: Text("Удалить портфель и все транзации с ним связанные?\nОтменить удаление невозможно."),
-                                    buttons: [
-                                        .cancel(Text("Отмена")),
-                                        .destructive(Text("Да, удалить портфель и транзакции")) {
-                                            self.deletePortfolio()
-                                        }
-                        ])
-                }
             }
+                
+            .navigationBarTitle("Портфель")
+                
+            .navigationBarItems(trailing: TrailingButton(name: "Закрыть") {
+                self.presentation.wrappedValue.dismiss()
+            })
         }
     }
 }

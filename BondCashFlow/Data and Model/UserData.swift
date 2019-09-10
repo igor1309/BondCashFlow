@@ -158,7 +158,9 @@ extension UserData {
         
         return cashFlows
     }
-    
+}
+
+extension UserData {
     func loadTestPositions() -> Bool{
         let testPortfolios = [
             Portfolio(name: "Optimus Prime", broker: "Winterfell Direct", comment: "Winter is coming…"),
@@ -169,7 +171,7 @@ extension UserData {
         let emissionIDsWithFlowsFromToday = flows.filter({ $0.date >= Date() }).map({ $0.emissionID })
         let count = emissionIDsWithFlowsFromToday.count
         
-        if count == 0 {
+        if emissionIDsWithFlowsFromToday.isEmpty {
             return false
         } else {
             var testPositions: [Position] = []
@@ -177,7 +179,7 @@ extension UserData {
             for testPortfolio in testPortfolios {
                 for _ in 1...Int.random(in: 2 ..< 8) {
                     let position = Position(portfolioID: testPortfolio.id,
-                                            emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count-1)],
+                                            emissionID: emissionIDsWithFlowsFromToday[Int.random(in: 0 ..< count)],
                                             qty: Int.random(in: 1 ..< 1001))
                     testPositions.append(position)
                 }
@@ -207,6 +209,33 @@ extension UserData {
 }
 
 extension UserData {
+    func deletePortfolio(_ portfolio: Portfolio) {
+        /// delete all positions for portfolio
+        positions.removeAll(where: { $0.portfolioID == portfolio.id })
+        
+        /// delete portfolio
+        if let index = portfolios.firstIndex(where: { $0.id == portfolio.id }) {
+            portfolios.remove(at: index)
+        }
+    }
+}
+
+extension UserData {
+    /// номинальная стоимость портфеля
+    func faceValueForPortfolio(_ portfolio: Portfolio) -> Int {
+        let positionsForPortfolio = positions.filter { $0.portfolioID == portfolio.id }
+        
+        var faceValue = 0
+        
+        for position in positionsForPortfolio {
+            let emission = emissions.first(where: { $0.id == position.emissionID })
+           
+            faceValue += position.qty * Int(emission?.nominalPrice ?? 0)
+        }
+        
+        return faceValue
+    }
+    
     /// названия выпусков для позиций  в портфеле
     func getEmissionNamesForPortfilo(_ portfolio: Portfolio) -> [String] {
         let positionsForPortfolio = positions.filter { $0.portfolioID == portfolio.id }

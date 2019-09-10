@@ -12,7 +12,7 @@ import Foundation
 func stringFromArray(_ array: [String]) -> String {
     let count = array.count
     
-    if count == 0 { return "" }
+    if array.isEmpty { return "" }
     else if count == 1 { return array[0] }
     else {
         return String(array.reduce(""){ $0 + $1 + ", "}.dropLast(2))

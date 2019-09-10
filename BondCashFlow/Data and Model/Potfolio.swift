@@ -16,9 +16,9 @@ struct Portfolio: Identifiable, Codable, Hashable {
     var note: String
     
     init() {
-        self.name = "Новый портфель"
-        self.broker = "Какой-то брокер"
-        self.note = "Комментарий"
+        self.name = ""//Новый портфель"
+        self.broker = ""//"Какой-то брокер"
+        self.note = ""//"Комментарий"
     }
     init(name: String, broker: String, comment: String) {
         self.name = name

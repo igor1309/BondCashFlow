@@ -58,7 +58,7 @@
 		2A8B7F922319A1DF005756BB /* EmissionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F822319A1DF005756BB /* EmissionRow.swift */; };
 		2A8B7F942319A1DF005756BB /* PositionDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F842319A1DF005756BB /* PositionDetail.swift */; };
 		2A8B7F952319A1DF005756BB /* AddPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F852319A1DF005756BB /* AddPortfolio.swift */; };
-		2A8B7F962319A1DF005756BB /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F862319A1DF005756BB /* PortfolioView.swift */; };
+		2A8B7F962319A1DF005756BB /* PositionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F862319A1DF005756BB /* PositionList.swift */; };
 		2A8B7F992319A1EA005756BB /* SaveDoneCancelButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F982319A1EA005756BB /* SaveDoneCancelButtons.swift */; };
 		2A8B7FA32319A1F6005756BB /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F9B2319A1F6005756BB /* String+Extensions.swift */; };
 		2A8B7FA42319A1F6005756BB /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7F9C2319A1F6005756BB /* Collection+Extension.swift */; };
@@ -89,6 +89,8 @@
 		2A8B7FD82319A206005756BB /* ccf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B7FD32319A206005756BB /* ccf.swift */; };
 		2A92AF7823268B170065672B /* PortfolioDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A92AF7723268B170065672B /* PortfolioDetail.swift */; };
 		2A92AF7A2326EC860065672B /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A92AF792326EC860065672B /* Functions.swift */; };
+		2A92AF7C23276C0F0065672B /* GlobalPositionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A92AF7B23276C0F0065672B /* GlobalPositionList.swift */; };
+		2A92AF7E23276C340065672B /* PositionForEmission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A92AF7D23276C340065672B /* PositionForEmission.swift */; };
 		2AA4821D231D409000E7823F /* RotatingActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4821C231D409000E7823F /* RotatingActivityIndicator.swift */; };
 		2ABA2A8F231D9BD400FDB14F /* AdditionalPickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A8E231D9BD400FDB14F /* AdditionalPickers.swift */; };
 		2ABA2A91231D9CC600FDB14F /* CBondsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A90231D9CC600FDB14F /* CBondsSection.swift */; };
@@ -179,7 +181,7 @@
 		2A8B7F822319A1DF005756BB /* EmissionRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmissionRow.swift; sourceTree = "<group>"; };
 		2A8B7F842319A1DF005756BB /* PositionDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionDetail.swift; sourceTree = "<group>"; };
 		2A8B7F852319A1DF005756BB /* AddPortfolio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPortfolio.swift; sourceTree = "<group>"; };
-		2A8B7F862319A1DF005756BB /* PortfolioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
+		2A8B7F862319A1DF005756BB /* PositionList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionList.swift; sourceTree = "<group>"; };
 		2A8B7F982319A1EA005756BB /* SaveDoneCancelButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveDoneCancelButtons.swift; sourceTree = "<group>"; };
 		2A8B7F9B2319A1F6005756BB /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		2A8B7F9C2319A1F6005756BB /* Collection+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
@@ -210,6 +212,8 @@
 		2A8B7FD32319A206005756BB /* ccf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccf.swift; sourceTree = "<group>"; };
 		2A92AF7723268B170065672B /* PortfolioDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDetail.swift; sourceTree = "<group>"; };
 		2A92AF792326EC860065672B /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		2A92AF7B23276C0F0065672B /* GlobalPositionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPositionList.swift; sourceTree = "<group>"; };
+		2A92AF7D23276C340065672B /* PositionForEmission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionForEmission.swift; sourceTree = "<group>"; };
 		2AA4821C231D409000E7823F /* RotatingActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingActivityIndicator.swift; sourceTree = "<group>"; };
 		2ABA2A8E231D9BD400FDB14F /* AdditionalPickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalPickers.swift; sourceTree = "<group>"; };
 		2ABA2A90231D9CC600FDB14F /* CBondsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBondsSection.swift; sourceTree = "<group>"; };
@@ -253,7 +257,7 @@
 		2A2EE05D231C09E900AAD7E2 /* Portfolio-Positions */ = {
 			isa = PBXGroup;
 			children = (
-				2A8B7F862319A1DF005756BB /* PortfolioView.swift */,
+				2A8B7F862319A1DF005756BB /* PositionList.swift */,
 				2A8B7F7C2319A1DF005756BB /* AddPosition.swift */,
 				2A8B7F7A2319A1DF005756BB /* PositionRow.swift */,
 				2A8B7F842319A1DF005756BB /* PositionDetail.swift */,
@@ -334,7 +338,6 @@
 				2A8B7F972319A1EA005756BB /* Supporting Views */,
 				2A2EE060231C0A6F00AAD7E2 /* CFCalendar */,
 				2AFEE6EB23267E7900C37697 /* Portfolio */,
-				2A2EE05D231C09E900AAD7E2 /* Portfolio-Positions */,
 				2A2EE05E231C0A3300AAD7E2 /* Settings */,
 				2A8B7F762319A1DF005756BB /* Views */,
 				2A8B7F712319A1D7005756BB /* JSON */,
@@ -495,14 +498,33 @@
 			path = CalendarCashFlow;
 			sourceTree = "<group>";
 		};
+		2A92AF7F23276C7D0065672B /* GlobalPositionList */ = {
+			isa = PBXGroup;
+			children = (
+				2A92AF7B23276C0F0065672B /* GlobalPositionList.swift */,
+				2A92AF7D23276C340065672B /* PositionForEmission.swift */,
+			);
+			path = GlobalPositionList;
+			sourceTree = "<group>";
+		};
+		2A92AF8023276DC10065672B /* PortfolioList */ = {
+			isa = PBXGroup;
+			children = (
+				2A783052231C43CC0047BDB6 /* PortfolioList.swift */,
+				2AFEE6EC2326855700C37697 /* PortfolioRow.swift */,
+				2A7F4510232663B4000CDDB1 /* Row2.swift */,
+			);
+			path = PortfolioList;
+			sourceTree = "<group>";
+		};
 		2AFEE6EB23267E7900C37697 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
 				2AFEE6E923267D4C00C37697 /* MainPortfolioView.swift */,
 				2A92AF7723268B170065672B /* PortfolioDetail.swift */,
-				2AFEE6EC2326855700C37697 /* PortfolioRow.swift */,
-				2A7F4510232663B4000CDDB1 /* Row2.swift */,
-				2A783052231C43CC0047BDB6 /* PortfolioList.swift */,
+				2A92AF8023276DC10065672B /* PortfolioList */,
+				2A92AF7F23276C7D0065672B /* GlobalPositionList */,
+				2A2EE05D231C09E900AAD7E2 /* Portfolio-Positions */,
 				2A8B7F852319A1DF005756BB /* AddPortfolio.swift */,
 				2A92AF792326EC860065672B /* Functions.swift */,
 			);
@@ -655,13 +677,14 @@
 				2A8B7F872319A1DF005756BB /* EmissionList.swift in Sources */,
 				2A8B7F702319A1C7005756BB /* Emission.swift in Sources */,
 				2A8B7FD62319A206005756BB /* CalendarCashFlowDetail.swift in Sources */,
+				2A92AF7E23276C340065672B /* PositionForEmission.swift in Sources */,
 				2AFEE6E82326791B00C37697 /* Font+Extension.swift in Sources */,
 				2A8B7F922319A1DF005756BB /* EmissionRow.swift in Sources */,
 				2A8B7FC12319A1FF005756BB /* CashFlowType.swift in Sources */,
 				2ABA2A93231D9F3400FDB14F /* LocalDataSection.swift in Sources */,
 				2A92AF7823268B170065672B /* PortfolioDetail.swift in Sources */,
 				2A8B7FCC2319A1FF005756BB /* TimelineGraphForRow.swift in Sources */,
-				2A8B7F962319A1DF005756BB /* PortfolioView.swift in Sources */,
+				2A8B7F962319A1DF005756BB /* PositionList.swift in Sources */,
 				2A3F5738231F2A9A00BC3767 /* LocalDataSubSections.swift in Sources */,
 				2ABA2A91231D9CC600FDB14F /* CBondsSection.swift in Sources */,
 				2A40574F231F051B00B5FA63 /* Buttons.swift in Sources */,
@@ -672,6 +695,7 @@
 				2A8B7F8B2319A1DF005756BB /* AddIssue.swift in Sources */,
 				2A8B7F6E2319A1C7005756BB /* Extension+DateFormatter.swift in Sources */,
 				2ABA2A97231DB7B700FDB14F /* cbondRequest.swift in Sources */,
+				2A92AF7C23276C0F0065672B /* GlobalPositionList.swift in Sources */,
 				2A8B7FA42319A1F6005756BB /* Collection+Extension.swift in Sources */,
 				2A8B7F612319A1BB005756BB /* UserData.swift in Sources */,
 				2A8B7FA82319A1F6005756BB /* Extension+FileManager.swift in Sources */,

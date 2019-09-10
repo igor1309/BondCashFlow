@@ -185,7 +185,7 @@ struct AddPosition: View {
     var body: some View {
         NavigationView {
             Form {
-                if userData.portfolioNames.count == 0 {
+                if userData.portfolioNames.isEmpty {
                     Section(header: Text("Проблема".uppercased())) {
                         Text("У вас нет ни одного портфеля.")
                             .fixedSize(horizontal: false, vertical: true)
@@ -194,7 +194,7 @@ struct AddPosition: View {
                             self.showModal = true
                         }
                     }
-                } else if userData.emissions.count == 0 {
+                } else if userData.emissions.isEmpty {
                     Section(header: Text("Проблема".uppercased())) {
                         Text("В базе нет ни одного выпуска. Чтобы ввести позицию нужно обновить базу.")
                             .fixedSize(horizontal: false, vertical: true)
@@ -203,7 +203,7 @@ struct AddPosition: View {
                             self.settings.lastTabUsed = 2
                         }
                     }
-                } else if userData.favoriteEmissions.count == 0 {
+                } else if userData.favoriteEmissions.isEmpty {
                     Section(header: Text("Избранные выпуски".uppercased())) {
                         Text("Избранных выпусков нет, а они нужны для создания позиции.\nОтметьте хотя бы один.")
                             .fixedSize(horizontal: false, vertical: true)

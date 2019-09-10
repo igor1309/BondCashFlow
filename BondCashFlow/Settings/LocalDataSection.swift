@@ -31,7 +31,7 @@ struct LocalDataSection: View {
             }) {
                 Text("Показать выпуски")
             }
-            .disabled(userData.emissions.count == 0)
+            .disabled(userData.emissions.isEmpty)
         }
             
         .sheet(isPresented: $showModal, content: {

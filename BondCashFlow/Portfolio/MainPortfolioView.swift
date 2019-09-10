@@ -8,66 +8,27 @@
 
 import SwiftUI
 
-struct PositionForEmission: View {
-    @EnvironmentObject var userData: UserData
-    var emissionID: EmissionID
-    
-    var body: some View {
-        
-        let emission = userData.emissions.first(where: { $0.id == emissionID })
-        
-        let positionsForEmissionID = userData.positions.filter { $0.emissionID == self.emissionID }
-        
-        let portfolioIDsForEmissionIDs = positionsForEmissionID.map { $0.portfolioID }.removingDuplicates()
-        
-        let portfolioNamesForEmissionID = userData.portfolios
-            .filter { portfolioIDsForEmissionIDs.contains($0.id) }
-            .map { $0.name }
-        
-        let nearestFlowDate = userData.flows.filter { $0.date >= Date() }.map { $0.date }.min()
-        
-        let qty = positionsForEmissionID.reduce(0, { $0 + $1.qty })
-        
-        return Row(title: emission?.documentRus ?? "#н/д",
-                   detail: qty.formattedGrouped,
-                   detailExtra: "кол-во",
-                   title2: stringFromArray(portfolioNamesForEmissionID),
-                   detail2: (Int(emission?.nominalPrice ?? 0) * qty).formattedGrouped,
-                   subtitle: "<TBD: nearest flow>",
-                   subdetail: emission?.maturityDate.toString() ?? "#н/д",
-                   extraline: nearestFlowDate?.toString() ?? "#н/д")
-    }
-}
-
-
-struct GlobalPositionList: View {
-    @EnvironmentObject var userData: UserData
-    
-    var body: some View {
-        List {
-            ForEach(userData.positions.map { $0.emissionID }.removingDuplicates().sorted(), id: \.self) {
-                
-                emissionID in
-                
-                PositionForEmission(emissionID: emissionID)
-                
-                //                Row(title: self.userData.emissions.first(where: { $0.id == emissionID })?.documentRus ?? "#н/д",
-                //                    detail: self.userData.positions
-                //                        //                        .filter { $0.id == emissionID }
-                //                        .reduce(0, { $0 + $1.qty }).formattedGrouped,
-                //                    subtitle: "",
-                //                    subdetail: "")
-            }
-        }
-    }
-}
-
-
-
 struct MainPortfolioView: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
+    
+    @State private var showActions = false
+    @State private var showModal = false
+    @State private var modal: Modal = .filter
+    
+    private enum Modal {
+        case filter, addPortfolio, addPosition, addIssue, allFlows
+    }
+    
+    private func addPosition() {
+        modal = .addPosition
+        showModal = true
+    }
+    private func addPortfolio() {
+        modal = .addPortfolio
+        showModal = true
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -84,7 +45,6 @@ struct MainPortfolioView: View {
             
             if settings.selectedPortfolioView == "портфели" {
                 PortfolioList()
-                //                .border(Color.systemPink)
             }
             
             if settings.selectedPortfolioView == "по выпускам" {
@@ -92,11 +52,100 @@ struct MainPortfolioView: View {
             }
             
             if settings.selectedPortfolioView == "позиции" {
-                PortfolioView()
+                PositionListView()
             }
         }
             
-        .navigationBarTitle("Портфели")
+        .navigationBarItems(
+            leading:
+            LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                if self.userData.hasAtLeastTwoPortfolios {
+                    self.modal = .filter
+                    self.showModal = true
+                }
+            }
+            .disabled(!self.userData.hasAtLeastTwoPortfolios)
+            .contextMenu {
+                if !self.settings.isAllPortfoliosSelected {
+                    Button(action: {
+                        self.settings.isAllPortfoliosSelected = true
+                    }) {
+                        HStack {
+                            Image(systemName: "briefcase")
+                            Spacer()
+                            Text("все портфели")
+                        }
+                    }
+                }
+            },
+            
+            trailing: HStack {
+                TrailingButtonSFSymbol(systemName: "plus.square.on.square") {
+                    self.showActions = true
+                }
+                
+                TrailingButtonSFSymbol(systemName: "plus") {
+                    self.addPosition()
+                }
+                .contextMenu {
+                    Button(action: {
+                        self.addPosition()
+                    }) {
+                        HStack {
+                            Image(systemName: "briefcase")
+                            Spacer()
+                            Text("Новый портфель")
+                        }
+                    }
+                }
+        })
+            
+            .actionSheet(isPresented: $showActions, content: {
+                ActionSheet(title: Text("Добавить"),
+                            buttons: [
+                                .cancel(Text("Отмена")),
+                                .default(Text("Добавить позицию в портфель"),
+                                         action: {
+                                            self.addPosition() }),
+                                .default(Text("Создать новый портфель"),
+                                         action: {
+                                            self.addPortfolio() })
+                ])
+            })
+            
+            .sheet(isPresented: $showModal, content: {
+                
+                if self.modal == .addPortfolio {
+                    //  MARK: TODO решить нужно ли отдельно создавать портфель
+                    //  и что делать с этим блоком
+                    AddPortfolio(portfolioName: .constant(""))
+                        .environmentObject(self.userData)
+                }
+                
+                //                if self.modal == .addPosition {
+                //                    AddPosition(proposedPortfolioName: userData.portfolios.first(where: { $0.id == self.settings.selectedPortfolioID }).name)
+                //                        .environmentObject(self.userData)
+                //                        .environmentObject(self.settings)
+                //                }
+                
+                if self.modal == .addIssue {
+                    AddIssue()
+                        .environmentObject(self.userData)
+                }
+                
+                if self.modal == .allFlows {
+                    ShowAllFlowsPastAndFuture()
+                        .environmentObject(self.userData)
+                        .environmentObject(self.settings)
+                }
+                
+                if self.modal == .filter {
+                    PotfolioFilter()
+                        .environmentObject(self.userData)
+                        .environmentObject(self.settings)
+                }
+            })
+        
     }
 }
 

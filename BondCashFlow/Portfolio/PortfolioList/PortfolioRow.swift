@@ -11,8 +11,14 @@ import SwiftUI
 struct PortfolioRow: View {
     @EnvironmentObject var userData: UserData
     @State private var showDetail = false
+    @State private var showConfirmation = false
     
     @Binding var portfolio: Portfolio
+    
+    func deletePortfolio() {
+        print("ABOUT TO DELETE PORTFOLIO AND TRANSACTIONS")
+        userData.deletePortfolio(portfolio)
+    }
     
     /// `Portfolio Row structure`
     ///    var broker: String
@@ -24,35 +30,25 @@ struct PortfolioRow: View {
     ///    var couponDate: Date
     ///    var emissionsList: String
     
-    func faceValueForPortfolio(_ portfolio: Portfolio) -> Int {
-        let positionsForPortfolio = userData.positions.filter { $0.portfolioID == portfolio.id }
-        
-        var faceValue = 0
-        
-        for position in positionsForPortfolio {
-            let emission = userData.emissions.first(where: { $0.id == position.emissionID })
-           
-            faceValue += position.qty * Int(emission?.nominalPrice ?? 0)
-        }
-        
-        return faceValue
-    }
-    
     var body: some View {
+        
+        let faceValue = userData.faceValueForPortfolio(portfolio)
+        let nearestFlowForPortfolio = userData.nearestFlowForPortfolio(portfolio)
+        let nearestFlowDateForPortfolio = userData.nearestFlowDateForPortfolio(portfolio)
         
         //  MARK: ВЕРНУТЬ КОГДА ПРИДУМАЮ КАК СЧИТАТЬ СТОИМОСТЬ
         
-        Row2(topline: portfolio.broker,
+        return Row2(topline: portfolio.broker,
              title: portfolio.name,
              ///    рыночную стоимость пока неясно как считать
             //             detail: "#н/д",
             //             detailExtra: "стоимость",
-            detail: faceValueForPortfolio(portfolio).formattedGrouped,
+            detail: faceValue == 0 ? "#н/д" : faceValue.formattedGrouped,
             detailExtra: "номинальная стоимость",
             title2: portfolio.note,
             subtitle: stringFromArray(userData.getEmissionNamesForPortfilo(portfolio)),
-            subdetail: userData.nearestFlowForPortfolio(portfolio).formattedGrouped,
-            extraline: userData.nearestFlowDateForPortfolio(portfolio).toString())
+            subdetail: nearestFlowForPortfolio == 0 ? "" : nearestFlowForPortfolio.formattedGrouped,
+            extraline: nearestFlowDateForPortfolio == .distantPast ? "#н/д" : nearestFlowDateForPortfolio.toString())
             
             .contextMenu {
                 Button(action: {
@@ -64,12 +60,32 @@ struct PortfolioRow: View {
                         Text("Редактировать")
                     }
                 }
+            Button(action: {
+                self.showConfirmation = true
+            }) {
+                HStack {
+                    Image(systemName: "trash.circle")
+                    Spacer()
+                    Text("Удалить портфель")
+                }
+            }
         }
             
         .sheet(isPresented: $showDetail) {
             PortfolioDetail(portfolio: self.$portfolio)
                 .environmentObject(self.userData)
         }
+        
+    .actionSheet(isPresented: $showConfirmation) {
+            ActionSheet(title: Text("Удалить портфель"),
+                        message: Text("и все транзации с ним связанные?\nОтменить удаление невозможно."),
+                        buttons: [
+                            .cancel(Text("Отмена")),
+                            .destructive(Text("Да, удалить портфель и транзакции")) {
+                                self.deletePortfolio()
+                            }
+            ])
+    }
     }
 }
 
