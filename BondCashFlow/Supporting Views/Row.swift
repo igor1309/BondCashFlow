@@ -20,6 +20,7 @@ struct Row: View {
     var detailExtra: String = ""
     var title2: String = ""
     var detail2: String = ""
+    var detailExtra2: String = ""
     var subtitle: String
     var subdetail: String
     var extraline: String = ""
@@ -42,7 +43,7 @@ struct Row: View {
                 
                 Text(detailExtra)
                 .foregroundColor(.secondary)
-                .font(.footnote)
+                .font(.caption2)
                 
                 Text(detail)
                     .foregroundColor(.systemOrange)
@@ -55,6 +56,10 @@ struct Row: View {
                     
                     Spacer()
                     
+                    Text(detailExtra2)
+                    .foregroundColor(.secondary)
+                    .font(.caption2)
+                    
                     Text(detail2)
                 }
                 .font(.subheadline)
@@ -62,6 +67,7 @@ struct Row: View {
             
             HStack(alignment: .firstTextBaseline) {
                 Text(subtitle)
+                .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()
                 

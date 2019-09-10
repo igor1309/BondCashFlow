@@ -9,12 +9,14 @@
 import SwiftUI
 
 struct PositionList: View {
+    @EnvironmentObject var userData: UserData
+    
     var positions: [Position]
     
     var body: some View {
         List {
-            ForEach(positions, id: \.self) { position in
-                PositionRow(position: position)
+            ForEach(positions.indexed(), id: \.1.id) { index, _ in
+                PositionRow(position: self.$userData.positions[index])
             }
         }
     }
@@ -33,56 +35,75 @@ struct PositionListView: View {
         case filter, addPortfolio, addPosition, addIssue, allFlows, positionsByEmission
     }
     
+    private func addPosition() {
+        modal = .addPosition
+        showModal = true
+    }
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            
-            Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
-                .foregroundColor(.secondary)
-                .font(.caption)
-                .padding(.horizontal)
-            
-            PositionList(positions: userData.positions
-                .filter({
-                    if settings.isAllPortfoliosSelected {
-                        return true
-                    } else {
-                        return $0.portfolioID == settings.selectedPortfolioID
-                    }
-                })
-                .sorted(by: {
-                    if settings.isAllPortfoliosSelected {
-                        return ($0.emissionID) < ($1.emissionID)
-                    } else {
-                        return $0.emissionID < $1.emissionID
-                    }
-                }))
-                .environmentObject(self.userData)
-        }
-            
-        .navigationBarTitle("Позиции")
-            
-        .navigationBarItems(
-            leading:
-            LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
-                if self.userData.hasAtLeastTwoPortfolios {
-                    self.modal = .filter
-                    self.showModal = true
+        
+        PositionList(positions: userData.positions
+            .filter({
+                if settings.isAllPortfoliosSelected {
+                    return true
+                } else {
+                    return $0.portfolioID == settings.selectedPortfolioID
                 }
-            }
-            .disabled(!self.userData.hasAtLeastTwoPortfolios)
-            .contextMenu {
-                if !self.settings.isAllPortfoliosSelected {
-                    Button(action: {
-                        self.settings.isAllPortfoliosSelected = true
-                    }) {
-                        HStack {
-                            Image(systemName: "briefcase")
-                            Spacer()
-                            Text("все портфели")
+            })
+            .sorted(by: {
+                if settings.isAllPortfoliosSelected {
+                    return ($0.emissionID) < ($1.emissionID)
+                } else {
+                    return $0.emissionID < $1.emissionID
+                }
+            }))
+            .environmentObject(self.userData)
+            
+            .navigationBarTitle("Позиции")
+            
+            .navigationBarItems(
+                leading:
+                HStack {
+                    LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                        if self.userData.hasAtLeastTwoPortfolios {
+                            self.modal = .filter
+                            self.showModal = true
                         }
                     }
+                    .disabled(!self.userData.hasAtLeastTwoPortfolios)
+                    .contextMenu {
+                        if !self.settings.isAllPortfoliosSelected {
+                            Button(action: {
+                                self.settings.isAllPortfoliosSelected = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "briefcase")
+                                    Spacer()
+                                    Text("все портфели")
+                                }
+                            }
+                        }
+                    }
+                    
+                    Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
+                    .foregroundColor(.secondary)
+                    .font(.caption)
+                },
+                
+                trailing: TrailingButtonSFSymbol(systemName: "plus") {
+                    self.addPosition()
                 }
-        })
+        )
+            
+            .sheet(isPresented: $showModal, content: {
+                if self.modal == .addPosition {
+                    NavigationView {
+                        CreatePosition()
+                            .environmentObject(self.userData)
+                            .environmentObject(self.settings)
+                    }
+                }
+            })
     }
 }
 

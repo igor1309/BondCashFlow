@@ -57,17 +57,6 @@ struct PortfolioView: View {
                 TrailingButtonSFSymbol(systemName: "plus") {
                     self.addPosition()
                 }
-                .contextMenu {
-                    Button(action: {
-                        self.addPosition()
-                    }) {
-                        HStack {
-                            Image(systemName: "briefcase")
-                            Spacer()
-                            Text("Новый портфель")
-                        }
-                    }
-                }
         })
             
             .actionSheet(isPresented: $showActions, content: {

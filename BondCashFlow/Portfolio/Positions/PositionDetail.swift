@@ -8,94 +8,15 @@
 
 import SwiftUI
 
-struct PositionQtySection: View {
-    @EnvironmentObject var userData: UserData
-    var position: Position
-    @Binding var qty: Int
-    @State private var draftQty: Int
-    @State private var isEditing: Bool
-    
-    init(position: Position, qty: Binding<Int>) {
-        self.position = position
-        self._qty = qty
-        self._draftQty = State(initialValue: qty.wrappedValue)
-        self._isEditing = State(initialValue: false)
-    }
-    
-    func savePosition() {
-        if let index = userData.positions.firstIndex(where: { $0.id == position.id }) {
-            userData.positions[index].qty = draftQty
-            qty = draftQty
-        }
-    }
-    var body: some View {
-        Section(header: Text("Количество".uppercased() + (isEditing ? " qty: \(qty) draftQty: \(draftQty)" : "")),
-                footer: Text(isEditing ? "По окончании редактирования нужно обязательно нажать ВВОД." : "").foregroundColor(.systemTeal)) {
-                    
-                    //  MARK: TODO: make qty editable
-                    //  using QtyTextField(qty: T##Binding<Int>, error: T##String)
-                    if isEditing {
-                        HStack {
-                            TextField("", value: $draftQty, formatter: NumberFormatter(),
-                                      onEditingChanged: { isEdited in
-                                        print("TextField qty onEditingChanged isEdited: \(isEdited)")
-                            },
-                                      onCommit: {
-                                        print("draftQty: \(self.draftQty)")
-                            })
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                print("checkmark tapped")
-                                self.savePosition()
-                                self.isEditing = false
-                            }) {
-                                Image(systemName: "checkmark")
-                                    .padding(.leading)
-                                    .padding(.vertical, 8)
-                            }
-                            //                                    .border(Color.systemPink)
-                        }
-                    } else {
-                        HStack {
-                            Text(qty.formattedGrouped)
-                                .foregroundColor(Color.systemOrange)
-                                .onTapGesture {
-                                    self.isEditing = true
-                            }
-                            
-                            Spacer()
-                            
-                            Button("Редактировать") {
-                                self.isEditing = true
-                            }
-                        }
-                    }
-        }
-    }
-}
-
-
 struct PositionDetail: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     @Environment(\.presentationMode) var presentation
-    @State private var showAlert: Bool
-    @State private var isEditing: Bool
-    @State private var qty: Int
-    @State private var draftQty: Int
+    @State private var showAlert = false
+    @State private var isEditing = false
     
-    var position: Position
+    @Binding var position: Position
     var emission: Emission?
-    
-    init(position: Position, emission: Emission?) {
-        self._showAlert = State(initialValue: false)
-        self._isEditing = State(initialValue: false)
-        self._qty = State(initialValue: position.qty)
-        self._draftQty = State(initialValue: position.qty)
-        self.position = position
-        self.emission = emission
-    }
     
     func deletePosition() {
         if let positionIndex =
@@ -109,22 +30,16 @@ struct PositionDetail: View {
         self.presentation.wrappedValue.dismiss()
     }
     
-    func savePosition() {
-        if let index = userData.positions.firstIndex(where: { $0.id == position.id }) {
-            userData.positions[index] = position
-            qty = draftQty
-        }
-    }
-    
     var body: some View {
         NavigationView {
             Form {
                 
                 Section(header: Text("Выпуск #\(String(position.emissionID))".uppercased())) {
                     Text(emission?.documentRus ?? "#n/a")
+                    
+                    Stepper("Количество бумаг \(position.qty.formattedGrouped)", value: $position.qty, in: 1...1_000_000)
+                        .foregroundColor(.systemOrange)
                 }
-                
-                PositionQtySection(position: position, qty: $qty)
                 
                 Section(header: Text("Портфель".uppercased())) {
                     Text(userData.portfolios.first(where: { $0.id == position.portfolioID })!.name)
@@ -140,7 +55,13 @@ struct PositionDetail: View {
                 
                 if emission != nil {
                     Section(header: Text("Потоки".uppercased())) {
+                        Toggle(isOn: $settings.isFutureFlowsOnly) {
+                            Text("Только будущие потоки")
+                        }
+                        .foregroundColor(.systemOrange)
+                        
                         FlowsList(flows: userData.flows
+                            .filter({ self.settings.isFutureFlowsOnly ? $0.date >= Date() : true })
                             .filter({ $0.emissionID == emission!.id })
                             .sorted(by: { $0.couponNum < $1.couponNum }), qty: self.position.qty
                         )
@@ -175,8 +96,9 @@ struct PositionDetail: View {
 
 struct PositionDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PositionDetail(position: Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(), emissionID: 11789, qty: 5555), emission: nil)
+        PositionDetail(position: .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(), emissionID: 11789, qty: 5555)), emission: nil)
             .environmentObject(UserData())
+            .environmentObject(SettingsStore())
             .environment(\.colorScheme, .dark)
     }
 }

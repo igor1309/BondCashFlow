@@ -12,17 +12,22 @@ struct PortfolioList: View {
     @EnvironmentObject var userData: UserData
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 8) {
-                ForEach(userData.portfolios.indexed(), id: \.1.id) { index, _ in
-                    PortfolioRow(portfolio: self.$userData.portfolios[index])
-                }
+//        ScrollView(.vertical, showsIndicators: false) {
+//            VStack(spacing: 8) {
+//                ForEach(userData.portfolios.indexed(), id: \.1.id) { index, _ in
+//                    PortfolioRow(portfolio: self.$userData.portfolios[index])
+//                }
+//            }
+//        }
+//        .padding([.top, .leading, .trailing])
+
+        List {
+            ForEach(userData.portfolios.indexed(), id: \.1.id) { index, _ in
+                PortfolioRow(portfolio: self.$userData.portfolios[index])
             }
         }
-        .padding([.top, .leading, .trailing])
-        
+            
         .navigationBarTitle("Портфели")
-
     }
 }
 

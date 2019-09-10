@@ -10,11 +10,16 @@ import SwiftUI
 
 struct PositionRow: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
-    var position: Position
+    @Binding var position: Position
     
     var emission: Emission? {
         userData.emissions.first(where: { $0.id == position.emissionID })
+    }
+    
+    var portfolio: Portfolio? {
+        userData.portfolios.first(where: { $0.id == position.portfolioID })
     }
     
     @State private var showDetail = false
@@ -45,51 +50,76 @@ struct PositionRow: View {
     
     var body: some View {
         
+        let portfolioName: String = portfolio?.name ?? "#н/д"
+        
         let isin = emission?.isinCode == nil ? "" : " ISIN: " + String(emission?.isinCode ?? "")
         
         let documentRus = emission?.documentRus ?? ""
         
+        let faceValue = position.qty * Int(emission?.nominalPrice ?? 0)
+        
         let maturityDate = emission?.maturityDate.toString() ?? "#н/д"
+        
+        let futureFlowsForEmission = userData.flows
+            .filter { $0.date >= Date() && $0.emissionID == emission?.id }
+        
+        let nearestFlowDate = futureFlowsForEmission.map { $0.date }.min()
+        
+        let flowsForNearestDate = futureFlowsForEmission.filter { $0.date == nearestFlowDate }
+        
+        let couponForNearestDate = flowsForNearestDate.reduce(0, { $0 + $1.cuponSum })
+        
+        let faceForNearestDate = flowsForNearestDate.reduce(0, { $0 + $1.redemtion })
+        
+        let nearestFlow = position.qty * Int(couponForNearestDate + faceForNearestDate)
         
         return VStack {
             
-            Row(topline: userData.portfolios.first(where: { $0.id == position.portfolioID })!.name,
+            Row(topline: portfolioName.uppercased(),
                 title: documentRus,
                 detail: position.qty.formattedGrouped,
-                subtitle: "id: " + String(position.emissionID) + isin,
-                subdetail: maturityDate)
-                .onTapGesture {
-                    self.showDetail = true
+                detailExtra: "кол-во",
+                
+                title2: "#" + String(position.emissionID) + isin,
+                detail2: faceValue.formattedGrouped,
+                detailExtra2: "номинал",
+                
+                subtitle: nearestFlow == 0 ? "#н/д" : "Ближайший поток\n" + nearestFlow.formattedGrouped,
+                subdetail: maturityDate,
+                extraline: nearestFlowDate?.toString() ?? "#н/д")
+                
+                .onTapGesture { self.showDetail = true }
+                
+                .contextMenu {
+                    Button(action: {
+                        self.showConfirmation = true
+                    }) {
+                        HStack {
+                            Image(systemName: "trash")
+                            Spacer()
+                            Text("Закрыть позицию")
+                        }
+                    }
+                    Button(action: {
+                        self.doubleQty()
+                    }) {
+                        HStack {
+                            Image(systemName: "2.circle")
+                            Spacer()
+                            Text("Удвоить позицию")
+                        }
+                    }
+                    Button(action: {
+                        self.halfQty()
+                    }) {
+                        HStack {
+                            Image(systemName: "square.and.line.vertical.and.square.fill")
+                            Spacer()
+                            Text("Уполовинить позицию")
+                        }
+                    }
             }
-            .contextMenu {
-                Button(action: {
-                    self.showConfirmation = true
-                }) {
-                    HStack {
-                        Image(systemName: "trash")
-                        Spacer()
-                        Text("Закрыть позицию")
-                    }
-                }
-                Button(action: {
-                    self.doubleQty()
-                }) {
-                    HStack {
-                        Image(systemName: "2.circle")
-                        Spacer()
-                        Text("Удвоить позицию")
-                    }
-                }
-                Button(action: {
-                    self.halfQty()
-                }) {
-                    HStack {
-                        Image(systemName: "square.and.line.vertical.and.square.fill")
-                        Spacer()
-                        Text("Уполовинить позицию")
-                    }
-                }
-            }
+                
             .actionSheet(isPresented: self.$showConfirmation) {
                 ActionSheet(title: Text("Закрыть?"),
                             message: Text("Отменить закрытие позиции будет невозможно."),
@@ -104,8 +134,9 @@ struct PositionRow: View {
                 
             .sheet(isPresented: $showDetail,
                    content: {
-                    PositionDetail(position: self.position, emission: self.emission)
+                    PositionDetail(position: self.$position, emission: self.emission)
                         .environmentObject(self.userData)
+                        .environmentObject(self.settings)
             })
         }
     }
@@ -115,23 +146,28 @@ struct PositionRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
             PositionRow(position:
-                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
-                         emissionID: 460,
-                         qty: 5555))
+                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                                   emissionID: 460,
+                                   qty: 5555)))
             PositionRow(position:
-                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
-                         emissionID: 2928,
-                         qty: 5555))
+                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                                   emissionID: 460,
+                                   qty: 5555)))
             PositionRow(position:
-                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
-                         emissionID: 5165,
-                         qty: 5555))
+                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                                   emissionID: 460,
+                                   qty: 5555)))
             PositionRow(position:
-                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
-                         emissionID: 2717,
-                         qty: 5555))
+                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                                   emissionID: 460,
+                                   qty: 5555)))
+            PositionRow(position:
+                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                                   emissionID: 460,
+                                   qty: 5555)))
         }
         .environmentObject(UserData())
+        .environmentObject(SettingsStore())
         .previewLayout(.sizeThatFits)
         .environment(\.colorScheme, .dark)
     }
