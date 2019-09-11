@@ -38,27 +38,37 @@ struct FlowsPastAndFuture: View {
     
     var body: some View {
         List {
-            Text("Работа над фильтром пока продолжается").foregroundColor(.systemTeal)
-            ForEach(cashFlows
-                .filter {
-                    if self.settings.isFutureFlowsOnly {
-                        return $0.date >= self.settings.startDate
-                    } else {
-                        return true
-                    }
-            }
-            .sorted(by: {
-                ($0.date, $0.emitent, $0.instrument)
-                    < ($1.date, $1.emitent, $1.instrument) }), id: \.self) { flow in
+            ForEach(userData.cashFlowsToPresent
+//                .filter {
+//                                    if self.userData.isFutureFlowsOnly {
+//                                        return $0.date >= self.settings.startDate
+//                                    } else {
+//                                        return true
+//                                    }
+//                            }
+//                cashFlows
+//                .filter {
+//                    if self.userData.isFutureFlowsOnly {
+//                        return $0.date >= self.settings.startDate
+//                    } else {
+//                        return true
+//                    }
+//            }
+//                //  MARK: MOVE TO UserData
+//            .sorted(by: {
+//                ($0.date, $0.emitent, $0.instrument)
+//                    < ($1.date, $1.emitent, $1.instrument) })
+                
+            , id: \.self) { flow in
                         
                         FlowRow3(flow: flow)
             }
         }
         .onAppear {
-            self.cashFlows = self.userData.calculateCashFlows()
+            self.userData.updateCashFlowsToPresent()
         }
             
-        .navigationBarTitle(settings.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
+        .navigationBarTitle(userData.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
             
         .navigationBarItems(
             leading: LeadingButtonSFSymbol(systemName: userData.selectedPortfolioID == nil ? "briefcase" : "briefcase.fill") {
@@ -69,7 +79,7 @@ struct FlowsPastAndFuture: View {
             }
             .disabled(!self.userData.hasAtLeastTwoPortfolios),
             
-            trailing: Toggle(isOn: $settings.isFutureFlowsOnly) {
+            trailing: Toggle(isOn: $userData.isFutureFlowsOnly) {
                 Text("Только будущие".uppercased())
                     .font(.footnote)
                     .fontWeight(.light)

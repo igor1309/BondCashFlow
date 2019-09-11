@@ -16,7 +16,7 @@ struct CashFlowTable: View {
     
     var body: some View {
         //        VStack {
-        //            Toggle(isOn: $settings.isFutureFlowsOnly) {
+        //            Toggle(isOn: $userData.isFutureFlowsOnly) {
         //                Text("Только будущие потоки")
         //            }
         //            .padding(.horizontal)
@@ -25,7 +25,7 @@ struct CashFlowTable: View {
         List {
             ForEach(cashFlows
                 .filter {
-                    if self.settings.isFutureFlowsOnly {
+                    if self.userData.isFutureFlowsOnly {
                         return $0.date >= self.settings.startDate
                     } else {
                         return true
@@ -43,9 +43,9 @@ struct CashFlowTable: View {
         }
             //        }
             
-            .navigationBarTitle(settings.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
+            .navigationBarTitle(userData.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
             
-            .navigationBarItems(trailing: Toggle(isOn: $settings.isFutureFlowsOnly) {
+            .navigationBarItems(trailing: Toggle(isOn: $userData.isFutureFlowsOnly) {
                 Text("Только будущие".uppercased())
                     .font(.caption)
             }

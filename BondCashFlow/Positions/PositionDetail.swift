@@ -28,13 +28,6 @@ struct PositionDetail: View {
         //  MARK: ПЕРЕНЕСТИ В МОДЕЛЬ!!!
         if let index = userData.positions.firstIndex(where: { $0.id == position.id }) {
             userData.positions[index].qty = draft.qty
-            
-            //  MARK: ДОДУМАТЬ!!!! ПОЗИЦИИ ОБНОВИЛИСЬ, НО UI получает positionsToPresent
-            //  как сделать обновление
-            
-            if let index = userData.positionsToPresent.firstIndex(where: { $0.id == position.id }) {
-                userData.positionsToPresent[index].qty = draft.qty
-            }
         }
         
         let generator = UINotificationFeedbackGenerator()
@@ -80,14 +73,14 @@ struct PositionDetail: View {
                 
                 if emission != nil {
                     Section(header: Text("Потоки".uppercased())) {
-                        Toggle(isOn: $settings.isFutureFlowsOnly) {
+                        Toggle(isOn: $userData.isFutureFlowsOnly) {
                             Text("Только будущие потоки")
                         }
                         .foregroundColor(.systemOrange)
                         
                         FlowsList(flows: userData.workingFlows
-                            .filter({ (self.settings.isFutureFlowsOnly ? $0.date >= Date() : true)
-                            && $0.emissionID == emission!.id })
+                            .filter({ (self.userData.isFutureFlowsOnly ? $0.date >= Date() : true)
+                                && $0.emissionID == emission!.id })
                             .sorted(by: { $0.couponNum < $1.couponNum }), qty: self.position.qty
                         )
                     }

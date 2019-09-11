@@ -15,13 +15,6 @@ final class SettingsStore: ObservableObject {
     
     @Published var startDate = Date().firstDayOfWeekRU.startOfDay // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
     
-    //  для тестирования потоков
-    @Published var isFutureFlowsOnly: Bool = true || UserDefaults.standard.bool(forKey: "isFutureFlowsOnly") {
-        didSet {
-            defaults.set(isFutureFlowsOnly, forKey: "isFutureFlowsOnly")
-        }
-    }
-    
     @Published var isLocalStoreShowMore: Bool = true || UserDefaults.standard.bool(forKey: "isLocalStoreShowMore") {
         didSet {
             defaults.set(isLocalStoreShowMore, forKey: "isLocalStoreShowMore")

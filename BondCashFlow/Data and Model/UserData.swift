@@ -13,12 +13,22 @@ import Foundation
 final class UserData: ObservableObject {
     private let defaults = UserDefaults.standard
     
+    //  для тестирования потоков
+    @Published var isFutureFlowsOnly: Bool = true || UserDefaults.standard.bool(forKey: "isFutureFlowsOnly") {
+        didSet {
+            updateCashFlowsToPresent()
+            
+            defaults.set(isFutureFlowsOnly, forKey: "isFutureFlowsOnly")
+        }
+    }
+    
     @Published var selectedPortfolioName: String = ""
     
     @Published var selectedPortfolioID: UUID? {
         didSet {
             selectedPortfolioName = portfolios.first(where: { $0.id == selectedPortfolioID})?.name ?? ""
             updatePositionsToPresent()
+            updateCashFlowsToPresent()
         }
     }
     
@@ -40,14 +50,22 @@ final class UserData: ObservableObject {
         }
     }
     
+    @Published var cashFlowsToPresent: [CalendarCashFlow] = []
+    
+    func updateCashFlowsToPresent() {
+        cashFlowsToPresent = calculateCashFlows(futureOnly: isFutureFlowsOnly)
+    }
+    
     @Published var portfolios: [Portfolio] = portfolioData {
         didSet {
+            updatePositionsToPresent()
             saveJSON(data: portfolios, filename: "portfolios.json")
         }
     }
     
     @Published var positions: [Position] = positionData {
         didSet {
+            updatePositionsToPresent()
             saveJSON(data: positions, filename: "positions.json")
         }
     }
@@ -108,17 +126,30 @@ extension UserData {
 
 
 extension UserData {
-    func calculateCashFlows() -> [CalendarCashFlow] {
+    func calculateCashFlows(futureOnly: Bool = true) -> [CalendarCashFlow] {
         
         print("\n\(flows.count) - total # of flows in database")
-        /// get a slice of `emissions` for those in `positions` only
-        let flowsForEmissionsInPortfolio = flows
+        /// get a slice of flows for those `emissions` in `positions` with filter for `selected portfolio`
+        let selectedEmissions = positions.filter {
+            if selectedPortfolioID == nil {
+                return true
+            } else {
+                return $0.portfolioID == selectedPortfolioID!
+            }
+        }.map { $0.emissionID }
+        
+        let flowsForEmissionsInPositions = flows
             .filter { flow in
-                positions.map({ $0.emissionID }).contains(flow.emissionID) }
+                if futureOnly {
+                    return selectedEmissions.contains(flow.emissionID) && flow.date >= Date()
+                } else {
+                    return selectedEmissions.contains(flow.emissionID)
+                }
+        }
         
-        print("\(flowsForEmissionsInPortfolio.count) - flowsForEmissionsInPortfolio")
+        print("\(flowsForEmissionsInPositions.count) - flowsForEmissionsInPositions")
         
-        /// `testing`if there any records with coupon ad redemption simultaneously
+        /// `testing`if there any records with coupon and redemption simultaneously
         let flowsWithCouponAndRedemption = flows.filter {
             $0.cuponSum > 0 && $0.redemtion > 0
         }
@@ -128,7 +159,7 @@ extension UserData {
         
         ///  loop through `all positions` `and selected flows` (with emissions in positions) to create a cashFlows array
         for position in positions {
-            for flow in flowsForEmissionsInPortfolio {
+            for flow in flowsForEmissionsInPositions {
                 
                 ///  match by `emissionID` field
                 if position.emissionID == flow.emissionID {
@@ -159,7 +190,9 @@ extension UserData {
         }
         print("… and more: TOTAL \(cashFlows.count) - cashFlows.count")
         
-        return cashFlows
+        return cashFlows.sorted(by: {
+            ($0.date, $0.emitent, $0.instrument)
+                < ($1.date, $1.emitent, $1.instrument) })
     }
 }
 
