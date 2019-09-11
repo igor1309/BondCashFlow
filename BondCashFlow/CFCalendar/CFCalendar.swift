@@ -56,9 +56,13 @@ struct CFCalendar: View {
         })
             
             .sheet(isPresented: $showPortfolioFilter,
-                   content: { PotfolioFilter()
-                    .environmentObject(self.userData)
-                    .environmentObject(self.settings)
+                   content: {
+                    PotfolioFilter(
+                        isAllPortfoliosSelected: self.settings.isAllPortfoliosSelected,
+                        selectedPortfolio: self.settings.selectedPortfolio)
+                        
+                        .environmentObject(self.userData)
+                        .environmentObject(self.settings)
             })
     }
 }

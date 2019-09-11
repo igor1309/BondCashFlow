@@ -42,14 +42,17 @@ struct PortfolioDetail: View {
             Form {
                 Section(header: Text("Название".uppercased())) {
                     TextField("Название портфеля", text: $draft.name)
+                        .foregroundColor(.systemOrange)
                 }
                 
                 Section(header: Text("Брокер".uppercased())) {
                     TextField("Брокер", text: $draft.broker)
+                        .foregroundColor(.systemOrange)
                 }
                 
                 Section(header: Text("Комментарий/Примечание".uppercased())) {
                     TextField("Комментарий/Примечание", text: $draft.note)
+                        .foregroundColor(.systemOrange)
                 }
                 
                 Section(header: Text("TBD: список эмиссий".uppercased())) {
@@ -86,7 +89,7 @@ struct PortfolioDetail: View {
 
 struct PortfolioDetail_Previews: PreviewProvider {
     static var previews: some View {
-        let portfolio = Portfolio(name: "Optimus Prime", broker: "Альфа Директ", comment: "Igor")
+        let portfolio = Portfolio(name: "Optimus Prime", broker: "Winterfell Direct", comment: "Winter is coming…")
         
         return PortfolioDetail(portfolio: portfolio)
             

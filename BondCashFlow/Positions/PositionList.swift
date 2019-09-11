@@ -42,14 +42,12 @@ struct PositionListView: View {
     }
     
     var body: some View {
-        let selectedPortfolioID: UUID = userData.portfolios.first(where: { $0.name == settings.selectedPortfolio })?.id ?? UUID()
-        
-return         PositionList(positions: userData.positions
+        PositionList(positions: userData.positions
             .filter({
                 if settings.isAllPortfoliosSelected {
                     return true
                 } else {
-                    return $0.portfolioID == selectedPortfolioID
+                    return $0.portfolioID == self.settings.selectedPortfolioID
                 }
             })
             .sorted(by: {
@@ -65,32 +63,33 @@ return         PositionList(positions: userData.positions
             
             .navigationBarItems(
                 leading:
-//                HStack {
-                    LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
-                        if self.userData.hasAtLeastTwoPortfolios {
-                            self.modal = .filter
-                            self.showModal = true
-                        }
+                //                HStack {
+                LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                    if self.userData.hasAtLeastTwoPortfolios {
+                        self.modal = .filter
+                        self.showModal = true
                     }
-                    .disabled(!self.userData.hasAtLeastTwoPortfolios)
-//                    .contextMenu {
-//                        if !self.settings.isAllPortfoliosSelected {
-//                            Button(action: {
-//                                self.settings.isAllPortfoliosSelected = true
-//                            }) {
-//                                HStack {
-//                                    Image(systemName: "briefcase")
-//                                    Spacer()
-//                                    Text("все портфели")
-//                                }
-//                            }
-//                        }
-//                    }
-                    
-//                    Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
-//                        .foregroundColor(.secondary)
-//                        .font(.caption)
-//                }
+                }
+                .disabled(!self.userData.hasAtLeastTwoPortfolios)
+                
+                //                    .contextMenu {
+                //                        if !self.settings.isAllPortfoliosSelected {
+                //                            Button(action: {
+                //                                self.settings.isAllPortfoliosSelected = true
+                //                            }) {
+                //                                HStack {
+                //                                    Image(systemName: "briefcase")
+                //                                    Spacer()
+                //                                    Text("все портфели")
+                //                                }
+                //                            }
+                //                        }
+                //                    }
+                
+                //                    Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
+                //                        .foregroundColor(.secondary)
+                //                        .font(.caption)
+                //                }
                 ,
                 
                 trailing: TrailingButtonSFSymbol(systemName: "plus") {
@@ -108,7 +107,9 @@ return         PositionList(positions: userData.positions
                 }
                 
                 if self.modal == .filter {
-                    PotfolioFilter()
+                    PotfolioFilter(
+                        isAllPortfoliosSelected: self.settings.isAllPortfoliosSelected,
+                        selectedPortfolio: self.settings.selectedPortfolio)
                         .environmentObject(self.userData)
                         .environmentObject(self.settings)
                 }

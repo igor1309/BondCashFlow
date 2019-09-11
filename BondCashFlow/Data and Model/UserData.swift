@@ -69,7 +69,7 @@ extension UserData {
     var cashFlows: [CalendarCashFlow] { calculateCashFlows().filter { $0.date >= baseDate } .sorted { $0.date < $1.date } }
     
     var hasAtLeastTwoPortfolios: Bool {
-        positions.map({ $0.id }).removingDuplicates().count > 1
+        positions.map({ $0.portfolioID }).removingDuplicates().count > 1
     }
     
     var emitents: [String] {

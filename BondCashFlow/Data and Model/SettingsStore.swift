@@ -28,7 +28,7 @@ final class SettingsStore: ObservableObject {
         }
     }
     
-@Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {
+    @Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {
         didSet {
             defaults.set(lastTabUsed, forKey: "lastTabUsed")
         }
@@ -48,24 +48,11 @@ final class SettingsStore: ObservableObject {
     }
     
     //  фильтры ломаются, поэтому всегда стартуем со всех портфелей
-    @Published var isAllPortfoliosSelected: Bool = true || UserDefaults.standard.bool(forKey: "isAllPortfoliosSelected") {
-        didSet {
-            defaults.set(isAllPortfoliosSelected, forKey: "isAllPortfoliosSelected")
-        }
-    }
+    @Published var isAllPortfoliosSelected: Bool = true
     
-    @Published var selectedPortfolioView: String = UserDefaults.standard.string(forKey: "selectedPortfolioView") ?? "" {
-        didSet {
-            defaults.set(selectedPortfolioView, forKey: "selectedPortfolioView")
-        }
-    }
+    @Published var selectedPortfolio: String = ""
     
-    @Published var selectedPortfolio: String = UserDefaults.standard.string(forKey: "selectedPortfolio") ?? "" {
-        didSet {
-            print("selectedPortfolio \(selectedPortfolio)")
-            defaults.set(selectedPortfolio, forKey: "selectedPortfolio")
-        }
-    }
+    @Published var selectedPortfolioID: UUID = UUID()
     
     @Published var lastCBondOperationUsed: String = UserDefaults.standard.string(forKey: "lastCBondOperationUsed") ?? "" {
         didSet {
