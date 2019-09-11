@@ -259,6 +259,7 @@
 		2A2EE05D231C09E900AAD7E2 /* Positions */ = {
 			isa = PBXGroup;
 			children = (
+				2A43A1A92327AE0B00CE7C10 /* CreatePosition.swift */,
 				2A8B7F862319A1DF005756BB /* PositionList.swift */,
 				2A8B7F7C2319A1DF005756BB /* AddPosition.swift */,
 				2A8B7F7A2319A1DF005756BB /* PositionRow.swift */,
@@ -347,6 +348,8 @@
 				2A8B7F972319A1EA005756BB /* Supporting Views */,
 				2A2EE060231C0A6F00AAD7E2 /* CFCalendar */,
 				2AFEE6EB23267E7900C37697 /* Portfolio */,
+				2A92AF7F23276C7D0065672B /* PositionsByEmissionList */,
+				2A2EE05D231C09E900AAD7E2 /* Positions */,
 				2A43A1A82327A2BD00CE7C10 /* Flows */,
 				2A2EE05E231C0A3300AAD7E2 /* Settings */,
 				2A8B7F762319A1DF005756BB /* Views */,
@@ -455,6 +458,7 @@
 		2A8B7F9A2319A1F6005756BB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2A92AF792326EC860065672B /* Functions.swift */,
 				2A8B7F9B2319A1F6005756BB /* String+Extensions.swift */,
 				2A8B7F9C2319A1F6005756BB /* Collection+Extension.swift */,
 				2A8B7F9D2319A1F6005756BB /* Int+RusGrammar+Extension.swift */,
@@ -517,27 +521,15 @@
 			path = PositionsByEmissionList;
 			sourceTree = "<group>";
 		};
-		2A92AF8023276DC10065672B /* PortfolioList */ = {
-			isa = PBXGroup;
-			children = (
-				2A783052231C43CC0047BDB6 /* PortfolioList.swift */,
-				2AFEE6EC2326855700C37697 /* PortfolioRow.swift */,
-				2A7F4510232663B4000CDDB1 /* Row2.swift */,
-			);
-			path = PortfolioList;
-			sourceTree = "<group>";
-		};
 		2AFEE6EB23267E7900C37697 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
 				2AFEE6E923267D4C00C37697 /* PortfolioView.swift */,
+				2A783052231C43CC0047BDB6 /* PortfolioList.swift */,
+				2AFEE6EC2326855700C37697 /* PortfolioRow.swift */,
+				2A7F4510232663B4000CDDB1 /* Row2.swift */,
 				2A92AF7723268B170065672B /* PortfolioDetail.swift */,
-				2A43A1A92327AE0B00CE7C10 /* CreatePosition.swift */,
-				2A92AF8023276DC10065672B /* PortfolioList */,
-				2A92AF7F23276C7D0065672B /* PositionsByEmissionList */,
-				2A2EE05D231C09E900AAD7E2 /* Positions */,
 				2A8B7F852319A1DF005756BB /* AddPortfolio.swift */,
-				2A92AF792326EC860065672B /* Functions.swift */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
