@@ -37,6 +37,17 @@ struct ContentView: View {
             .tag(1)
             
             NavigationView {
+                FlowsPastAndFuture()
+            }
+            .tabItem {
+                VStack {
+                    Image(systemName: "flowchart")
+                    Text("Потоки")
+                }
+            }
+            .tag(2)
+            
+            NavigationView {
                 CFCalendar()
             }
             .tabItem {
@@ -45,7 +56,7 @@ struct ContentView: View {
                     Text("Календарь")
                 }
             }
-            .tag(2)
+            .tag(3)
             
             NavigationView {
                 DataBaseView()
@@ -56,7 +67,7 @@ struct ContentView: View {
                     Text("База")
                 }
             }
-            .tag(3)
+            .tag(4)
             
 // MARK: Emissions как отдельный вью убран, сид как EmissionList в DataBaseView (бывший Settings)
 //NavigationView {

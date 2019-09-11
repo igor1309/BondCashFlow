@@ -101,7 +101,7 @@
 		2ABA2A99231DB92900FDB14F /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A98231DB92900FDB14F /* URLSession+Extension.swift */; };
 		2ABA2A9B231DBE9200FDB14F /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABA2A9A231DBE9200FDB14F /* Result+Extension.swift */; };
 		2ADEC00B2320270F003DCEB9 /* CashFlowList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADEC00A2320270F003DCEB9 /* CashFlowList.swift */; };
-		2ADEC00D23203D94003DCEB9 /* ShowAllFlowsPastAndFuture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADEC00C23203D94003DCEB9 /* ShowAllFlowsPastAndFuture.swift */; };
+		2ADEC00D23203D94003DCEB9 /* FlowsPastAndFuture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADEC00C23203D94003DCEB9 /* FlowsPastAndFuture.swift */; };
 		2AFEE6E82326791B00C37697 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEE6E72326791B00C37697 /* Font+Extension.swift */; };
 		2AFEE6EA23267D4C00C37697 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEE6E923267D4C00C37697 /* PortfolioView.swift */; };
 		2AFEE6ED2326855700C37697 /* PortfolioRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEE6EC2326855700C37697 /* PortfolioRow.swift */; };
@@ -225,7 +225,7 @@
 		2ABA2A98231DB92900FDB14F /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		2ABA2A9A231DBE9200FDB14F /* Result+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Extension.swift"; sourceTree = "<group>"; };
 		2ADEC00A2320270F003DCEB9 /* CashFlowList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashFlowList.swift; sourceTree = "<group>"; };
-		2ADEC00C23203D94003DCEB9 /* ShowAllFlowsPastAndFuture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAllFlowsPastAndFuture.swift; sourceTree = "<group>"; };
+		2ADEC00C23203D94003DCEB9 /* FlowsPastAndFuture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowsPastAndFuture.swift; sourceTree = "<group>"; };
 		2AFEE6E72326791B00C37697 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		2AFEE6E923267D4C00C37697 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		2AFEE6EC2326855700C37697 /* PortfolioRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRow.swift; sourceTree = "<group>"; };
@@ -312,7 +312,7 @@
 		2A43A1A82327A2BD00CE7C10 /* Flows */ = {
 			isa = PBXGroup;
 			children = (
-				2ADEC00C23203D94003DCEB9 /* ShowAllFlowsPastAndFuture.swift */,
+				2ADEC00C23203D94003DCEB9 /* FlowsPastAndFuture.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -724,7 +724,7 @@
 				2AA4821D231D409000E7823F /* RotatingActivityIndicator.swift in Sources */,
 				2A8B7FC32319A1FF005756BB /* GridColumn.swift in Sources */,
 				2A8B7F952319A1DF005756BB /* AddPortfolio.swift in Sources */,
-				2ADEC00D23203D94003DCEB9 /* ShowAllFlowsPastAndFuture.swift in Sources */,
+				2ADEC00D23203D94003DCEB9 /* FlowsPastAndFuture.swift in Sources */,
 				2A8B7F2C2319A100005756BB /* AppDelegate.swift in Sources */,
 				2A8B7F8C2319A1DF005756BB /* AddPosition.swift in Sources */,
 				2ABA2A9B231DBE9200FDB14F /* Result+Extension.swift in Sources */,

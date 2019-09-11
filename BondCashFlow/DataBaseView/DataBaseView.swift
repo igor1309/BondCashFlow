@@ -77,7 +77,7 @@ struct DataBaseView: View {
                 .foregroundColor(.systemRed)
             }
         }
-        .navigationBarTitle("Настройки")
+        .navigationBarTitle("Локальная база")
     }
 }
 

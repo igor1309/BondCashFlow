@@ -18,7 +18,7 @@ struct PortfolioView: View {
     @State private var modal: Modal = .filter
     
     private enum Modal {
-        case filter, addPortfolio, addPosition, addIssue, allFlows, positionsByEmission
+        case filter, addPortfolio, addPosition, addIssue, positionsByEmission
     }
     
     private func addPosition() {
@@ -37,16 +37,10 @@ struct PortfolioView: View {
         }
             
         .navigationBarItems(
-            leading: HStack {
-                LeadingButtonSFSymbol(systemName: "doc.text") {
-                    self.modal = .positionsByEmission
-                    self.showModal = true
-                }
-                
-                LeadingButtonSFSymbol(systemName: "flowchart") {
-                    self.modal = .allFlows
-                    self.showModal = true
-                }
+            leading:
+            LeadingButtonSFSymbol(systemName: "doc.text") {
+                self.modal = .positionsByEmission
+                self.showModal = true
             },
             
             trailing: HStack {
@@ -93,18 +87,10 @@ struct PortfolioView: View {
                             .environmentObject(self.settings)
                     }
                 }
-
+                
                 if self.modal == .addIssue {
                     AddIssue()
                         .environmentObject(self.userData)
-                }
-                
-                if self.modal == .allFlows {
-                    NavigationView {
-                        ShowAllFlowsPastAndFuture()
-                            .environmentObject(self.userData)
-                            .environmentObject(self.settings)
-                    }
                 }
                 
                 if self.modal == .filter {
