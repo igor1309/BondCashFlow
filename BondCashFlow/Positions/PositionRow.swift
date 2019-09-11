@@ -12,7 +12,7 @@ struct PositionRow: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
     
-    @Binding var position: Position
+    var position: Position
     
     var emission: Emission? {
         userData.emissions.first(where: { $0.id == position.emissionID })
@@ -90,35 +90,35 @@ struct PositionRow: View {
                 
                 .onTapGesture { self.showDetail = true }
                 
-                .contextMenu {
-                    Button(action: {
-                        self.showConfirmation = true
-                    }) {
-                        HStack {
-                            Image(systemName: "trash")
-                            Spacer()
-                            Text("Закрыть позицию")
-                        }
-                    }
-                    Button(action: {
-                        self.doubleQty()
-                    }) {
-                        HStack {
-                            Image(systemName: "2.circle")
-                            Spacer()
-                            Text("Удвоить позицию")
-                        }
-                    }
-                    Button(action: {
-                        self.halfQty()
-                    }) {
-                        HStack {
-                            Image(systemName: "square.and.line.vertical.and.square.fill")
-                            Spacer()
-                            Text("Уполовинить позицию")
-                        }
-                    }
-            }
+//                .contextMenu {
+//                    Button(action: {
+//                        self.showConfirmation = true
+//                    }) {
+//                        HStack {
+//                            Image(systemName: "trash")
+//                            Spacer()
+//                            Text("Закрыть позицию")
+//                        }
+//                    }
+//                    Button(action: {
+//                        self.doubleQty()
+//                    }) {
+//                        HStack {
+//                            Image(systemName: "2.circle")
+//                            Spacer()
+//                            Text("Удвоить позицию")
+//                        }
+//                    }
+//                    Button(action: {
+//                        self.halfQty()
+//                    }) {
+//                        HStack {
+//                            Image(systemName: "square.and.line.vertical.and.square.fill")
+//                            Spacer()
+//                            Text("Уполовинить позицию")
+//                        }
+//                    }
+//            }
                 
             .actionSheet(isPresented: self.$showConfirmation) {
                 ActionSheet(title: Text("Закрыть?"),
@@ -134,7 +134,7 @@ struct PositionRow: View {
                 
             .sheet(isPresented: $showDetail,
                    content: {
-                    PositionDetail(position: self.$position, emission: self.emission)
+                    PositionDetail(position: self.position, emission: self.emission)
                         .environmentObject(self.userData)
                         .environmentObject(self.settings)
             })
@@ -146,25 +146,25 @@ struct PositionRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
             PositionRow(position:
-                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
                                    emissionID: 460,
-                                   qty: 5555)))
+                                   qty: 5555))
             PositionRow(position:
-                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
                                    emissionID: 460,
-                                   qty: 5555)))
+                                   qty: 5555))
             PositionRow(position:
-                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
                                    emissionID: 460,
-                                   qty: 5555)))
+                                   qty: 5555))
             PositionRow(position:
-                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
                                    emissionID: 460,
-                                   qty: 5555)))
+                                   qty: 5555))
             PositionRow(position:
-                .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
+                Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(),
                                    emissionID: 460,
-                                   qty: 5555)))
+                                   qty: 5555))
         }
         .environmentObject(UserData())
         .environmentObject(SettingsStore())

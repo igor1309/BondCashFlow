@@ -27,6 +27,8 @@ struct PortfolioDetail: View {
     }
     
     func saveAndClose() {
+        //  MARK: ПЕРЕНЕСТИ В МОДЕЛЬ!!!
+
         if let index = userData.portfolios.firstIndex(where: { $0.id == self.portfolio.id }) {
             userData.portfolios[index].name = draft.name
             userData.portfolios[index].broker = draft.broker

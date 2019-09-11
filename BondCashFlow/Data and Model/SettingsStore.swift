@@ -51,9 +51,7 @@ final class SettingsStore: ObservableObject {
     @Published var isAllPortfoliosSelected: Bool = true
     
     @Published var selectedPortfolio: String = ""
-    
-    @Published var selectedPortfolioID: UUID = UUID()
-    
+        
     @Published var lastCBondOperationUsed: String = UserDefaults.standard.string(forKey: "lastCBondOperationUsed") ?? "" {
         didSet {
             defaults.set(lastCBondOperationUsed, forKey: "lastCBondOperationUsed")

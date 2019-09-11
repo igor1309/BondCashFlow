@@ -14,18 +14,44 @@ struct PositionDetail: View {
     @Environment(\.presentationMode) var presentation
     @State private var showAlert = false
     @State private var isEditing = false
-    
-    @Binding var position: Position
+    @State private var draft: Position
+    var position: Position
     var emission: Emission?
     
-    func deletePosition() {
-        if let positionIndex =
-            userData.positions.firstIndex(where: { $0 == position }) {
-            userData.positions.remove(at: positionIndex)
+    init(position: Position, emission: Emission?) {
+        self.position = position
+        self.emission = emission
+        self._draft = State(initialValue: position)
+    }
+    
+    func saveAndClose() {
+        //  MARK: ПЕРЕНЕСТИ В МОДЕЛЬ!!!
+        if let index = userData.positions.firstIndex(where: { $0.id == position.id }) {
+            userData.positions[index].qty = draft.qty
             
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.warning)
+            //  MARK: ДОДУМАТЬ!!!! ПОЗИЦИИ ОБНОВИЛИСЬ, НО UI получает positionsToPresent
+            //  как сделать обновление
+            
+            if let index = userData.positionsToPresent.firstIndex(where: { $0.id == position.id }) {
+                userData.positionsToPresent[index].qty = draft.qty
+            }
         }
+        
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.warning)
+        
+        self.presentation.wrappedValue.dismiss()
+    }
+    
+    
+    func deletePosition() {
+        //  MARK: ПЕРЕНЕСТИ В МОДЕЛЬ!!!
+        if let positionIndex = userData.positions.firstIndex(where: { $0 == position }) {
+            userData.positions.remove(at: positionIndex)
+        }
+        
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.warning)
         
         self.presentation.wrappedValue.dismiss()
     }
@@ -33,11 +59,10 @@ struct PositionDetail: View {
     var body: some View {
         NavigationView {
             Form {
-                
                 Section(header: Text("Выпуск #\(String(position.emissionID))".uppercased())) {
                     Text(emission?.documentRus ?? "#n/a")
                     
-                    Stepper("Количество бумаг \(position.qty.formattedGrouped)", value: $position.qty, in: 1...1_000_000)
+                    Stepper("Количество бумаг \(draft.qty.formattedGrouped)", value: $draft.qty, in: 1...1_000_000)
                         .foregroundColor(.systemOrange)
                 }
                 
@@ -76,7 +101,7 @@ struct PositionDetail: View {
                 
                 .navigationBarItems(
                     trailing: TrailingButton(name: "Закрыть") {
-                        self.presentation.wrappedValue.dismiss()
+                        self.saveAndClose()
                 })
                 
                 .actionSheet(isPresented: $showAlert) { () -> ActionSheet in
@@ -96,7 +121,7 @@ struct PositionDetail: View {
 
 struct PositionDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PositionDetail(position: .constant(Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(), emissionID: 11789, qty: 5555)), emission: nil)
+        PositionDetail(position: Position(portfolioID: UUID(uuidString: "9009E038-AF68-4E55-A15E-F6C5059B79BD") ?? UUID(), emissionID: 11789, qty: 5555), emission: nil)
             .environmentObject(UserData())
             .environmentObject(SettingsStore())
             .environment(\.colorScheme, .dark)

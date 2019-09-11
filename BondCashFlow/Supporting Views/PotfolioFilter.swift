@@ -27,9 +27,7 @@ struct PotfolioFilter: View {
     }
     
     func applyAndClose() {
-        settings.isAllPortfoliosSelected = draftIsAllPortfoliosSelected
-        settings.selectedPortfolio = draftSelectedPortfolio
-        settings.selectedPortfolioID = userData.portfolios.first(where: { $0.name == draftSelectedPortfolio })?.id ?? UUID()
+        userData.updateSelectedPortfolio(iSAllSelected: draftIsAllPortfoliosSelected, selectedPorfolioName: draftSelectedPortfolio)
         
         presentation.wrappedValue.dismiss()
     }

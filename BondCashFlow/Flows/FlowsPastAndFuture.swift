@@ -29,8 +29,17 @@ struct FlowsPastAndFuture: View {
     
     @State private var cashFlows: [CalendarCashFlow] = []
     
+    @State private var showModal = false
+    @State private var modal: Modal = .filter
+    
+    
+    private enum Modal {
+        case filter, addPortfolio, addPosition, addIssue, allFlows, positionsByEmission
+    }
+    
     var body: some View {
         List {
+            Text("Работа над фильтром пока продолжается").foregroundColor(.systemTeal)
             ForEach(cashFlows
                 .filter {
                     if self.settings.isFutureFlowsOnly {
@@ -53,6 +62,14 @@ struct FlowsPastAndFuture: View {
         .navigationBarTitle(settings.isFutureFlowsOnly ? "Будущие потоки" : "Все потоки")
             
         .navigationBarItems(
+            leading: LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                if self.userData.hasAtLeastTwoPortfolios {
+                    self.modal = .filter
+                    self.showModal = true
+                }
+            }
+            .disabled(!self.userData.hasAtLeastTwoPortfolios),
+            
             trailing: Toggle(isOn: $settings.isFutureFlowsOnly) {
                 Text("Только будущие".uppercased())
             }
@@ -60,6 +77,16 @@ struct FlowsPastAndFuture: View {
             .font(.footnote)
             .foregroundColor(.systemOrange)
         )
+        
+        .sheet(isPresented: $showModal, content: {
+            if self.modal == .filter {
+                PotfolioFilter(
+                    isAllPortfoliosSelected: self.settings.isAllPortfoliosSelected,
+                    selectedPortfolio: self.settings.selectedPortfolio)
+                    .environmentObject(self.userData)
+                    .environmentObject(self.settings)
+            }
+        })
     }
 }
 

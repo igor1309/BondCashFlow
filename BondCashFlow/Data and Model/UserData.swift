@@ -13,6 +13,44 @@ import Foundation
 final class UserData: ObservableObject {
     private let defaults = UserDefaults.standard
     
+    @Published var selectedPortfolioID: UUID? {
+        didSet {
+            print("selectedPortfolioID didSet, calling updatePositionsToPresent()")
+            updatePositionsToPresent()
+        }
+    }
+    
+    func updateSelectedPortfolio(iSAllSelected: Bool, selectedPorfolioName: String) {
+        print("updateSelectedPortfolio(::) is called")
+        if iSAllSelected {
+            print("selectedPortfolioID = nil")
+            selectedPortfolioID = nil
+        } else {
+            print("selectedPortfolioID = portfolios.first(where: { $0.name == selectedPorfolioName })?.id")
+            print(selectedPorfolioName)
+            selectedPortfolioID = portfolios.first(where: { $0.name == selectedPorfolioName })?.id
+            print("selectedPortfolioID: \(String(describing: selectedPortfolioID))")
+        }
+    }
+    
+    @Published var positionsToPresent: [Position] = positionData
+    
+    func updatePositionsToPresent() {
+        print("updatePositionsToPresent() is called")
+
+        if selectedPortfolioID == nil {
+            positionsToPresent = positions
+            print("positionsToPresent = positions")
+        } else {
+            positionsToPresent = positions.filter { $0.portfolioID == selectedPortfolioID }
+            print("positionsToPresent = positions.filter { $0.portfolioID == selectedPortfolioID }")
+        }
+        
+        for pos in positionsToPresent {
+            print("\(pos.portfolioID) \(pos.emissionID) \(pos.qty)")
+        }
+    }
+    
     @Published var portfolios: [Portfolio] = portfolioData {
         didSet {
             saveJSON(data: portfolios, filename: "portfolios.json")
