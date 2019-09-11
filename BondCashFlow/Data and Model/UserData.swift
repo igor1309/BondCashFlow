@@ -112,11 +112,11 @@ extension UserData {
         
         print("\n\(flows.count) - total # of flows in database")
         /// get a slice of `emissions` for those in `positions` only
-        let flowsForEmissionsInPortfolio = flows.filter {
-            positions.map({ $0.emissionID }).contains($0.emissionID)
-        }
+        let flowsForEmissionsInPortfolio = flows
+            .filter { flow in
+                positions.map({ $0.emissionID }).contains(flow.emissionID) }
         
-        print("\(flowsForEmissionsInPortfolio.count) - flows of interest (flowsForEmissionsInPortfolio)")
+        print("\(flowsForEmissionsInPortfolio.count) - flowsForEmissionsInPortfolio")
         
         /// `testing`if there any records with coupon ad redemption simultaneously
         let flowsWithCouponAndRedemption = flows.filter {
@@ -141,13 +141,13 @@ extension UserData {
                     
                     /// append  non-zero `coupon ` flow
                     if flow.cuponSum > 0 {
-                        let cashFlowCoupon = CalendarCashFlow(date: flow.date, portfolioID: position.id, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.cuponSum), type: .coupon)
+                        let cashFlowCoupon = CalendarCashFlow(date: flow.date, portfolioID: position.portfolioID, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.cuponSum), type: .coupon)
                         cashFlows.append(cashFlowCoupon)
                     }
                     
                     /// append non-zero `face` (principal) flow
                     if flow.redemtion > 0 {
-                        let cashFlowPrincipal = CalendarCashFlow(date: flow.date, portfolioID: position.id, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.redemtion), type: .face)
+                        let cashFlowPrincipal = CalendarCashFlow(date: flow.date, portfolioID: position.portfolioID, emitent: emitent, instrument: instrument, amount: Int(Double(position.qty) * flow.redemtion), type: .face)
                         cashFlows.append(cashFlowPrincipal)
                     }
                 }

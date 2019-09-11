@@ -32,7 +32,6 @@ struct FlowsPastAndFuture: View {
     @State private var showModal = false
     @State private var modal: Modal = .filter
     
-    
     private enum Modal {
         case filter, addPortfolio, addPosition, addIssue, allFlows, positionsByEmission
     }
@@ -72,12 +71,12 @@ struct FlowsPastAndFuture: View {
             
             trailing: Toggle(isOn: $settings.isFutureFlowsOnly) {
                 Text("Только будущие".uppercased())
+                    .font(.footnote)
+                    .fontWeight(.light)
+                    .foregroundColor(.systemOrange)
             }
-            .padding([.top, .horizontal])
-            .font(.footnote)
-            .foregroundColor(.systemOrange)
         )
-        
+            
         .sheet(isPresented: $showModal, content: {
             if self.modal == .filter {
                 PotfolioFilter()
