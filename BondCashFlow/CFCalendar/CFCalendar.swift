@@ -36,34 +36,19 @@ struct CFCalendar: View {
             
         .navigationBarTitle("Потоки")
             
-        .navigationBarItems( leading:
-            LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+        .navigationBarItems(
+            leading: LeadingButtonSFSymbol(systemName: userData.selectedPortfolioID == nil ? "briefcase" : "briefcase.fill") {
                 self.showPortfolioFilter = true
             }
-            .disabled(!self.userData.hasAtLeastTwoPortfolios)
-            .contextMenu {
-                if !self.settings.isAllPortfoliosSelected {
-                    Button(action: {
-                        self.settings.isAllPortfoliosSelected = true
-                    }) {
-                        HStack {
-                            Image(systemName: "briefcase")
-                            Spacer()
-                            Text("все портфели")
-                        }
-                    }
-                }
-        })
+            .disabled(!self.userData.hasAtLeastTwoPortfolios))
             
-            .sheet(isPresented: $showPortfolioFilter,
-                   content: {
-                    PotfolioFilter(
-                        isAllPortfoliosSelected: self.settings.isAllPortfoliosSelected,
-                        selectedPortfolio: self.settings.selectedPortfolio)
-                        
-                        .environmentObject(self.userData)
-                        .environmentObject(self.settings)
-            })
+        .sheet(isPresented: $showPortfolioFilter,
+               content: {
+                PotfolioFilter()
+                    
+                    .environmentObject(self.userData)
+                    .environmentObject(self.settings)
+        })
     }
 }
 

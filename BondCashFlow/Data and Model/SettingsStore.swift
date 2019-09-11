@@ -47,11 +47,6 @@ final class SettingsStore: ObservableObject {
         }
     }
     
-    //  фильтры ломаются, поэтому всегда стартуем со всех портфелей
-    @Published var isAllPortfoliosSelected: Bool = true
-    
-    @Published var selectedPortfolio: String = ""
-        
     @Published var lastCBondOperationUsed: String = UserDefaults.standard.string(forKey: "lastCBondOperationUsed") ?? "" {
         didSet {
             defaults.set(lastCBondOperationUsed, forKey: "lastCBondOperationUsed")
@@ -86,8 +81,6 @@ extension SettingsStore {
         //        lastTabUsed = 2
         login = "test"
         password = "test"
-        isAllPortfoliosSelected = true
-        selectedPortfolio = ""
         lastCBondOperationUsed = "get_emissions"
         lastCBondLimitUsed = 1000
         lastCBondOffsetUsed = 0

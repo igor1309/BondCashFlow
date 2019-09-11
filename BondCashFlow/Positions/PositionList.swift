@@ -50,7 +50,7 @@ struct PositionListView: View {
             .navigationBarTitle("Позиции")
             
             .navigationBarItems(
-                leading: LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
+                leading: LeadingButtonSFSymbol(systemName: userData.selectedPortfolioID == nil ? "briefcase" : "briefcase.fill") {
                     if self.userData.hasAtLeastTwoPortfolios {
                         self.modal = .filter
                         self.showModal = true
@@ -72,9 +72,7 @@ struct PositionListView: View {
                 }
                 
                 if self.modal == .filter {
-                    PotfolioFilter(
-                        isAllPortfoliosSelected: self.settings.isAllPortfoliosSelected,
-                        selectedPortfolio: self.settings.selectedPortfolio)
+                    PotfolioFilter()
                         .environmentObject(self.userData)
                         .environmentObject(self.settings)
                 }

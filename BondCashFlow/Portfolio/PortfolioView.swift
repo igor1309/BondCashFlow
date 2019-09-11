@@ -94,9 +94,7 @@ struct PortfolioView: View {
                 }
                 
                 if self.modal == .filter {
-                    PotfolioFilter(
-                        isAllPortfoliosSelected: self.settings.isAllPortfoliosSelected,
-                        selectedPortfolio: self.settings.selectedPortfolio)
+                    PotfolioFilter()
                         .environmentObject(self.userData)
                         .environmentObject(self.settings)
                 }

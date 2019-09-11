@@ -11,23 +11,34 @@ import SwiftUI
 struct PotfolioFilter: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
-    @EnvironmentObject var settings: SettingsStore
+    
+    var body: some View {
+        PotfolioFilterGuts(isAllPortfoliosSelected: userData.selectedPortfolioID == nil,
+                           selectedPortfolioName: userData.selectedPortfolioName)
+    }
+}
+
+
+struct PotfolioFilterGuts: View {
+    @Environment(\.presentationMode) var presentation
+    @EnvironmentObject var userData: UserData
+    
+    var isAllPortfoliosSelected: Bool
+    var selectedPortfolioName: String
     
     @State private var draftIsAllPortfoliosSelected: Bool
     @State private var draftSelectedPortfolio: String
     
-    var isAllPortfoliosSelected: Bool
-    var selectedPortfolio: String
-    
-    init(isAllPortfoliosSelected: Bool, selectedPortfolio: String) {
+    init(isAllPortfoliosSelected: Bool, selectedPortfolioName: String) {
         self.isAllPortfoliosSelected = isAllPortfoliosSelected
-        self.selectedPortfolio = selectedPortfolio
+        self.selectedPortfolioName = selectedPortfolioName
         self._draftIsAllPortfoliosSelected = State(initialValue: isAllPortfoliosSelected)
-        self._draftSelectedPortfolio = State(initialValue: selectedPortfolio)
+        self._draftSelectedPortfolio = State(initialValue: selectedPortfolioName)
     }
     
     func applyAndClose() {
-        userData.updateSelectedPortfolio(iSAllSelected: draftIsAllPortfoliosSelected, selectedPorfolioName: draftSelectedPortfolio)
+        userData.updateSelectedPortfolio(isAllSelected: draftIsAllPortfoliosSelected,
+                                         selectedPorfolioName: draftSelectedPortfolio)
         
         presentation.wrappedValue.dismiss()
     }
@@ -71,9 +82,7 @@ struct PotfolioFilter: View {
 
 struct PotfolioFilter_Previews: PreviewProvider {
     static var previews: some View {
-        PotfolioFilter(isAllPortfoliosSelected: true,
-                       selectedPortfolio: "")
+        PotfolioFilter()
             .environmentObject(UserData())
-            .environmentObject(SettingsStore())
     }
 }

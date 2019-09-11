@@ -13,41 +13,30 @@ import Foundation
 final class UserData: ObservableObject {
     private let defaults = UserDefaults.standard
     
+    @Published var selectedPortfolioName: String = ""
+    
     @Published var selectedPortfolioID: UUID? {
         didSet {
-            print("selectedPortfolioID didSet, calling updatePositionsToPresent()")
+            selectedPortfolioName = portfolios.first(where: { $0.id == selectedPortfolioID})?.name ?? ""
             updatePositionsToPresent()
         }
     }
     
-    func updateSelectedPortfolio(iSAllSelected: Bool, selectedPorfolioName: String) {
-        print("updateSelectedPortfolio(::) is called")
-        if iSAllSelected {
-            print("selectedPortfolioID = nil")
+    func updateSelectedPortfolio(isAllSelected: Bool, selectedPorfolioName: String) {
+        if isAllSelected {
             selectedPortfolioID = nil
         } else {
-            print("selectedPortfolioID = portfolios.first(where: { $0.name == selectedPorfolioName })?.id")
-            print(selectedPorfolioName)
             selectedPortfolioID = portfolios.first(where: { $0.name == selectedPorfolioName })?.id
-            print("selectedPortfolioID: \(String(describing: selectedPortfolioID))")
         }
     }
     
     @Published var positionsToPresent: [Position] = positionData
     
-    func updatePositionsToPresent() {
-        print("updatePositionsToPresent() is called")
-
+    private func updatePositionsToPresent() {
         if selectedPortfolioID == nil {
             positionsToPresent = positions
-            print("positionsToPresent = positions")
         } else {
             positionsToPresent = positions.filter { $0.portfolioID == selectedPortfolioID }
-            print("positionsToPresent = positions.filter { $0.portfolioID == selectedPortfolioID }")
-        }
-        
-        for pos in positionsToPresent {
-            print("\(pos.portfolioID) \(pos.emissionID) \(pos.qty)")
         }
     }
     
