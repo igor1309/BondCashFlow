@@ -60,9 +60,9 @@ struct PositionDetail: View {
                         }
                         .foregroundColor(.systemOrange)
                         
-                        FlowsList(flows: userData.flows
-                            .filter({ self.settings.isFutureFlowsOnly ? $0.date >= Date() : true })
-                            .filter({ $0.emissionID == emission!.id })
+                        FlowsList(flows: userData.workingFlows
+                            .filter({ (self.settings.isFutureFlowsOnly ? $0.date >= Date() : true)
+                            && $0.emissionID == emission!.id })
                             .sorted(by: { $0.couponNum < $1.couponNum }), qty: self.position.qty
                         )
                     }

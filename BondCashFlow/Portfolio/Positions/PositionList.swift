@@ -31,6 +31,7 @@ struct PositionListView: View {
     @State private var showModal = false
     @State private var modal: Modal = .filter
     
+    
     private enum Modal {
         case filter, addPortfolio, addPosition, addIssue, allFlows, positionsByEmission
     }
@@ -41,13 +42,14 @@ struct PositionListView: View {
     }
     
     var body: some View {
+        let selectedPortfolioID: UUID = userData.portfolios.first(where: { $0.name == settings.selectedPortfolio })?.id ?? UUID()
         
-        PositionList(positions: userData.positions
+return         PositionList(positions: userData.positions
             .filter({
                 if settings.isAllPortfoliosSelected {
                     return true
                 } else {
-                    return $0.portfolioID == settings.selectedPortfolioID
+                    return $0.portfolioID == selectedPortfolioID
                 }
             })
             .sorted(by: {
@@ -71,23 +73,23 @@ struct PositionListView: View {
                         }
                     }
                     .disabled(!self.userData.hasAtLeastTwoPortfolios)
-                    .contextMenu {
-                        if !self.settings.isAllPortfoliosSelected {
-                            Button(action: {
-                                self.settings.isAllPortfoliosSelected = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "briefcase")
-                                    Spacer()
-                                    Text("все портфели")
-                                }
-                            }
-                        }
-                    }
+//                    .contextMenu {
+//                        if !self.settings.isAllPortfoliosSelected {
+//                            Button(action: {
+//                                self.settings.isAllPortfoliosSelected = true
+//                            }) {
+//                                HStack {
+//                                    Image(systemName: "briefcase")
+//                                    Spacer()
+//                                    Text("все портфели")
+//                                }
+//                            }
+//                        }
+//                    }
                     
                     Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
-                    .foregroundColor(.secondary)
-                    .font(.caption)
+                        .foregroundColor(.secondary)
+                        .font(.caption)
                 },
                 
                 trailing: TrailingButtonSFSymbol(systemName: "plus") {
@@ -102,6 +104,12 @@ struct PositionListView: View {
                             .environmentObject(self.userData)
                             .environmentObject(self.settings)
                     }
+                }
+                
+                if self.modal == .filter {
+                    PotfolioFilter()
+                        .environmentObject(self.userData)
+                        .environmentObject(self.settings)
                 }
             })
     }

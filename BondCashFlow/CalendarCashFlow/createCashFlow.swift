@@ -10,25 +10,11 @@ import Foundation
 
 extension CFCalendar {
     func createCashFlow() -> [CalendarCashFlow] {
-        print("\n\(self.userData.flows.count) - total # of flows in database")
-        /// get a slice of `emissions` for those in `positions` only
-        let flowsForEmissionsInPortfolio = self.userData.flows.filter {
-            self.userData.positions.map({ $0.emissionID }).contains($0.emissionID)
-            
-        }
-        print("\(flowsForEmissionsInPortfolio.count) - flows of interest (flowsForEmissionsInPortfolio)")
-        
-        /// `testing`if there any records with coupon ad redemption simultaneously
-        let flowsWithCouponAndRedemption = self.userData.flows.filter {
-            $0.cuponSum > 0 && $0.redemtion > 0
-        }
-        print("\(flowsWithCouponAndRedemption.count) - flowsWithCouponAndRedemption")
-        
         var cashFlows: [CalendarCashFlow] = []
         
         ///  loop through `all positions` `and selected flows` (with emissions in positions) to create a cashFlows array
         for position in self.userData.positions {
-            for flow in flowsForEmissionsInPortfolio {
+            for flow in userData.workingFlows {
                 
                 ///  match by `emissionID` field
                 if position.emissionID == flow.emissionID {
@@ -53,8 +39,9 @@ extension CFCalendar {
                 }
             }
         }
-        print("\(cashFlows.count) - cashFlows.count")
-        print(cashFlows)
+        
+        print("created cashFlows, cashFlows.count is \(cashFlows.count)")
+        
         return cashFlows
     }
 }

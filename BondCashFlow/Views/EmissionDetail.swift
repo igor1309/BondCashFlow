@@ -15,7 +15,9 @@ struct EmissionDetail: View {
     var emission: Emission
     
     var flows: [Flow] {
-        userData.flows.filter({ $0.emissionID == emission.id }).sorted(by: { $0.couponNum < $1.couponNum })
+        userData.flows
+            .filter({ $0.emissionID == emission.id })
+            .sorted(by: { $0.couponNum < $1.couponNum })
     }
     
     //    var flows: [Flow] {

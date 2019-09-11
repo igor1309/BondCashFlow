@@ -60,7 +60,7 @@ struct PositionRow: View {
         
         let maturityDate = emission?.maturityDate.toString() ?? "#н/д"
         
-        let futureFlowsForEmission = userData.flows
+        let futureFlowsForEmission = userData.workingFlows
             .filter { $0.date >= Date() && $0.emissionID == emission?.id }
         
         let nearestFlowDate = futureFlowsForEmission.map { $0.date }.min()

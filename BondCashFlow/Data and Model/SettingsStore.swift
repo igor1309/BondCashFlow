@@ -9,7 +9,8 @@
 import Foundation
 
 final class SettingsStore: ObservableObject {
-
+    private let defaults = UserDefaults.standard
+    
     @Published var weeksToShowInCalendar = 52
     
     @Published var startDate = Date().firstDayOfWeekRU.startOfDay // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
@@ -20,39 +21,6 @@ final class SettingsStore: ObservableObject {
             defaults.set(isFutureFlowsOnly, forKey: "isFutureFlowsOnly")
         }
     }
-    
-func reset() {
-//        lastTabUsed = 2
-        login = "test"
-        password = "test"
-        isAllPortfoliosSelected = true
-        selectedPortfolio = ""
-        lastCBondOperationUsed = "get_emissions"
-        lastCBondLimitUsed = 1000
-        lastCBondOffsetUsed = 0
-        weeksToShowInCalendar = 52
-        startDate = Date().firstDayOfWeekRU.startOfDay
-    }
-    
-    func loginTest() {
-        login = "test"
-        password = "test"
-    }
-    
-    func loginIgor() {
-        login = "igor@rbiz.group"
-        password = "bonmaM-wojhed-fokza3"
-    }
-    
-    var isTestLogin: Bool {
-        login == "test" && password == "test"
-    }
-    
-    var isIgorLogin: Bool {
-        login == "igor@rbiz.group" && password == "bonmaM-wojhed-fokza3"
-    }
-    
-    private let defaults = UserDefaults.standard
     
     @Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {
         didSet {
@@ -86,14 +54,9 @@ func reset() {
         }
     }
     
-    @Published var selectedPortfolioID: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "selectedPortfolioID") ?? "9009E038-AF68-4E55-A15E-F6C5059B79BD") {
-        didSet {
-            defaults.set(selectedPortfolioID, forKey: "selectedPortfolioID")
-        }
-    }
-    
     @Published var selectedPortfolio: String = UserDefaults.standard.string(forKey: "selectedPortfolio") ?? "" {
         didSet {
+            print("selectedPortfolio \(selectedPortfolio)")
             defaults.set(selectedPortfolio, forKey: "selectedPortfolio")
         }
     }
@@ -114,5 +77,40 @@ func reset() {
         didSet {
             defaults.set(lastCBondOffsetUsed, forKey: "lastCBondOffsetUsed")
         }
+    }
+}
+
+extension SettingsStore {
+    var isTestLogin: Bool {
+        login == "test" && password == "test"
+    }
+    
+    var isIgorLogin: Bool {
+        login == "igor@rbiz.group" && password == "bonmaM-wojhed-fokza3"
+    }
+}
+
+extension SettingsStore {
+    func reset() {
+        //        lastTabUsed = 2
+        login = "test"
+        password = "test"
+        isAllPortfoliosSelected = true
+        selectedPortfolio = ""
+        lastCBondOperationUsed = "get_emissions"
+        lastCBondLimitUsed = 1000
+        lastCBondOffsetUsed = 0
+        weeksToShowInCalendar = 52
+        startDate = Date().firstDayOfWeekRU.startOfDay
+    }
+    
+    func loginTest() {
+        login = "test"
+        password = "test"
+    }
+    
+    func loginIgor() {
+        login = "igor@rbiz.group"
+        password = "bonmaM-wojhed-fokza3"
     }
 }

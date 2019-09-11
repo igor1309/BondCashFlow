@@ -12,7 +12,6 @@ struct PotfolioFilter: View {
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
-    @State private var showPortfolioList = false
     
     var body: some View {
         NavigationView {
@@ -36,28 +35,18 @@ struct PotfolioFilter: View {
                         }
                     }
                 } else {
-                    EmptyView()
-                }
-                
-                Button("Показать список портфелей") {
-                    self.showPortfolioList = true
+                    Text("Нет портфелей")
+                        .padding()
                 }
             }
+                
             .navigationBarTitle("Фильтр")
                 
-            .navigationBarItems(trailing: Button(action: {
-                //  MARK: - add actions
-                self.presentation.wrappedValue.dismiss()
-            }) {
-                Text("Применить")
-                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0))
-                
-            })
-                
-                .sheet(isPresented: $showPortfolioList) {
-                    PortfolioList()
-                        .environmentObject(self.userData)
-            }
+            .navigationBarItems(
+                trailing: TrailingButton(name: "Применить") {
+                    self.presentation.wrappedValue.dismiss()
+                }
+            )
         }
     }
 }

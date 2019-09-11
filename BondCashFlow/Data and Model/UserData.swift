@@ -11,27 +11,13 @@
 import Foundation
 
 final class UserData: ObservableObject {
-    
-    func deletePortfolio(portfolio: Portfolio) {
-        guard let index = portfolios.firstIndex(of: portfolio) else {
-            return
-        }
-        portfolios.remove(at: index)
-        
-        for idx in positions.indices {
-            if positions[idx].portfolioID == portfolio.id {
-                positions.remove(at: idx)
-            }
-        }
-    }
+    private let defaults = UserDefaults.standard
     
     @Published var portfolios: [Portfolio] = portfolioData {
         didSet {
             saveJSON(data: portfolios, filename: "portfolios.json")
         }
     }
-    
-    var portfolioNames: [String] { portfolios.map { $0.name } }
     
     @Published var positions: [Position] = positionData {
         didSet {
@@ -40,38 +26,6 @@ final class UserData: ObservableObject {
     }
     
     @Published var baseDate = Date().firstDayOfWeekRU.startOfDay // DateComponents(calendar: .current, year: 2019, month: 11, day: 25).date!//Date()//DateComponents(calendar: .current, year: 2011, month: 08, day: 11).date!
-    
-    var cashFlows: [CalendarCashFlow] { calculateCashFlows().filter { $0.date >= baseDate } .sorted { $0.date < $1.date } }
-    
-    func favEmission(emissionID: EmissionID) {
-        favoriteEmissions.updateValue(true, forKey: emissionID)
-    }
-    //  MARK: TODO fix func
-    //        func unfavEmission(emissionID: EmissionID) {
-    //            favoriteEmissions.removeValue(forKey: EmissionID)
-    //        }
-    
-    func reset() {
-        emissionMetadata = nil
-        flowMetadata = nil
-        emissions = []
-        flows = []
-        favoriteEmissions = [:]
-        portfolios = []
-        positions = []
-        //        cashFlows = []
-        baseDate = Date().firstDayOfWeekRU.startOfDay
-    }
-    
-    private let defaults = UserDefaults.standard
-    
-    var hasAtLeastTwoPortfolios: Bool {
-        positions.map({ $0.id }).removingDuplicates().count > 1
-    }
-    
-    var emitents: [String] {
-        emissions.map { $0.emitentNameRus }.removingDuplicates()
-    }
     
     @Published var emissionMetadata: CBondEmissionMetadata? = emissionMetadataData {
         didSet {
@@ -103,6 +57,28 @@ final class UserData: ObservableObject {
         }
     }
 }
+
+extension UserData {
+    /// выреска из потоков - только те, по которым есть позиции
+    var workingFlows: [Flow] {
+        flows.filter { flow in
+            positions.map { $0.emissionID }.removingDuplicates().contains(flow.emissionID)
+        }
+    }
+    
+    var cashFlows: [CalendarCashFlow] { calculateCashFlows().filter { $0.date >= baseDate } .sorted { $0.date < $1.date } }
+    
+    var hasAtLeastTwoPortfolios: Bool {
+        positions.map({ $0.id }).removingDuplicates().count > 1
+    }
+    
+    var emitents: [String] {
+        emissions.map { $0.emitentNameRus }.removingDuplicates()
+    }
+    
+    var portfolioNames: [String] { portfolios.map { $0.name } }
+}
+
 
 extension UserData {
     func calculateCashFlows() -> [CalendarCashFlow] {
@@ -167,7 +143,7 @@ extension UserData {
             Portfolio(name: "Bumblebee", broker: "Daenerys IB", comment: "the First of Her Name, the Unburnt…"),
             Portfolio(name: "Megatron", broker: "Casterly Rock", comment: "A Lannister always pays his debts.")
         ]
-                
+        
         let emissionIDsWithFlowsFromToday = flows.filter({ $0.date >= Date() }).map({ $0.emissionID })
         let count = emissionIDsWithFlowsFromToday.count
         
@@ -229,7 +205,7 @@ extension UserData {
         
         for position in positionsForPortfolio {
             let emission = emissions.first(where: { $0.id == position.emissionID })
-           
+            
             faceValue += position.qty * Int(emission?.nominalPrice ?? 0)
         }
         
@@ -286,5 +262,40 @@ extension UserData {
                     position.emissionID == flow.emissionID })?.qty ?? 0) })
         
         return flowAmount
+    }
+}
+
+extension UserData {
+    func deletePortfolio(portfolio: Portfolio) {
+        guard let index = portfolios.firstIndex(of: portfolio) else {
+            return
+        }
+        portfolios.remove(at: index)
+        
+        for idx in positions.indices {
+            if positions[idx].portfolioID == portfolio.id {
+                positions.remove(at: idx)
+            }
+        }
+    }
+    
+    func favEmission(emissionID: EmissionID) {
+        favoriteEmissions.updateValue(true, forKey: emissionID)
+    }
+    //  MARK: TODO fix func
+    //        func unfavEmission(emissionID: EmissionID) {
+    //            favoriteEmissions.removeValue(forKey: EmissionID)
+    //        }
+    
+    func reset() {
+        emissionMetadata = nil
+        flowMetadata = nil
+        emissions = []
+        flows = []
+        favoriteEmissions = [:]
+        portfolios = []
+        positions = []
+        //        cashFlows = []
+        baseDate = Date().firstDayOfWeekRU.startOfDay
     }
 }

@@ -15,7 +15,6 @@ struct TotalReset: View {
     @State private var isConfirmed = false
     @State private var isCleaning = false
     @State private var isDoneCleaning = false
-    @State private var showAlert = false
     
     func deleteEverything() {
         if self.isConfirmed {
@@ -78,22 +77,11 @@ struct TotalReset: View {
                         }
                         
                         Button(action: {
-                            self.showAlert = true
+                            self.isConfirmed = true
                         }){
                             Text(isCleaning ? "" : "Сбросить все настройки и данные")
                         }
                         .foregroundColor(.systemRed)
-                        .actionSheet(isPresented: $showAlert) {
-                            
-                            ActionSheet(title: Text("Удалить всё"),
-                                        message: Text("Вы точно хотите удалить все данные и настройки без возможности восстановления?"),
-                                        buttons: [
-                                            .cancel(Text("Отмена")),
-                                            .destructive(Text("Да, удалить всё!"), action: {
-                                                self.deleteEverything()
-                                            })
-                            ])
-                        }
                     }
         }
         .actionSheet(isPresented: $isConfirmed) {

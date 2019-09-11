@@ -24,7 +24,9 @@ struct PositionForEmission: View {
             .filter { portfolioIDsForEmissionIDs.contains($0.id) }
             .map { $0.name }
         
-        let nearestFlowDate = userData.flows.filter { $0.date >= Date() }.map { $0.date }.min()
+        let nearestFlowDate = userData.workingFlows
+            .filter { $0.date >= Date() && $0.emissionID == emissionID }
+            .map { $0.date }.min()
         
         let qty = positionsForEmissionID.reduce(0, { $0 + $1.qty })
         
