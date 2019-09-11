@@ -96,14 +96,14 @@ struct UpdateLocalDataSection: View {
                                 .cancel(
                                     Text("Отмена")),
                                 .default(
-                                    Text("Обновить всю базу сейчас"),
+                                    Text("Обновить Потоки и Эмиссии"),
                                     action: { self.loadEverything() }),
-                                .default(
-                                    Text("Обновить сейчас только \(self.settings.lastCBondOperationUsed == "get_emissions" ? "Эмиссии" : "Потоки")"),
-                                    action: { self.loadSelectedCBondOperation() }),
-                                .destructive(
-                                    Text("TBD: Всё, но позже"),
-                                    action: { self.loadInBackground() })
+//                                .default(
+//                                    Text("Обновить сейчас только \(self.settings.lastCBondOperationUsed == "get_emissions" ? "Эмиссии" : "Потоки")"),
+//                                    action: { self.loadSelectedCBondOperation() }),
+//                                .destructive(
+//                                    Text("TBD: Всё, но позже"),
+//                                    action: { self.loadInBackground() })
                 ])
             })
         

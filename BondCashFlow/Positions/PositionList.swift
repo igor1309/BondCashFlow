@@ -65,7 +65,7 @@ return         PositionList(positions: userData.positions
             
             .navigationBarItems(
                 leading:
-                HStack {
+//                HStack {
                     LeadingButtonSFSymbol(systemName: settings.isAllPortfoliosSelected ? "briefcase" : "briefcase.fill") {
                         if self.userData.hasAtLeastTwoPortfolios {
                             self.modal = .filter
@@ -87,10 +87,11 @@ return         PositionList(positions: userData.positions
 //                        }
 //                    }
                     
-                    Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
-                        .foregroundColor(.secondary)
-                        .font(.caption)
-                },
+//                    Text(settings.isAllPortfoliosSelected ? "все портфели" : "Портфель " + settings.selectedPortfolio)
+//                        .foregroundColor(.secondary)
+//                        .font(.caption)
+//                }
+                ,
                 
                 trailing: TrailingButtonSFSymbol(systemName: "plus") {
                     self.addPosition()

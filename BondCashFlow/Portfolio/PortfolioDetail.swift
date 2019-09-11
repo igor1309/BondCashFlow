@@ -13,49 +13,61 @@ struct PortfolioDetail: View {
     @Environment(\.presentationMode) var presentation
     
     var portfolio: Portfolio
-    
+    @State private var draft: Portfolio
     @State private var showAlert = false
+    
+    init(portfolio: Portfolio) {
+        self.portfolio = portfolio
+        self._draft = State(initialValue: portfolio)
+    }
     
     func deletePortfolio() {
         presentation.wrappedValue.dismiss()
         userData.deletePortfolio(portfolio)
     }
     
+    func saveAndClose() {
+        if let index = userData.portfolios.firstIndex(where: { $0.id == self.portfolio.id }) {
+            userData.portfolios[index].name = draft.name
+            userData.portfolios[index].broker = draft.broker
+            userData.portfolios[index].note = draft.note
+        }
+        
+        presentation.wrappedValue.dismiss()
+    }
+    
     var body: some View {
-        let index = userData.portfolios.firstIndex(where: { $0.id == self.portfolio.id })
         
         return NavigationView {
             Form {
-                if index != nil {
-                    Section(header: Text("Название".uppercased())) {
-                        TextField("Название портфеля", text: $userData.portfolios[index!].name)
+                Section(header: Text("Название".uppercased())) {
+                    TextField("Название портфеля", text: $draft.name)
+                }
+                
+                Section(header: Text("Брокер".uppercased())) {
+                    TextField("Брокер", text: $draft.broker)
+                }
+                
+                Section(header: Text("Комментарий/Примечание".uppercased())) {
+                    TextField("Комментарий/Примечание", text: $draft.note)
+                }
+                
+                Section(header: Text("TBD: список эмиссий".uppercased())) {
+                    Text("TBD: список эмиссий в портфеле")
+                }
+                
+                Section {
+                    Button("Удалить портфель") {
+                        self.showAlert = true
                     }
-                    
-                    Section(header: Text("Брокер".uppercased())) {
-                        TextField("Брокер", text: $userData.portfolios[index!].broker)
-                    }
-                    
-                    Section(header: Text("Комментарий/Примечание".uppercased())) {
-                        TextField("Комментарий/Примечание", text: $userData.portfolios[index!].note)
-                    }
-                    
-                    Section(header: Text("TBD: список эмиссий".uppercased())) {
-                        Text("TBD: список эмиссий в портфеле")
-                    }
-                    
-                    Section {
-                        Button("Удалить портфель") {
-                            self.showAlert = true
-                        }
-                        .foregroundColor(.systemRed)
-                    }
+                    .foregroundColor(.systemRed)
                 }
             }
                 
             .navigationBarTitle("Портфель")
                 
             .navigationBarItems(trailing: TrailingButton(name: "Закрыть") {
-                self.presentation.wrappedValue.dismiss()
+                self.saveAndClose()
             })
                 
                 .actionSheet(isPresented: $showAlert) {
