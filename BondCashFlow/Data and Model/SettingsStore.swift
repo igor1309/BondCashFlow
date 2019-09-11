@@ -22,7 +22,13 @@ final class SettingsStore: ObservableObject {
         }
     }
     
-    @Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {
+    @Published var isLocalStoreShowMore: Bool = true || UserDefaults.standard.bool(forKey: "isLocalStoreShowMore") {
+        didSet {
+            defaults.set(isLocalStoreShowMore, forKey: "isLocalStoreShowMore")
+        }
+    }
+    
+@Published var lastTabUsed: Int = UserDefaults.standard.integer(forKey: "lastTabUsed") {
         didSet {
             defaults.set(lastTabUsed, forKey: "lastTabUsed")
         }

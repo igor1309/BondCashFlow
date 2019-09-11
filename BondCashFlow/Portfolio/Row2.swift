@@ -23,6 +23,7 @@ struct Row2SubLeading: View {
             Text(title2)
                 .font(.headline)
                 .fontWeight(.light)
+                .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             Text(subtitle)
                 .font(.footnote)

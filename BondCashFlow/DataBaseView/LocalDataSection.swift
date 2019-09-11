@@ -11,6 +11,7 @@ import SwiftUI
 struct LocalDataSection: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
+    @State private var isLocalStoreExpanded = false
     @State private var showModal = false
     
     var body: some View {
@@ -19,9 +20,11 @@ struct LocalDataSection: View {
             Group {
                 LocalStoreInfo()
                 
-                FlowsMetadata()
-                
-                EmissionsMetadata()
+                if settings.isLocalStoreShowMore {
+                    FlowsMetadata()
+                    
+                    EmissionsMetadata()
+                }
             }
             .foregroundColor(.secondary)
             .font(.subheadline)
@@ -29,7 +32,7 @@ struct LocalDataSection: View {
             Button(action: {
                 self.showModal = true
             }) {
-                Text("Показать выпуски")
+                Text("Список выпусков")
             }
             .disabled(userData.emissions.isEmpty)
         }

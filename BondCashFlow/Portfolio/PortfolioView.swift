@@ -82,8 +82,6 @@ struct PortfolioView: View {
                 }
                 
                 if self.modal == .addPortfolio {
-                    //  MARK: TODO решить нужно ли отдельно создавать портфель
-                    //  и что делать с этим блоком
                     AddPortfolio()
                         .environmentObject(self.userData)
                 }
@@ -95,12 +93,7 @@ struct PortfolioView: View {
                             .environmentObject(self.settings)
                     }
                 }
-                //                if self.modal == .addPosition {
-                //                    AddPosition(proposedPortfolioName: userData.portfolios.first(where: { $0.id == self.settings.selectedPortfolioID }).name)
-                //                        .environmentObject(self.userData)
-                //                        .environmentObject(self.settings)
-                //                }
-                //
+
                 if self.modal == .addIssue {
                     AddIssue()
                         .environmentObject(self.userData)

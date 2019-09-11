@@ -37,17 +37,6 @@ struct ContentView: View {
             .tag(1)
             
             NavigationView {
-                Emissions()
-            }
-            .tabItem {
-                VStack {
-                    Image(systemName: "tray.2.fill")
-                    Text("Выпуски")
-                }
-            }
-            .tag(2)
-            
-            NavigationView {
                 CFCalendar()
             }
             .tabItem {
@@ -56,18 +45,30 @@ struct ContentView: View {
                     Text("Календарь")
                 }
             }
-            .tag(3)
+            .tag(2)
             
             NavigationView {
-                Settings()
+                DataBaseView()
             }
             .tabItem {
                 VStack {
-                    Image(systemName: "gear")
-                    Text("Настройки")
+                    Image(systemName: "tray.2")
+                    Text("База")
                 }
             }
-            .tag(4)
+            .tag(3)
+            
+// MARK: Emissions как отдельный вью убран, сид как EmissionList в DataBaseView (бывший Settings)
+//NavigationView {
+//    Emissions()
+//}
+//.tabItem {
+//    VStack {
+//        Image(systemName: "tray.2.fill")
+//        Text("Выпуски")
+//    }
+//}
+//.tag(4)
         }
     }
 }

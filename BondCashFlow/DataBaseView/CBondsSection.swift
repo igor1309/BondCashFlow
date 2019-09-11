@@ -14,7 +14,7 @@ struct CBondsSection: View {
     @State private var showModal = false
     
     var body: some View {
-        Section(header: Text("Запросить cbonds.ru".uppercased()),
+        Section(header: Text("cbonds.ru".uppercased()),
                 footer: Text("Объем доступной информации cbonds.ru зависит от доступа (логин:пароль). Обновить можно все справочники или выбранные (Эмиссии или Потоки).")
         ){
             HStack {

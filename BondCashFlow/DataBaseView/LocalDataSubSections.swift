@@ -10,16 +10,21 @@ import SwiftUI
 
 struct LocalStoreInfo: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var settings: SettingsStore
     
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
             Text("В базе всего:").bold()
             
-            VStack(alignment: .leading) {
+            HStack(alignment: .firstTextBaseline) {
                 Text("Выпусков: " + userData.emissions.count.formattedGrouped)
+                Spacer()
                 Text("Эмитентов: " + userData.emissions.map({ $0.emitentID }).removingDuplicates().count.formattedGrouped)
             }
-            .padding(.leading)
+            .padding(.horizontal)
+            .onTapGesture {
+                self.settings.isLocalStoreShowMore.toggle()
+            }
         }
     }
 }
@@ -72,7 +77,7 @@ struct LocalDataSubSections_Previews: PreviewProvider {
         NavigationView {
             Form {
                 
-                LocalStoreInfo()
+                LocalStoreInfo()//showMore: .constant(false))
                 
                 FlowsMetadata()
                 
@@ -81,5 +86,6 @@ struct LocalDataSubSections_Previews: PreviewProvider {
             }
         }
         .environmentObject(UserData())
+        .environmentObject(SettingsStore())
     }
 }

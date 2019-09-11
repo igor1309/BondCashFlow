@@ -13,12 +13,7 @@ struct PortfolioRow: View {
     @State private var showDetail = false
     @State private var showConfirmation = false
     
-    @Binding var portfolio: Portfolio
-    
-    func deletePortfolio() {
-        print("ABOUT TO DELETE PORTFOLIO AND TRANSACTIONS")
-        userData.deletePortfolio(portfolio)
-    }
+    var portfolio: Portfolio
     
     /// `Portfolio Row structure`
     ///    var broker: String
@@ -39,8 +34,8 @@ struct PortfolioRow: View {
         //  MARK: ВЕРНУТЬ КОГДА ПРИДУМАЮ КАК СЧИТАТЬ СТОИМОСТЬ
         
         return Row2(topline: portfolio.broker,
-             title: portfolio.name,
-             ///    рыночную стоимость пока неясно как считать
+                    title: portfolio.name,
+                    ///    рыночную стоимость пока неясно как считать
             //             detail: "#н/д",
             //             detailExtra: "стоимость",
             detail: faceValue == 0 ? "#н/д" : faceValue.formattedGrouped,
@@ -60,32 +55,12 @@ struct PortfolioRow: View {
                         Text("Редактировать")
                     }
                 }
-            Button(action: {
-                self.showConfirmation = true
-            }) {
-                HStack {
-                    Image(systemName: "trash.circle")
-                    Spacer()
-                    Text("Удалить портфель")
-                }
-            }
         }
             
         .sheet(isPresented: $showDetail) {
-            PortfolioDetail(portfolio: self.$portfolio)
+            PortfolioDetail(portfolio: self.portfolio)
                 .environmentObject(self.userData)
         }
-        
-    .actionSheet(isPresented: $showConfirmation) {
-            ActionSheet(title: Text("Удалить портфель"),
-                        message: Text("и все транзации с ним связанные?\nОтменить удаление невозможно."),
-                        buttons: [
-                            .cancel(Text("Отмена")),
-                            .destructive(Text("Да, удалить портфель и транзакции")) {
-                                self.deletePortfolio()
-                            }
-            ])
-    }
     }
 }
 
@@ -95,7 +70,7 @@ struct PortfolioRow_Previews: PreviewProvider {
         
         return NavigationView {
             List {
-                PortfolioRow(portfolio: .constant(portfolio))
+                PortfolioRow(portfolio: portfolio)
             }
             .navigationBarTitle("Портфели")
         }

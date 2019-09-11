@@ -199,7 +199,7 @@ struct CreatePosition: View {
                 
                 if self.modal == .settings {
                     NavigationView {
-                        Settings()
+                        DataBaseView()
                     }
                     .environmentObject(self.userData)
                     .environmentObject(self.settings)

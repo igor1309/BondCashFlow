@@ -11,25 +11,44 @@ import SwiftUI
 struct PortfolioDetail: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentation
-    @Binding var portfolio: Portfolio
+    
+    var portfolio: Portfolio
+    
+    @State private var showAlert = false
+    
+    func deletePortfolio() {
+        presentation.wrappedValue.dismiss()
+        userData.deletePortfolio(portfolio)
+    }
     
     var body: some View {
-        NavigationView {
+        let index = userData.portfolios.firstIndex(where: { $0.id == self.portfolio.id })
+        
+        return NavigationView {
             Form {
-                Section(header: Text("Название".uppercased())) {
-                    TextField("Название портфеля", text: $portfolio.name)
-                }
-                
-                Section(header: Text("Брокер".uppercased())) {
-                    TextField("Брокер", text: $portfolio.broker)
-                }
-                
-                Section(header: Text("Комментарий/Примечание".uppercased())) {
-                    TextField("Комментарий/Примечание", text: $portfolio.note)
-                }
-                
-                Section(header: Text("TBD: список эмиссий".uppercased())) {
-                    Text("TBD: список эмиссий")
+                if index != nil {
+                    Section(header: Text("Название".uppercased())) {
+                        TextField("Название портфеля", text: $userData.portfolios[index!].name)
+                    }
+                    
+                    Section(header: Text("Брокер".uppercased())) {
+                        TextField("Брокер", text: $userData.portfolios[index!].broker)
+                    }
+                    
+                    Section(header: Text("Комментарий/Примечание".uppercased())) {
+                        TextField("Комментарий/Примечание", text: $userData.portfolios[index!].note)
+                    }
+                    
+                    Section(header: Text("TBD: список эмиссий".uppercased())) {
+                        Text("TBD: список эмиссий в портфеле")
+                    }
+                    
+                    Section {
+                        Button("Удалить портфель") {
+                            self.showAlert = true
+                        }
+                        .foregroundColor(.systemRed)
+                    }
                 }
             }
                 
@@ -38,6 +57,17 @@ struct PortfolioDetail: View {
             .navigationBarItems(trailing: TrailingButton(name: "Закрыть") {
                 self.presentation.wrappedValue.dismiss()
             })
+                
+                .actionSheet(isPresented: $showAlert) {
+                    ActionSheet(title: Text("Удалить портфель"),
+                                message: Text("и все транзации с ним связанные?\nОтменить удаление невозможно."),
+                                buttons: [
+                                    .cancel(Text("Отмена")),
+                                    .destructive(Text("Да, удалить портфель и транзакции")) {
+                                        self.deletePortfolio()
+                                    }
+                    ])
+            }
         }
     }
 }
@@ -46,7 +76,7 @@ struct PortfolioDetail_Previews: PreviewProvider {
     static var previews: some View {
         let portfolio = Portfolio(name: "Optimus Prime", broker: "Альфа Директ", comment: "Igor")
         
-        return PortfolioDetail(portfolio: .constant(portfolio))
+        return PortfolioDetail(portfolio: portfolio)
             
             .environmentObject(UserData())
             .environment(\.colorScheme, .dark)

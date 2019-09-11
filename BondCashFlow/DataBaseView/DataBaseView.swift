@@ -1,5 +1,5 @@
 //
-//  Settings.swift
+//  DataBaseView.swift
 //  BondsCashFlow
 //
 //  Created by Igor Malyarov on 25.08.2019.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct Settings: View {
+struct DataBaseView: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var settings: SettingsStore
     
@@ -22,6 +22,8 @@ struct Settings: View {
             
             CBondsSection()
                 .environmentObject(self.userData)
+            
+            BackupAndDummy()
             
             Section(header: Text("Период для потоков".uppercased()),
                     footer: Text("Изменить период расчета потоков до \(manyWeeks) недель (стандартный — 52).")) {
@@ -45,8 +47,6 @@ struct Settings: View {
                         }
                         .disabled(self.testPeriodButtonName == "Период увеличен до \(self.manyWeeks) недель")
             }
-            
-            BackupAndDummy()
             
             TotalReset()
             
@@ -81,10 +81,10 @@ struct Settings: View {
     }
 }
 
-struct Settings_Previews: PreviewProvider {
+struct DataBaseView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            Settings()
+            DataBaseView()
                 .navigationBarTitle("Настройки")
         }
         .environmentObject(UserData())
